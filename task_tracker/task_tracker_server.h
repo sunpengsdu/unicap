@@ -27,7 +27,10 @@
 
 #include "./task_tracker_handler.h"
 #include "../gen/TaskTracker.h"
+#include "../gen/JobTracker.h"
 #include "../common/unicap_client.h"
+#include "../common/table.h"
+#include "../common/column_family.h"
 
 #define JOBTRACKERNAME "localhost"
 #define JOBTRACKERPORT 9000
@@ -55,7 +58,7 @@ public:
         MPI_Get_processor_name(_processor_name, &_name_length);
         _host_name = std::string(_processor_name, _name_length);
         _thread_num = _node_num;
-        _client = boost::shared_ptr<UnicapClient<JobTrackerClient>>
+        _client_job_tracker = boost::shared_ptr<UnicapClient<JobTrackerClient>>
                         (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
     }
 
@@ -73,19 +76,22 @@ public:
         return _node_num;
     }
 
+    int64_t get_node_id() {
+        return _node_id;
+    }
+
     int64_t regeister() {
-        _client->open_transport();
-        _port = _client->method()->register_task_tracker(_node_id, _processor_name, 1);
+        _client_job_tracker->open_transport();
+        _port = _client_job_tracker->method()->register_task_tracker(_node_id, _processor_name, 1);
         VLOG(0) << "Port: " << _port;
-        _client->close_transport();
+        _client_job_tracker->close_transport();
         return 1;
     }
 
     int64_t fetch_node_info() {
-       _client->open_transport();
-       _client->method()->get_all_task_tracker_info(NodeInfo::singleton()._task_tracker_info);
-       VLOG(0) << "Port: " << _port;
-       _client->close_transport();
+        _client_job_tracker->open_transport();
+        _client_job_tracker->method()->get_all_task_tracker_info(NodeInfo::singleton()._task_tracker_info);
+        _client_job_tracker->close_transport();
        return 1;
     }
 
@@ -106,14 +112,15 @@ public:
                                         _transportFactory,
                                         _protocolFactory,
                                         _threadManager));
-
         std::thread thread_server(serve, std::ref(_server));
 
         return thread_server;
     }
 
     static int64_t serve(boost::shared_ptr<TThreadPoolServer> &server) {
+        VLOG(0) << "START TASK TRACKER";
         server->serve();
+        VLOG(0) << "STOP TASK TRACKER";
         return 1;
     }
 
@@ -125,7 +132,7 @@ private:
     char _processor_name[MPI_MAX_PROCESSOR_NAME];
     std::string _host_name;
 
-    boost::shared_ptr<UnicapClient<JobTrackerClient>> _client;
+    boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
 
     boost::shared_ptr<TaskTrackerHandler> _handler;
     boost::shared_ptr<TProcessor>         _processor;

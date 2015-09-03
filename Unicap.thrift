@@ -1,8 +1,12 @@
 namespace cpp ntu.cap
 
+enum StorageType {
+CommonKeyValue = 1,
+}
+
 enum KeyPartitionAlgo {
-Hashing = 1,
-Range   = 2,
+HashingPartition = 1,
+RangePartition   = 2,
 }
 
 struct KeyPartition {
@@ -16,12 +20,16 @@ struct TaskTrackerInfo {
 }
 
 struct TableProperty {
-1:  required string         table_name,
-2:  required string         table_type,
-3:  required i64            shard_num,
-4:  required list<i64>      shard_id_in_charge,
-5:  required map<i64, i64>  all_shard_location,
-6:  required KeyPartition   key_partition,
+1:  required string              table_name,
+2:  required i64                 shard_num,
+3:  required map<i64, i64>       shard_location,
+4:  required map<i64, list<i64>> node_info,
+5:  required KeyPartition        key_partition,
+}
+
+struct ColumnFamilyProperty {
+1:  required string      cf_name,
+2:  required StorageType storage_type,
 }
 
 service JobTracker {
@@ -30,5 +38,7 @@ service JobTracker {
 }
 
 service TaskTracker {
-    i64 create_table(1:TableProperty table_property)
+    string ping(),
+    i64 create_table(1:TableProperty table_property),
+    i64 create_cf(1:string table_name, 2:ColumnFamilyProperty cf_property)
 }

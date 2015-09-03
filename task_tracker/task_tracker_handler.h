@@ -5,6 +5,9 @@
 
 #include "../gen/TaskTracker.h"
 #include "../common/node_info.h"
+#include "../common/table.h"
+#include "../common/column_family.h"
+#include "../common/storage_info.h"
 
 namespace ntu {
 namespace cap {
@@ -15,9 +18,23 @@ public:
     // Your initialization goes here
   }
 
+  void ping(std::string& _return) {
+      _return = "Pong";
+   }
+
   int64_t create_table(const TableProperty& table_property) {
     // Your implementation goes here
-    printf("create_table\n");
+    Table new_table(table_property);
+    StorageInfo::singleton()._table_info[table_property.table_name] = new_table;
+    VLOG(0) << "CREATE TABLE " << new_table._table_property.table_name;
+  }
+
+  int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) {
+    // Your implementation goes here
+    ColumnFamily new_cf(cf_property);
+    StorageInfo::singleton()._cf_info[table_name].push_back(new_cf);
+    VLOG(0) << "CREATE CF "  << new_cf._cf_property.cf_name
+            << " FOR TABLE " << table_name;
   }
 
 private:

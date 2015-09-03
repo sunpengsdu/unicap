@@ -15,6 +15,7 @@
 #include <glog/logging.h>
 #include "../gen/JobTracker.h"
 #include "../common/node_info.h"
+#include "../common/storage_info.h"
 
 namespace ntu {
 namespace cap {
@@ -25,7 +26,10 @@ public:
     // Your initialization goes here
   }
 
-  int64_t register_task_tracker(const int64_t node_id, const std::string& node_name, const int64_t storage_weight) {
+  int64_t register_task_tracker(const int64_t node_id,
+                              const std::string& node_name,
+                              const int64_t storage_weight) {
+
     VLOG(0) << "Register Node"
             << " ID: "       << node_id
             << " Hostname: " << node_name;
@@ -47,8 +51,14 @@ public:
         int64_t available_port = _base_port
                 + NodeInfo::singleton()._physical_node_info[node_name]
                 - 1;
+
         NodeInfo::singleton()._task_tracker_info[node_id].host_name = node_name;
         NodeInfo::singleton()._task_tracker_info[node_id].port      = available_port;
+        ++NodeInfo::singleton()._task_tracker_number;
+
+        for (int i = 0; i < storage_weight; ++i) {
+            NodeInfo::singleton()._storage_weight_pool.push_back(node_id);
+        }
     }
     _register_lock.unlock();
     return NodeInfo::singleton()._task_tracker_info[node_id].port;
@@ -56,6 +66,9 @@ public:
 
   void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return) {
       _return =  NodeInfo::singleton()._task_tracker_info;
+      _register_lock.lock();
+      ++NodeInfo::singleton()._ready_task_tracker_number;
+      _register_lock.unlock();
   }
 
 private:

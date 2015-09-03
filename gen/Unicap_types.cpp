@@ -13,13 +13,21 @@
 
 namespace ntu { namespace cap {
 
+int _kStorageTypeValues[] = {
+  StorageType::CommonKeyValue
+};
+const char* _kStorageTypeNames[] = {
+  "CommonKeyValue"
+};
+const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(1, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 int _kKeyPartitionAlgoValues[] = {
-  KeyPartitionAlgo::Hashing,
-  KeyPartitionAlgo::Range
+  KeyPartitionAlgo::HashingPartition,
+  KeyPartitionAlgo::RangePartition
 };
 const char* _kKeyPartitionAlgoNames[] = {
-  "Hashing",
-  "Range"
+  "HashingPartition",
+  "RangePartition"
 };
 const std::map<int, const char*> _KeyPartitionAlgo_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kKeyPartitionAlgoValues, _kKeyPartitionAlgoNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
@@ -286,28 +294,24 @@ void TableProperty::__set_table_name(const std::string& val) {
   this->table_name = val;
 }
 
-void TableProperty::__set_table_type(const std::string& val) {
-  this->table_type = val;
-}
-
 void TableProperty::__set_shard_num(const int64_t val) {
   this->shard_num = val;
 }
 
-void TableProperty::__set_shard_id_in_charge(const std::vector<int64_t> & val) {
-  this->shard_id_in_charge = val;
+void TableProperty::__set_shard_location(const std::map<int64_t, int64_t> & val) {
+  this->shard_location = val;
 }
 
-void TableProperty::__set_all_shard_location(const std::map<int64_t, int64_t> & val) {
-  this->all_shard_location = val;
+void TableProperty::__set_node_info(const std::map<int64_t, std::vector<int64_t> > & val) {
+  this->node_info = val;
 }
 
 void TableProperty::__set_key_partition(const KeyPartition& val) {
   this->key_partition = val;
 }
 
-const char* TableProperty::ascii_fingerprint = "74A6098C9F090F065DDB85EB7445B842";
-const uint8_t TableProperty::binary_fingerprint[16] = {0x74,0xA6,0x09,0x8C,0x9F,0x09,0x0F,0x06,0x5D,0xDB,0x85,0xEB,0x74,0x45,0xB8,0x42};
+const char* TableProperty::ascii_fingerprint = "80BC59A6952293A425D72E21CBD8CE25";
+const uint8_t TableProperty::binary_fingerprint[16] = {0x80,0xBC,0x59,0xA6,0x95,0x22,0x93,0xA4,0x25,0xD7,0x2E,0x21,0xCB,0xD8,0xCE,0x25};
 
 uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -321,10 +325,9 @@ uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
   using ::apache::thrift::protocol::TProtocolException;
 
   bool isset_table_name = false;
-  bool isset_table_type = false;
   bool isset_shard_num = false;
-  bool isset_shard_id_in_charge = false;
-  bool isset_all_shard_location = false;
+  bool isset_shard_location = false;
+  bool isset_node_info = false;
   bool isset_key_partition = false;
 
   while (true)
@@ -344,14 +347,6 @@ uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->table_type);
-          isset_table_type = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
         if (ftype == ::apache::thrift::protocol::T_I64) {
           xfer += iprot->readI64(this->shard_num);
           isset_shard_num = true;
@@ -359,50 +354,65 @@ uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
-            this->shard_id_in_charge.clear();
+            this->shard_location.clear();
             uint32_t _size13;
-            ::apache::thrift::protocol::TType _etype16;
-            xfer += iprot->readListBegin(_etype16, _size13);
-            this->shard_id_in_charge.resize(_size13);
+            ::apache::thrift::protocol::TType _ktype14;
+            ::apache::thrift::protocol::TType _vtype15;
+            xfer += iprot->readMapBegin(_ktype14, _vtype15, _size13);
             uint32_t _i17;
             for (_i17 = 0; _i17 < _size13; ++_i17)
             {
-              xfer += iprot->readI64(this->shard_id_in_charge[_i17]);
+              int64_t _key18;
+              xfer += iprot->readI64(_key18);
+              int64_t& _val19 = this->shard_location[_key18];
+              xfer += iprot->readI64(_val19);
             }
-            xfer += iprot->readListEnd();
+            xfer += iprot->readMapEnd();
           }
-          isset_shard_id_in_charge = true;
+          isset_shard_location = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
+          {
+            this->node_info.clear();
+            uint32_t _size20;
+            ::apache::thrift::protocol::TType _ktype21;
+            ::apache::thrift::protocol::TType _vtype22;
+            xfer += iprot->readMapBegin(_ktype21, _vtype22, _size20);
+            uint32_t _i24;
+            for (_i24 = 0; _i24 < _size20; ++_i24)
+            {
+              int64_t _key25;
+              xfer += iprot->readI64(_key25);
+              std::vector<int64_t> & _val26 = this->node_info[_key25];
+              {
+                _val26.clear();
+                uint32_t _size27;
+                ::apache::thrift::protocol::TType _etype30;
+                xfer += iprot->readListBegin(_etype30, _size27);
+                _val26.resize(_size27);
+                uint32_t _i31;
+                for (_i31 = 0; _i31 < _size27; ++_i31)
+                {
+                  xfer += iprot->readI64(_val26[_i31]);
+                }
+                xfer += iprot->readListEnd();
+              }
+            }
+            xfer += iprot->readMapEnd();
+          }
+          isset_node_info = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 5:
-        if (ftype == ::apache::thrift::protocol::T_MAP) {
-          {
-            this->all_shard_location.clear();
-            uint32_t _size18;
-            ::apache::thrift::protocol::TType _ktype19;
-            ::apache::thrift::protocol::TType _vtype20;
-            xfer += iprot->readMapBegin(_ktype19, _vtype20, _size18);
-            uint32_t _i22;
-            for (_i22 = 0; _i22 < _size18; ++_i22)
-            {
-              int64_t _key23;
-              xfer += iprot->readI64(_key23);
-              int64_t& _val24 = this->all_shard_location[_key23];
-              xfer += iprot->readI64(_val24);
-            }
-            xfer += iprot->readMapEnd();
-          }
-          isset_all_shard_location = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
           xfer += this->key_partition.read(iprot);
           isset_key_partition = true;
@@ -421,13 +431,11 @@ uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   if (!isset_table_name)
     throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_table_type)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_shard_num)
     throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_shard_id_in_charge)
+  if (!isset_shard_location)
     throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_all_shard_location)
+  if (!isset_node_info)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_key_partition)
     throw TProtocolException(TProtocolException::INVALID_DATA);
@@ -443,40 +451,45 @@ uint32_t TableProperty::write(::apache::thrift::protocol::TProtocol* oprot) cons
   xfer += oprot->writeString(this->table_name);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("table_type", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->table_type);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("shard_num", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeFieldBegin("shard_num", ::apache::thrift::protocol::T_I64, 2);
   xfer += oprot->writeI64(this->shard_num);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("shard_id_in_charge", ::apache::thrift::protocol::T_LIST, 4);
+  xfer += oprot->writeFieldBegin("shard_location", ::apache::thrift::protocol::T_MAP, 3);
   {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->shard_id_in_charge.size()));
-    std::vector<int64_t> ::const_iterator _iter25;
-    for (_iter25 = this->shard_id_in_charge.begin(); _iter25 != this->shard_id_in_charge.end(); ++_iter25)
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->shard_location.size()));
+    std::map<int64_t, int64_t> ::const_iterator _iter32;
+    for (_iter32 = this->shard_location.begin(); _iter32 != this->shard_location.end(); ++_iter32)
     {
-      xfer += oprot->writeI64((*_iter25));
-    }
-    xfer += oprot->writeListEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("all_shard_location", ::apache::thrift::protocol::T_MAP, 5);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->all_shard_location.size()));
-    std::map<int64_t, int64_t> ::const_iterator _iter26;
-    for (_iter26 = this->all_shard_location.begin(); _iter26 != this->all_shard_location.end(); ++_iter26)
-    {
-      xfer += oprot->writeI64(_iter26->first);
-      xfer += oprot->writeI64(_iter26->second);
+      xfer += oprot->writeI64(_iter32->first);
+      xfer += oprot->writeI64(_iter32->second);
     }
     xfer += oprot->writeMapEnd();
   }
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("key_partition", ::apache::thrift::protocol::T_STRUCT, 6);
+  xfer += oprot->writeFieldBegin("node_info", ::apache::thrift::protocol::T_MAP, 4);
+  {
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_LIST, static_cast<uint32_t>(this->node_info.size()));
+    std::map<int64_t, std::vector<int64_t> > ::const_iterator _iter33;
+    for (_iter33 = this->node_info.begin(); _iter33 != this->node_info.end(); ++_iter33)
+    {
+      xfer += oprot->writeI64(_iter33->first);
+      {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(_iter33->second.size()));
+        std::vector<int64_t> ::const_iterator _iter34;
+        for (_iter34 = _iter33->second.begin(); _iter34 != _iter33->second.end(); ++_iter34)
+        {
+          xfer += oprot->writeI64((*_iter34));
+        }
+        xfer += oprot->writeListEnd();
+      }
+    }
+    xfer += oprot->writeMapEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("key_partition", ::apache::thrift::protocol::T_STRUCT, 5);
   xfer += this->key_partition.write(oprot);
   xfer += oprot->writeFieldEnd();
 
@@ -489,39 +502,150 @@ uint32_t TableProperty::write(::apache::thrift::protocol::TProtocol* oprot) cons
 void swap(TableProperty &a, TableProperty &b) {
   using ::std::swap;
   swap(a.table_name, b.table_name);
-  swap(a.table_type, b.table_type);
   swap(a.shard_num, b.shard_num);
-  swap(a.shard_id_in_charge, b.shard_id_in_charge);
-  swap(a.all_shard_location, b.all_shard_location);
+  swap(a.shard_location, b.shard_location);
+  swap(a.node_info, b.node_info);
   swap(a.key_partition, b.key_partition);
 }
 
-TableProperty::TableProperty(const TableProperty& other27) {
-  table_name = other27.table_name;
-  table_type = other27.table_type;
-  shard_num = other27.shard_num;
-  shard_id_in_charge = other27.shard_id_in_charge;
-  all_shard_location = other27.all_shard_location;
-  key_partition = other27.key_partition;
+TableProperty::TableProperty(const TableProperty& other35) {
+  table_name = other35.table_name;
+  shard_num = other35.shard_num;
+  shard_location = other35.shard_location;
+  node_info = other35.node_info;
+  key_partition = other35.key_partition;
 }
-TableProperty& TableProperty::operator=(const TableProperty& other28) {
-  table_name = other28.table_name;
-  table_type = other28.table_type;
-  shard_num = other28.shard_num;
-  shard_id_in_charge = other28.shard_id_in_charge;
-  all_shard_location = other28.all_shard_location;
-  key_partition = other28.key_partition;
+TableProperty& TableProperty::operator=(const TableProperty& other36) {
+  table_name = other36.table_name;
+  shard_num = other36.shard_num;
+  shard_location = other36.shard_location;
+  node_info = other36.node_info;
+  key_partition = other36.key_partition;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const TableProperty& obj) {
   using apache::thrift::to_string;
   out << "TableProperty(";
   out << "table_name=" << to_string(obj.table_name);
-  out << ", " << "table_type=" << to_string(obj.table_type);
   out << ", " << "shard_num=" << to_string(obj.shard_num);
-  out << ", " << "shard_id_in_charge=" << to_string(obj.shard_id_in_charge);
-  out << ", " << "all_shard_location=" << to_string(obj.all_shard_location);
+  out << ", " << "shard_location=" << to_string(obj.shard_location);
+  out << ", " << "node_info=" << to_string(obj.node_info);
   out << ", " << "key_partition=" << to_string(obj.key_partition);
+  out << ")";
+  return out;
+}
+
+
+ColumnFamilyProperty::~ColumnFamilyProperty() throw() {
+}
+
+
+void ColumnFamilyProperty::__set_cf_name(const std::string& val) {
+  this->cf_name = val;
+}
+
+void ColumnFamilyProperty::__set_storage_type(const StorageType::type val) {
+  this->storage_type = val;
+}
+
+const char* ColumnFamilyProperty::ascii_fingerprint = "D6FD826D949221396F4FFC3ECCD3D192";
+const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0xD6,0xFD,0x82,0x6D,0x94,0x92,0x21,0x39,0x6F,0x4F,0xFC,0x3E,0xCC,0xD3,0xD1,0x92};
+
+uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_cf_name = false;
+  bool isset_storage_type = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->cf_name);
+          isset_cf_name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast37;
+          xfer += iprot->readI32(ecast37);
+          this->storage_type = (StorageType::type)ecast37;
+          isset_storage_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_cf_name)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_storage_type)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t ColumnFamilyProperty::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("ColumnFamilyProperty");
+
+  xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->cf_name);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("storage_type", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->storage_type);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b) {
+  using ::std::swap;
+  swap(a.cf_name, b.cf_name);
+  swap(a.storage_type, b.storage_type);
+}
+
+ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other38) {
+  cf_name = other38.cf_name;
+  storage_type = other38.storage_type;
+}
+ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other39) {
+  cf_name = other39.cf_name;
+  storage_type = other39.storage_type;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
+  using apache::thrift::to_string;
+  out << "ColumnFamilyProperty(";
+  out << "cf_name=" << to_string(obj.cf_name);
+  out << ", " << "storage_type=" << to_string(obj.storage_type);
   out << ")";
   return out;
 }

@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include <utility>
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
@@ -19,7 +20,10 @@ namespace cap {
 
 class NodeInfo {
 public:
-    NodeInfo() { }
+    NodeInfo() {
+        _task_tracker_number = 0;
+        _ready_task_tracker_number = 0;
+    }
 
     static NodeInfo& singleton() {
         static NodeInfo node_info;
@@ -29,6 +33,10 @@ public:
     std::map<int64_t, TaskTrackerInfo> _task_tracker_info;
     //number of task trackers in each physical node
     std::map<std::string, int64_t> _physical_node_info;
+    int64_t _task_tracker_number;
+    int64_t _ready_task_tracker_number;
+
+    std::vector<int64_t> _storage_weight_pool;
 };
 
 }

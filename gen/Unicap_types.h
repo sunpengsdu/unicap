@@ -19,10 +19,18 @@
 
 namespace ntu { namespace cap {
 
+struct StorageType {
+  enum type {
+    CommonKeyValue = 1
+  };
+};
+
+extern const std::map<int, const char*> _StorageType_VALUES_TO_NAMES;
+
 struct KeyPartitionAlgo {
   enum type {
-    Hashing = 1,
-    Range = 2
+    HashingPartition = 1,
+    RangePartition = 2
   };
 };
 
@@ -33,6 +41,8 @@ class KeyPartition;
 class TaskTrackerInfo;
 
 class TableProperty;
+
+class ColumnFamilyProperty;
 
 typedef struct _KeyPartition__isset {
   _KeyPartition__isset() : key_to_shard(false) {}
@@ -130,31 +140,28 @@ void swap(TaskTrackerInfo &a, TaskTrackerInfo &b);
 class TableProperty {
  public:
 
-  static const char* ascii_fingerprint; // = "74A6098C9F090F065DDB85EB7445B842";
-  static const uint8_t binary_fingerprint[16]; // = {0x74,0xA6,0x09,0x8C,0x9F,0x09,0x0F,0x06,0x5D,0xDB,0x85,0xEB,0x74,0x45,0xB8,0x42};
+  static const char* ascii_fingerprint; // = "80BC59A6952293A425D72E21CBD8CE25";
+  static const uint8_t binary_fingerprint[16]; // = {0x80,0xBC,0x59,0xA6,0x95,0x22,0x93,0xA4,0x25,0xD7,0x2E,0x21,0xCB,0xD8,0xCE,0x25};
 
   TableProperty(const TableProperty&);
   TableProperty& operator=(const TableProperty&);
-  TableProperty() : table_name(), table_type(), shard_num(0) {
+  TableProperty() : table_name(), shard_num(0) {
   }
 
   virtual ~TableProperty() throw();
   std::string table_name;
-  std::string table_type;
   int64_t shard_num;
-  std::vector<int64_t>  shard_id_in_charge;
-  std::map<int64_t, int64_t>  all_shard_location;
+  std::map<int64_t, int64_t>  shard_location;
+  std::map<int64_t, std::vector<int64_t> >  node_info;
   KeyPartition key_partition;
 
   void __set_table_name(const std::string& val);
 
-  void __set_table_type(const std::string& val);
-
   void __set_shard_num(const int64_t val);
 
-  void __set_shard_id_in_charge(const std::vector<int64_t> & val);
+  void __set_shard_location(const std::map<int64_t, int64_t> & val);
 
-  void __set_all_shard_location(const std::map<int64_t, int64_t> & val);
+  void __set_node_info(const std::map<int64_t, std::vector<int64_t> > & val);
 
   void __set_key_partition(const KeyPartition& val);
 
@@ -162,13 +169,11 @@ class TableProperty {
   {
     if (!(table_name == rhs.table_name))
       return false;
-    if (!(table_type == rhs.table_type))
-      return false;
     if (!(shard_num == rhs.shard_num))
       return false;
-    if (!(shard_id_in_charge == rhs.shard_id_in_charge))
+    if (!(shard_location == rhs.shard_location))
       return false;
-    if (!(all_shard_location == rhs.all_shard_location))
+    if (!(node_info == rhs.node_info))
       return false;
     if (!(key_partition == rhs.key_partition))
       return false;
@@ -187,6 +192,48 @@ class TableProperty {
 };
 
 void swap(TableProperty &a, TableProperty &b);
+
+
+class ColumnFamilyProperty {
+ public:
+
+  static const char* ascii_fingerprint; // = "D6FD826D949221396F4FFC3ECCD3D192";
+  static const uint8_t binary_fingerprint[16]; // = {0xD6,0xFD,0x82,0x6D,0x94,0x92,0x21,0x39,0x6F,0x4F,0xFC,0x3E,0xCC,0xD3,0xD1,0x92};
+
+  ColumnFamilyProperty(const ColumnFamilyProperty&);
+  ColumnFamilyProperty& operator=(const ColumnFamilyProperty&);
+  ColumnFamilyProperty() : cf_name(), storage_type((StorageType::type)0) {
+  }
+
+  virtual ~ColumnFamilyProperty() throw();
+  std::string cf_name;
+  StorageType::type storage_type;
+
+  void __set_cf_name(const std::string& val);
+
+  void __set_storage_type(const StorageType::type val);
+
+  bool operator == (const ColumnFamilyProperty & rhs) const
+  {
+    if (!(cf_name == rhs.cf_name))
+      return false;
+    if (!(storage_type == rhs.storage_type))
+      return false;
+    return true;
+  }
+  bool operator != (const ColumnFamilyProperty &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ColumnFamilyProperty & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj);
+};
+
+void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b);
 
 }} // namespace
 

@@ -26,6 +26,10 @@
 
 #include "./job_tracker_handler.h"
 #include "../gen/JobTracker.h"
+#include "../gen/TaskTracker.h"
+#include "../common/unicap_client.h"
+#include "../common/table.h"
+#include "../common/column_family.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -61,6 +65,22 @@ public:
     int64_t set_thread_num(int64_t thread_num) {
         _thread_num = thread_num;
         return 1;
+    }
+
+    int64_t create_task_tracker_client() {
+        for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
+            std::cout << kvp.first;
+            _client_task_tracker[kvp.first] =
+                    boost::shared_ptr<UnicapClient<TaskTrackerClient>>
+                    (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                                                        kvp.second.port));
+        }
+        return 1;
+    }
+
+    const std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
+    get_client_task_tracker() {
+        return _client_task_tracker;
     }
 
     std::thread start() {
@@ -104,6 +124,9 @@ private:
 
     boost::shared_ptr<PosixThreadFactory> _threadFactory;
     boost::shared_ptr<TThreadPoolServer>  _server;
+
+    std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> > _client_task_tracker;
+
 };
 
 }//end namspace ntu

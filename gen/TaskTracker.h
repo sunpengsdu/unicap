@@ -15,7 +15,9 @@ namespace ntu { namespace cap {
 class TaskTrackerIf {
  public:
   virtual ~TaskTrackerIf() {}
+  virtual void ping(std::string& _return) = 0;
   virtual int64_t create_table(const TableProperty& table_property) = 0;
+  virtual int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) = 0;
 };
 
 class TaskTrackerIfFactory {
@@ -45,10 +47,125 @@ class TaskTrackerIfSingletonFactory : virtual public TaskTrackerIfFactory {
 class TaskTrackerNull : virtual public TaskTrackerIf {
  public:
   virtual ~TaskTrackerNull() {}
+  void ping(std::string& /* _return */) {
+    return;
+  }
   int64_t create_table(const TableProperty& /* table_property */) {
     int64_t _return = 0;
     return _return;
   }
+  int64_t create_cf(const std::string& /* table_name */, const ColumnFamilyProperty& /* cf_property */) {
+    int64_t _return = 0;
+    return _return;
+  }
+};
+
+
+class TaskTracker_ping_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "99914B932BD37A50B983C5E7C90AE93B";
+  static const uint8_t binary_fingerprint[16]; // = {0x99,0x91,0x4B,0x93,0x2B,0xD3,0x7A,0x50,0xB9,0x83,0xC5,0xE7,0xC9,0x0A,0xE9,0x3B};
+
+  TaskTracker_ping_args(const TaskTracker_ping_args&);
+  TaskTracker_ping_args& operator=(const TaskTracker_ping_args&);
+  TaskTracker_ping_args() {
+  }
+
+  virtual ~TaskTracker_ping_args() throw();
+
+  bool operator == (const TaskTracker_ping_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const TaskTracker_ping_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TaskTracker_ping_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_ping_args& obj);
+};
+
+
+class TaskTracker_ping_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "99914B932BD37A50B983C5E7C90AE93B";
+  static const uint8_t binary_fingerprint[16]; // = {0x99,0x91,0x4B,0x93,0x2B,0xD3,0x7A,0x50,0xB9,0x83,0xC5,0xE7,0xC9,0x0A,0xE9,0x3B};
+
+
+  virtual ~TaskTracker_ping_pargs() throw();
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_ping_pargs& obj);
+};
+
+typedef struct _TaskTracker_ping_result__isset {
+  _TaskTracker_ping_result__isset() : success(false) {}
+  bool success :1;
+} _TaskTracker_ping_result__isset;
+
+class TaskTracker_ping_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "9A73381FEFD6B67F432E717102246330";
+  static const uint8_t binary_fingerprint[16]; // = {0x9A,0x73,0x38,0x1F,0xEF,0xD6,0xB6,0x7F,0x43,0x2E,0x71,0x71,0x02,0x24,0x63,0x30};
+
+  TaskTracker_ping_result(const TaskTracker_ping_result&);
+  TaskTracker_ping_result& operator=(const TaskTracker_ping_result&);
+  TaskTracker_ping_result() : success() {
+  }
+
+  virtual ~TaskTracker_ping_result() throw();
+  std::string success;
+
+  _TaskTracker_ping_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const TaskTracker_ping_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const TaskTracker_ping_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TaskTracker_ping_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_ping_result& obj);
+};
+
+typedef struct _TaskTracker_ping_presult__isset {
+  _TaskTracker_ping_presult__isset() : success(false) {}
+  bool success :1;
+} _TaskTracker_ping_presult__isset;
+
+class TaskTracker_ping_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "9A73381FEFD6B67F432E717102246330";
+  static const uint8_t binary_fingerprint[16]; // = {0x9A,0x73,0x38,0x1F,0xEF,0xD6,0xB6,0x7F,0x43,0x2E,0x71,0x71,0x02,0x24,0x63,0x30};
+
+
+  virtual ~TaskTracker_ping_presult() throw();
+  std::string* success;
+
+  _TaskTracker_ping_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_ping_presult& obj);
 };
 
 typedef struct _TaskTracker_create_table_args__isset {
@@ -59,8 +176,8 @@ typedef struct _TaskTracker_create_table_args__isset {
 class TaskTracker_create_table_args {
  public:
 
-  static const char* ascii_fingerprint; // = "CB2FB6712FA6D5013160477C36F6A3EE";
-  static const uint8_t binary_fingerprint[16]; // = {0xCB,0x2F,0xB6,0x71,0x2F,0xA6,0xD5,0x01,0x31,0x60,0x47,0x7C,0x36,0xF6,0xA3,0xEE};
+  static const char* ascii_fingerprint; // = "A994C462A9885EC03D28E5F7CD843CFB";
+  static const uint8_t binary_fingerprint[16]; // = {0xA9,0x94,0xC4,0x62,0xA9,0x88,0x5E,0xC0,0x3D,0x28,0xE5,0xF7,0xCD,0x84,0x3C,0xFB};
 
   TaskTracker_create_table_args(const TaskTracker_create_table_args&);
   TaskTracker_create_table_args& operator=(const TaskTracker_create_table_args&);
@@ -96,8 +213,8 @@ class TaskTracker_create_table_args {
 class TaskTracker_create_table_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "CB2FB6712FA6D5013160477C36F6A3EE";
-  static const uint8_t binary_fingerprint[16]; // = {0xCB,0x2F,0xB6,0x71,0x2F,0xA6,0xD5,0x01,0x31,0x60,0x47,0x7C,0x36,0xF6,0xA3,0xEE};
+  static const char* ascii_fingerprint; // = "A994C462A9885EC03D28E5F7CD843CFB";
+  static const uint8_t binary_fingerprint[16]; // = {0xA9,0x94,0xC4,0x62,0xA9,0x88,0x5E,0xC0,0x3D,0x28,0xE5,0xF7,0xCD,0x84,0x3C,0xFB};
 
 
   virtual ~TaskTracker_create_table_pargs() throw();
@@ -171,6 +288,133 @@ class TaskTracker_create_table_presult {
   friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_table_presult& obj);
 };
 
+typedef struct _TaskTracker_create_cf_args__isset {
+  _TaskTracker_create_cf_args__isset() : table_name(false), cf_property(false) {}
+  bool table_name :1;
+  bool cf_property :1;
+} _TaskTracker_create_cf_args__isset;
+
+class TaskTracker_create_cf_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "A495BD300003796402A16D498FD212BC";
+  static const uint8_t binary_fingerprint[16]; // = {0xA4,0x95,0xBD,0x30,0x00,0x03,0x79,0x64,0x02,0xA1,0x6D,0x49,0x8F,0xD2,0x12,0xBC};
+
+  TaskTracker_create_cf_args(const TaskTracker_create_cf_args&);
+  TaskTracker_create_cf_args& operator=(const TaskTracker_create_cf_args&);
+  TaskTracker_create_cf_args() : table_name() {
+  }
+
+  virtual ~TaskTracker_create_cf_args() throw();
+  std::string table_name;
+  ColumnFamilyProperty cf_property;
+
+  _TaskTracker_create_cf_args__isset __isset;
+
+  void __set_table_name(const std::string& val);
+
+  void __set_cf_property(const ColumnFamilyProperty& val);
+
+  bool operator == (const TaskTracker_create_cf_args & rhs) const
+  {
+    if (!(table_name == rhs.table_name))
+      return false;
+    if (!(cf_property == rhs.cf_property))
+      return false;
+    return true;
+  }
+  bool operator != (const TaskTracker_create_cf_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TaskTracker_create_cf_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_cf_args& obj);
+};
+
+
+class TaskTracker_create_cf_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "A495BD300003796402A16D498FD212BC";
+  static const uint8_t binary_fingerprint[16]; // = {0xA4,0x95,0xBD,0x30,0x00,0x03,0x79,0x64,0x02,0xA1,0x6D,0x49,0x8F,0xD2,0x12,0xBC};
+
+
+  virtual ~TaskTracker_create_cf_pargs() throw();
+  const std::string* table_name;
+  const ColumnFamilyProperty* cf_property;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_cf_pargs& obj);
+};
+
+typedef struct _TaskTracker_create_cf_result__isset {
+  _TaskTracker_create_cf_result__isset() : success(false) {}
+  bool success :1;
+} _TaskTracker_create_cf_result__isset;
+
+class TaskTracker_create_cf_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+  TaskTracker_create_cf_result(const TaskTracker_create_cf_result&);
+  TaskTracker_create_cf_result& operator=(const TaskTracker_create_cf_result&);
+  TaskTracker_create_cf_result() : success(0) {
+  }
+
+  virtual ~TaskTracker_create_cf_result() throw();
+  int64_t success;
+
+  _TaskTracker_create_cf_result__isset __isset;
+
+  void __set_success(const int64_t val);
+
+  bool operator == (const TaskTracker_create_cf_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const TaskTracker_create_cf_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TaskTracker_create_cf_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_cf_result& obj);
+};
+
+typedef struct _TaskTracker_create_cf_presult__isset {
+  _TaskTracker_create_cf_presult__isset() : success(false) {}
+  bool success :1;
+} _TaskTracker_create_cf_presult__isset;
+
+class TaskTracker_create_cf_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+  virtual ~TaskTracker_create_cf_presult() throw();
+  int64_t* success;
+
+  _TaskTracker_create_cf_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_cf_presult& obj);
+};
+
 class TaskTrackerClient : virtual public TaskTrackerIf {
  public:
   TaskTrackerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -196,9 +440,15 @@ class TaskTrackerClient : virtual public TaskTrackerIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void ping(std::string& _return);
+  void send_ping();
+  void recv_ping(std::string& _return);
   int64_t create_table(const TableProperty& table_property);
   void send_create_table(const TableProperty& table_property);
   int64_t recv_create_table();
+  int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property);
+  void send_create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property);
+  int64_t recv_create_cf();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -214,11 +464,15 @@ class TaskTrackerProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (TaskTrackerProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
+  void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_create_table(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_create_cf(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   TaskTrackerProcessor(boost::shared_ptr<TaskTrackerIf> iface) :
     iface_(iface) {
+    processMap_["ping"] = &TaskTrackerProcessor::process_ping;
     processMap_["create_table"] = &TaskTrackerProcessor::process_create_table;
+    processMap_["create_cf"] = &TaskTrackerProcessor::process_create_cf;
   }
 
   virtual ~TaskTrackerProcessor() {}
@@ -247,6 +501,16 @@ class TaskTrackerMultiface : virtual public TaskTrackerIf {
     ifaces_.push_back(iface);
   }
  public:
+  void ping(std::string& _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ping(_return);
+    }
+    ifaces_[i]->ping(_return);
+    return;
+  }
+
   int64_t create_table(const TableProperty& table_property) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -254,6 +518,15 @@ class TaskTrackerMultiface : virtual public TaskTrackerIf {
       ifaces_[i]->create_table(table_property);
     }
     return ifaces_[i]->create_table(table_property);
+  }
+
+  int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->create_cf(table_name, cf_property);
+    }
+    return ifaces_[i]->create_cf(table_name, cf_property);
   }
 
 };
