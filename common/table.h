@@ -24,6 +24,11 @@ public:
     Table() {
     }
 
+    Table(const std::string& table_name, const Table &base_table) {
+        _table_property = base_table._table_property;
+        _table_property.table_name = table_name;
+    }
+
     Table(const TableProperty& table_property) {
         _table_property = table_property;
     }
