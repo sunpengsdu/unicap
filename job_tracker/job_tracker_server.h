@@ -78,6 +78,17 @@ public:
         return 1;
     }
 
+    int64_t check_client_task_tracker() {
+        VLOG(0) << "CHECK NETWORK CONNECTION";
+        for (auto i : _client_task_tracker){
+            std::string re;
+            i.second->open_transport();
+            i.second->method()->ping(re);
+            CHECK_EQ(re, "Pong");
+            i.second->close_transport();
+        }
+    }
+
     const std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
     get_client_task_tracker() {
         return _client_task_tracker;

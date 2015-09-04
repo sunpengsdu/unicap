@@ -95,6 +95,33 @@ public:
        return 1;
     }
 
+    int64_t create_task_tracker_client() {
+        for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
+            std::cout << kvp.first;
+            _client_task_tracker[kvp.first] =
+                    boost::shared_ptr<UnicapClient<TaskTrackerClient>>
+                    (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                                                        kvp.second.port));
+        }
+        return 1;
+    }
+
+    const std::map<int64_t, boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
+    get_client_task_tracker() {
+        return _client_task_tracker;
+    }
+
+    int64_t check_client_task_tracker() {
+        VLOG(0) << "CHECK NETWORK CONNECTION";
+        for (auto i : _client_task_tracker){
+            std::string re;
+            i.second->open_transport();
+            i.second->method()->ping(re);
+            CHECK_EQ(re, "Pong");
+            i.second->close_transport();
+        }
+    }
+
     std::thread start() {
         _handler          = boost::shared_ptr<TaskTrackerHandler>(new TaskTrackerHandler());
         _processor        = boost::shared_ptr<TProcessor>(new TaskTrackerProcessor(_handler));
@@ -133,6 +160,7 @@ private:
     std::string _host_name;
 
     boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
+    std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> > _client_task_tracker;
 
     boost::shared_ptr<TaskTrackerHandler> _handler;
     boost::shared_ptr<TProcessor>         _processor;

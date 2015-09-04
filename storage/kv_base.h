@@ -20,7 +20,8 @@ public:
 
     virtual ~KVStorage() = 0;
 
-    virtual get_by_key() = 0;
+    virtual get() = 0;
+
 get_by_key() = 0;
 };
 
