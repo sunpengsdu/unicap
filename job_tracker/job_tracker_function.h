@@ -20,7 +20,7 @@
 namespace ntu {
 namespace cap {
 
-std::thread start_job_tracker();
+std::thread start_job_tracker(int64_t thread_num = 10);
 
 int64_t create_table(const std::string& table_name,
                     const int64_t shard_num);

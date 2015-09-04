@@ -9,12 +9,13 @@ int main(int argc, char **argv) {
   //google::InitGoogleLogging(argv[0]);
 
   std::thread server_side_thread;
-  server_side_thread = start_job_tracker();
+  server_side_thread = start_job_tracker(10);
 
   KeyPartition rrr;
   rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
   create_table("a", 100, rrr);
   create_cf("a", "a", StorageType::CommonKeyValue);
+  create_cf("a", "b", StorageType::CommonKeyValue);
 
   server_side_thread.join();
   return 0;

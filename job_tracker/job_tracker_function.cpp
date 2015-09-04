@@ -12,10 +12,10 @@
 namespace ntu {
 namespace cap {
 
-std::thread start_job_tracker() {
+std::thread start_job_tracker(int64_t thread_num) {
 
     JobTrackerServer::singleton().set_port(JOBTRACKERPORT);
-    JobTrackerServer::singleton().set_thread_num(10);
+    JobTrackerServer::singleton().set_thread_num(thread_num);
     auto server_thread = JobTrackerServer::singleton().start();
 
     while(NodeInfo::singleton()._ready_task_tracker_number
@@ -105,13 +105,12 @@ int64_t create_cf(const std::string& table_name,
     ColumnFamily new_cf(cf_name, cf_type);
 
     for (auto& exist_cf : StorageInfo::singleton()._cf_info[table_name]) {
-        if (exist_cf._cf_property.cf_name == cf_name) {
+        if (exist_cf.first == cf_name) {
             LOG(FATAL) << "CF ALREADY EXISTS !";
         }
     }
 
-    StorageInfo::singleton()._cf_info[table_name]
-                           .push_back(new_cf);
+    StorageInfo::singleton()._cf_info[table_name][cf_name] = new_cf;
 
     for (auto i : JobTrackerServer::singleton().get_client_task_tracker()){
            i.second->open_transport();

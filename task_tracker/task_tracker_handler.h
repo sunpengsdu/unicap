@@ -32,7 +32,7 @@ public:
   int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) {
     // Your implementation goes here
     ColumnFamily new_cf(cf_property);
-    StorageInfo::singleton()._cf_info[table_name].push_back(new_cf);
+    StorageInfo::singleton()._cf_info[table_name][cf_property.cf_name] = cf_property;
     VLOG(0) << "CREATE CF "  << new_cf._cf_property.cf_name
             << " FOR TABLE " << table_name;
   }

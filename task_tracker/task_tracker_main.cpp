@@ -20,10 +20,12 @@ int main(int argc, char **argv) {
 
   TaskTrackerServer::singleton().regeister();
   MPI_Barrier(MPI_COMM_WORLD);
+
   //TaskTrackerServer::singleton().set_thread_num(10);
   auto server_thread = TaskTrackerServer::singleton().start();
-  TaskTrackerServer::singleton().fetch_node_info();
   MPI_Barrier(MPI_COMM_WORLD);
+
+  TaskTrackerServer::singleton().fetch_node_info();
   TaskTrackerServer::singleton().create_task_tracker_client();
   TaskTrackerServer::singleton().check_client_task_tracker();
   MPI_Barrier(MPI_COMM_WORLD);

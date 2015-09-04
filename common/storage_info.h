@@ -30,7 +30,7 @@ public:
     }
 
     std::map<std::string, Table> _table_info;
-    std::map<std::string, std::vector<ColumnFamily>> _cf_info;
+    std::map<std::string, std::map<std::string, ColumnFamily>> _cf_info;
 
 private:
 
