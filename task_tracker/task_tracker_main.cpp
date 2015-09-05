@@ -13,25 +13,29 @@
 
 using namespace  ::ntu::cap;
 
+std::thread task_tracker_initial(int64_t thread_num) {
+    TaskTrackerServer::singleton().regeister();
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    TaskTrackerServer::singleton().set_thread_num(thread_num);
+    auto server_thread = TaskTrackerServer::singleton().start();
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    TaskTrackerServer::singleton().fetch_node_info();
+    TaskTrackerServer::singleton().create_task_tracker_client();
+    TaskTrackerServer::singleton().check_client_task_tracker();
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    return server_thread;
+}
+
 int main(int argc, char **argv) {
 
   //google::InitGoogleLogging(argv[0]);
   MPI_Init(&argc, &argv);
-
-  TaskTrackerServer::singleton().regeister();
-  MPI_Barrier(MPI_COMM_WORLD);
-
-  //TaskTrackerServer::singleton().set_thread_num(10);
-  auto server_thread = TaskTrackerServer::singleton().start();
-  MPI_Barrier(MPI_COMM_WORLD);
-
-  TaskTrackerServer::singleton().fetch_node_info();
-  TaskTrackerServer::singleton().create_task_tracker_client();
-  TaskTrackerServer::singleton().check_client_task_tracker();
-  MPI_Barrier(MPI_COMM_WORLD);
+  auto server_thread = task_tracker_initial(10);
 
   server_thread.join();
-
   MPI_Finalize();
   return 0;
 }

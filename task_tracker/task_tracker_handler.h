@@ -26,15 +26,34 @@ public:
     // Your implementation goes here
     Table new_table(table_property);
     StorageInfo::singleton()._table_info[table_property.table_name] = new_table;
-    VLOG(0) << "CREATE TABLE " << new_table._table_property.table_name;
+
+    VLOG(0) << NodeInfo::singleton()._node_id
+            << "("
+            << NodeInfo::singleton()._host_name
+            << ":"
+            << NodeInfo::singleton()._port
+            << ")->"
+            << "CREATE TABLE "
+            << new_table._table_property.table_name;
+    return 1;
   }
 
   int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) {
     // Your implementation goes here
     ColumnFamily new_cf(cf_property);
     StorageInfo::singleton()._cf_info[table_name][cf_property.cf_name] = cf_property;
-    VLOG(0) << "CREATE CF "  << new_cf._cf_property.cf_name
-            << " FOR TABLE " << table_name;
+
+    VLOG(0) << NodeInfo::singleton()._node_id
+            << "("
+            << NodeInfo::singleton()._host_name
+            << ":"
+            << NodeInfo::singleton()._port
+            << ")->"
+            << "CREATE CF "
+            << table_name
+            << " # "
+            << new_cf._cf_property.cf_name;
+    return 1;
   }
 
 private:

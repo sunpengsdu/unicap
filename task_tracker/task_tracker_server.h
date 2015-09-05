@@ -56,18 +56,11 @@ public:
 
     int64_t set_thread_num(int64_t thread_num);
 
-    int64_t get_node_num();
-
-    int64_t get_node_id();
-
     int64_t regeister();
 
     int64_t fetch_node_info();
 
     int64_t create_task_tracker_client();
-
-    const std::map<int64_t, boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
-    get_client_task_tracker();
 
     int64_t check_client_task_tracker();
 
@@ -83,13 +76,6 @@ public:
 private:
     int64_t _port;
     int64_t _thread_num;
-
-    int _node_id, _node_num, _name_length;
-    char _processor_name[MPI_MAX_PROCESSOR_NAME];
-    std::string _host_name;
-
-    boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
-    std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> > _client_task_tracker;
 
     boost::shared_ptr<TaskTrackerHandler> _handler;
     boost::shared_ptr<TProcessor>         _processor;

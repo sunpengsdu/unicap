@@ -27,28 +27,30 @@ int64_t JobTrackerServer::set_thread_num(int64_t thread_num) {
 int64_t JobTrackerServer::create_task_tracker_client() {
     for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
         std::cout << kvp.first;
-        _client_task_tracker[kvp.first] =
+        NodeInfo::singleton()._client_task_tracker[kvp.first] =
                 boost::shared_ptr<UnicapClient<TaskTrackerClient>>
-                (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
-                                                    kvp.second.port));
+                    (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                                                        kvp.second.port));
     }
     return 1;
 }
 
 int64_t JobTrackerServer::check_client_task_tracker() {
-    VLOG(0) << "CHECK NETWORK CONNECTION";
-    for (auto i : _client_task_tracker){
+
+    for (auto i : NodeInfo::singleton()._client_task_tracker){
+        VLOG(0) << "CHECK NETWORK CONNECTION: "
+                << i.first
+                << " ("
+                << NodeInfo::singleton()._task_tracker_info[i.first].host_name
+                << ":"
+                << NodeInfo::singleton()._task_tracker_info[i.first].port
+                << ")";
         std::string re;
         i.second->open_transport();
         i.second->method()->ping(re);
         CHECK_EQ(re, "Pong");
         i.second->close_transport();
     }
-}
-
-const std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
-JobTrackerServer::get_client_task_tracker() {
-    return _client_task_tracker;
 }
 
 std::thread JobTrackerServer::start() {

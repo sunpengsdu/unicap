@@ -10,18 +10,20 @@ namespace cap{
 
 TaskTrackerServer::TaskTrackerServer() {
         _port        = 9010;
-        _node_num    = 0;
-        _node_id     = 0;
         _thread_num  = 0;
-        _name_length = 0;
 
-        MPI_Comm_rank(MPI_COMM_WORLD, &_node_id);
-        MPI_Comm_size(MPI_COMM_WORLD, &_node_num);
-        MPI_Get_processor_name(_processor_name, &_name_length);
-        _host_name = std::string(_processor_name, _name_length);
-        _thread_num = _node_num;
-        _client_job_tracker = boost::shared_ptr<UnicapClient<JobTrackerClient>>
-                        (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
+        MPI_Comm_rank(MPI_COMM_WORLD, &NodeInfo::singleton()._node_id);
+        MPI_Comm_size(MPI_COMM_WORLD, &NodeInfo::singleton()._node_num);
+        MPI_Get_processor_name(NodeInfo::singleton()._processor_name,
+                            &NodeInfo::singleton()._name_length);
+        NodeInfo::singleton()._host_name =
+                std::string(NodeInfo::singleton()._processor_name,
+                            NodeInfo::singleton()._name_length);
+
+        _thread_num = NodeInfo::singleton()._node_num;
+        NodeInfo::singleton()._client_job_tracker =
+                boost::shared_ptr<UnicapClient<JobTrackerClient>>
+                (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
     }
 
 int64_t TaskTrackerServer::set_thread_num(int64_t thread_num) {
@@ -29,48 +31,54 @@ int64_t TaskTrackerServer::set_thread_num(int64_t thread_num) {
         return 1;
     }
 
-int64_t TaskTrackerServer::get_node_num() {
-    return _node_num;
-}
-
-int64_t TaskTrackerServer::get_node_id() {
-        return _node_id;
-    }
-
 int64_t TaskTrackerServer::regeister() {
-        _client_job_tracker->open_transport();
-        _port = _client_job_tracker->method()->register_task_tracker(_node_id, _processor_name, 1);
-        VLOG(0) << "Port: " << _port;
-        _client_job_tracker->close_transport();
+    NodeInfo::singleton()._client_job_tracker->open_transport();
+        _port = NodeInfo::singleton()._client_job_tracker
+                ->method()
+                ->register_task_tracker(
+                        NodeInfo::singleton()._node_id,
+                        NodeInfo::singleton()._processor_name,
+                        NodeInfo::singleton()._storage_weight);
+    NodeInfo::singleton()._port = _port;
+
+    NodeInfo::singleton()._client_job_tracker
+                ->close_transport();
         return 1;
     }
 
 int64_t TaskTrackerServer::fetch_node_info() {
-        _client_job_tracker->open_transport();
-        _client_job_tracker->method()->get_all_task_tracker_info(NodeInfo::singleton()._task_tracker_info);
-        _client_job_tracker->close_transport();
+    NodeInfo::singleton()._client_job_tracker
+            ->open_transport();
+    NodeInfo::singleton()._client_job_tracker
+            ->method()
+            ->get_all_task_tracker_info(
+                    NodeInfo::singleton()._task_tracker_info);
+
+    NodeInfo::singleton()._client_job_tracker
+            ->close_transport();
        return 1;
     }
 
 int64_t TaskTrackerServer::create_task_tracker_client() {
-        for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
-            std::cout << kvp.first;
-            _client_task_tracker[kvp.first] =
-                    boost::shared_ptr<UnicapClient<TaskTrackerClient>>
-                    (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
-                                                        kvp.second.port));
+    for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
+        std::cout << kvp.first;
+        NodeInfo::singleton()._client_task_tracker[kvp.first] =
+                boost::shared_ptr<UnicapClient<TaskTrackerClient>>
+                (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                                                    kvp.second.port));
         }
         return 1;
     }
 
-const std::map<int64_t, boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
-TaskTrackerServer::get_client_task_tracker() {
-        return _client_task_tracker;
-    }
-
 int64_t TaskTrackerServer::check_client_task_tracker() {
-        VLOG(0) << "CHECK NETWORK CONNECTION";
-        for (auto i : _client_task_tracker){
+        VLOG(0) << NodeInfo::singleton()._node_id
+                << " ("
+                << NodeInfo::singleton()._host_name
+                << " : "
+                << NodeInfo::singleton()._port
+                << " -> "
+                << "CHECK NETWORK CONNECTION";
+        for (auto i : NodeInfo::singleton()._client_task_tracker){
             std::string re;
             i.second->open_transport();
             i.second->method()->ping(re);
@@ -103,6 +111,3 @@ std::thread TaskTrackerServer::start() {
 
 }
 }
-
-
-

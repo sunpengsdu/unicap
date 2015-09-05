@@ -42,7 +42,7 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : JobTrackerServer::singleton().get_client_task_tracker()){
+    for (auto i : NodeInfo::singleton()._client_task_tracker){
          i.second->open_transport();
          i.second->method()->create_table(new_table._table_property);
          i.second->close_transport();
@@ -66,7 +66,7 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : JobTrackerServer::singleton().get_client_task_tracker()){
+    for (auto i : NodeInfo::singleton()._client_task_tracker){
          i.second->open_transport();
          i.second->method()->create_table(new_table._table_property);
          i.second->close_transport();
@@ -88,7 +88,7 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : JobTrackerServer::singleton().get_client_task_tracker()){
+    for (auto i : NodeInfo::singleton()._client_task_tracker){
          i.second->open_transport();
          i.second->method()->create_table(new_table._table_property);
          i.second->close_transport();
@@ -112,7 +112,7 @@ int64_t create_cf(const std::string& table_name,
 
     StorageInfo::singleton()._cf_info[table_name][cf_name] = new_cf;
 
-    for (auto i : JobTrackerServer::singleton().get_client_task_tracker()){
+    for (auto i : NodeInfo::singleton()._client_task_tracker){
            i.second->open_transport();
            i.second->method()->create_cf(table_name, new_cf._cf_property);
            i.second->close_transport();

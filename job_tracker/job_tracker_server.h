@@ -57,9 +57,6 @@ public:
 
     int64_t check_client_task_tracker();
 
-    const std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> >&
-    get_client_task_tracker();
-
     std::thread start();
 
     static int64_t serve(boost::shared_ptr<TThreadPoolServer> &server) {
@@ -80,9 +77,6 @@ private:
 
     boost::shared_ptr<PosixThreadFactory> _threadFactory;
     boost::shared_ptr<TThreadPoolServer>  _server;
-
-    std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> > _client_task_tracker;
-
 };
 
 }//end namspace ntu

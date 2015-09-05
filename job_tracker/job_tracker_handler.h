@@ -30,12 +30,9 @@ public:
                               const std::string& node_name,
                               const int64_t storage_weight) {
 
-    VLOG(0) << "Register Node"
-            << " ID: "       << node_id
-            << " Hostname: " << node_name;
+    int64_t available_port = _base_port;
 
     _register_lock.lock();
-
     if (NodeInfo::singleton()._task_tracker_info.find(node_id)
             != NodeInfo::singleton()._task_tracker_info.end()) {
         VLOG(0) << "Node ID: " << node_id
@@ -48,9 +45,9 @@ public:
             NodeInfo::singleton()._physical_node_info[node_name] = 1;
         }
 
-        int64_t available_port = _base_port
-                + NodeInfo::singleton()._physical_node_info[node_name]
-                - 1;
+        available_port = _base_port
+                        + NodeInfo::singleton()._physical_node_info[node_name]
+                        - 1;
 
         NodeInfo::singleton()._task_tracker_info[node_id].host_name = node_name;
         NodeInfo::singleton()._task_tracker_info[node_id].port      = available_port;
@@ -61,6 +58,15 @@ public:
         }
     }
     _register_lock.unlock();
+
+    VLOG(0) << "Register Node"
+            << " -> "
+            << node_id
+            << "("
+            << node_name
+            << " : "
+            << available_port;
+
     return NodeInfo::singleton()._task_tracker_info[node_id].port;
   }
 
