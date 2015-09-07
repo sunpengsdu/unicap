@@ -22,14 +22,16 @@ const char* _kStorageTypeNames[] = {
 const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(1, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 int _kKeyPartitionAlgoValues[] = {
+  KeyPartitionAlgo::NoneAlgo,
   KeyPartitionAlgo::HashingPartition,
   KeyPartitionAlgo::RangePartition
 };
 const char* _kKeyPartitionAlgoNames[] = {
+  "NoneAlgo",
   "HashingPartition",
   "RangePartition"
 };
-const std::map<int, const char*> _KeyPartitionAlgo_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kKeyPartitionAlgoValues, _kKeyPartitionAlgoNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _KeyPartitionAlgo_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kKeyPartitionAlgoValues, _kKeyPartitionAlgoNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 
 KeyPartition::~KeyPartition() throw() {

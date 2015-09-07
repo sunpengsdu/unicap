@@ -2,6 +2,7 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "./job_tracker_function.h"
+#include "../storage/common_key_value.h"
 
 using namespace  ::ntu::cap;
 
@@ -15,7 +16,34 @@ int main(int argc, char **argv) {
   rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
   create_table("a", 100, rrr);
   create_cf("a", "a", StorageType::CommonKeyValue);
-  create_cf("a", "b", StorageType::CommonKeyValue);
+ // create_cf("a", "b", StorageType::CommonKeyValue);
+
+
+  auto i =  NodeInfo::singleton()._client_task_tracker[0];
+  i->open_transport();
+  std::vector<std::string> row;
+  std::vector<std::string> column;
+  std::vector<std::string> value;
+  row.push_back("a");
+  row.push_back("b");
+  column.push_back("1");
+  column.push_back("2");
+  value.push_back("a1");
+  value.push_back("b2");
+  i->method()->vector_put("a", 0, "a",row, column, value);
+  i->close_transport();
+
+  std::vector<std::vector<std::string> > return_value;
+  i->open_transport();
+  i->method()->scan_all(return_value, "a", 0, "a");
+  i->close_transport();
+
+  for (int j=0; j<return_value[0].size(); ++j) {
+      std::cout << return_value[0][j] << ":"
+                << return_value[1][j] << "->"
+                << return_value[2][j] << "\n";
+  }
+
 
   server_side_thread.join();
   return 0;

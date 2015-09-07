@@ -5,8 +5,9 @@ CommonKeyValue = 1,
 }
 
 enum KeyPartitionAlgo {
-HashingPartition = 1,
-RangePartition   = 2,
+NoneAlgo         = 1,
+HashingPartition = 2,
+RangePartition   = 3,
 }
 
 struct KeyPartition {
@@ -40,5 +41,10 @@ service JobTracker {
 service TaskTracker {
     string ping(),
     i64 create_table(1:TableProperty table_property),
-    i64 create_cf(1:string table_name, 2:ColumnFamilyProperty cf_property)
+    i64 create_cf(1:string table_name, 2:ColumnFamilyProperty cf_property),
+    i64 vector_put(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:list<string> value),
+    i64 timely_vector_put(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:i64 time_stampe, 7:list<string> value),
+    list<string> vector_get(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key),
+    list<list<string>> scan_all(1:string table_name, 2:i64 shard_id, 3:string cf_name),
+    list<list<string>> scan_by_time(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp)
 }

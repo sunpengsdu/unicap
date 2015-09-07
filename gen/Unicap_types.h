@@ -29,8 +29,9 @@ extern const std::map<int, const char*> _StorageType_VALUES_TO_NAMES;
 
 struct KeyPartitionAlgo {
   enum type {
-    HashingPartition = 1,
-    RangePartition = 2
+    NoneAlgo = 1,
+    HashingPartition = 2,
+    RangePartition = 3
   };
 };
 

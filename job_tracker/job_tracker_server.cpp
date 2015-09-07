@@ -26,7 +26,6 @@ int64_t JobTrackerServer::set_thread_num(int64_t thread_num) {
 
 int64_t JobTrackerServer::create_task_tracker_client() {
     for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
-        std::cout << kvp.first;
         NodeInfo::singleton()._client_task_tracker[kvp.first] =
                 boost::shared_ptr<UnicapClient<TaskTrackerClient>>
                     (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
