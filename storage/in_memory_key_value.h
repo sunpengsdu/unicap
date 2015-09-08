@@ -14,21 +14,28 @@
 namespace ntu {
 namespace cap {
 
-class CommonKeyValue : public KVStorage {
+class InMemoryKeyValue : public KVStorage {
 
 public:
 
-    CommonKeyValue() : KVStorage() {
-
+    InMemoryKeyValue() : KVStorage() {
 
     }
-    ~CommonKeyValue() {
+
+    InMemoryKeyValue(const std::string table_name, const int64_t shard_id, const std::string cf_name)
+        : KVStorage(table_name, shard_id, cf_name) {
+
+    }
+
+    ~InMemoryKeyValue() {
 
     }
 
     int64_t vector_put(std::vector<std::string> row_key,
                                 std::vector<std::string> column_key,
                                 std::vector<std::string> value) {
+        CHECK_EQ(row_key.size(), column_key.size());
+        CHECK_EQ(row_key.size(), value.size());
         write_lock _lock(KVStorage::_rwmutex);
         for (int i = 0; i < row_key.size(); ++i) {
             _storage_container[row_key[i]][column_key[i]] = value[i];
@@ -40,6 +47,8 @@ public:
                                 std::vector<std::string> column_key,
                                 int64_t time_stamp,
                                 std::vector<std::string> value) {
+        CHECK_EQ(row_key.size(), column_key.size());
+        CHECK_EQ(row_key.size(), value.size());
         write_lock _lock(KVStorage::_rwmutex);
         LOG(FATAL) << "NOT IMPLEMENTED \n";
         return 1;
@@ -48,6 +57,9 @@ public:
     void vector_get(std::vector<std::string> row_key,
                             std::vector<std::string> column_key,
                             std::vector<std::string>& value) {
+        CHECK_EQ(row_key.size(), column_key.size());
+        value.clear();
+
         read_lock _lock(KVStorage::_rwmutex);
 
         for (int i = 0; i < row_key.size(); ++i) {
@@ -63,7 +75,7 @@ public:
 
     void scan_all(std::vector<std::vector<std::string>>& value) {
         read_lock _lock(KVStorage::_rwmutex);
-
+        value.clear();
         value.resize(3);
         for (auto& row_key : _storage_container) {
             for (auto& column_key : row_key.second) {
@@ -76,6 +88,7 @@ public:
 
     void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
         read_lock _lock(KVStorage::_rwmutex);
+        value.clear();
         LOG(FATAL) << "NOT IMPLEMENTED \n";
     }
 

@@ -14,12 +14,20 @@
 namespace ntu { namespace cap {
 
 int _kStorageTypeValues[] = {
-  StorageType::CommonKeyValue
+  StorageType::InMemoryKeyValue,
+  StorageType::LSMKeyValue,
+  StorageType::OnDiskKeyValue,
+  StorageType::InMemoryImage,
+  StorageType::InMemoryMatrix
 };
 const char* _kStorageTypeNames[] = {
-  "CommonKeyValue"
+  "InMemoryKeyValue",
+  "LSMKeyValue",
+  "OnDiskKeyValue",
+  "InMemoryImage",
+  "InMemoryMatrix"
 };
-const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(1, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(5, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 int _kKeyPartitionAlgoValues[] = {
   KeyPartitionAlgo::NoneAlgo,

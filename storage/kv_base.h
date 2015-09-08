@@ -17,6 +17,11 @@
 #include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/shared_lock_guard.hpp>
 #include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
+
 #include <glog/logging.h>
 
 typedef boost::shared_mutex rwmutex;
@@ -29,6 +34,12 @@ namespace cap {
 class KVStorage {
 public:
     KVStorage() {
+    }
+
+    KVStorage(const std::string table_name, const int64_t shard_id, const std::string cf_name) {
+        _table_name = table_name;
+        _cf_name = cf_name;
+        _shard_id = shard_id;
     }
 
     virtual ~KVStorage() {
@@ -53,6 +64,9 @@ public:
 
     // std::mutex _lock;
     rwmutex _rwmutex;
+    std::string _table_name;
+    int64_t _shard_id;
+    std::string _cf_name;
 };
 
 }

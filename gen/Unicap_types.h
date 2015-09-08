@@ -21,7 +21,11 @@ namespace ntu { namespace cap {
 
 struct StorageType {
   enum type {
-    CommonKeyValue = 1
+    InMemoryKeyValue = 1,
+    LSMKeyValue = 2,
+    OnDiskKeyValue = 3,
+    InMemoryImage = 4,
+    InMemoryMatrix = 5
   };
 };
 

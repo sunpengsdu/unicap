@@ -73,17 +73,26 @@ public:
     int64_t node_id = NodeInfo::singleton()._node_id;
 
     switch (cf_property.storage_type) {
-        case StorageType::type::CommonKeyValue: {
+        case StorageType::type::InMemoryKeyValue: {
             //table_name -> shard_id -> cf_name -> ptr
-            for (auto i : StorageInfo::singleton()._table_info[table_name].
+            for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                std::cout << i << " ";
                 StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                     = std::make_shared<CommonKeyValue>();
+                     = std::make_shared<InMemoryKeyValue>(table_name, i, cf_property.cf_name);
             }
-            std::cout << "\n";
             break;
         }
+
+        case StorageType::type::LSMKeyValue: {
+            //table_name -> shard_id -> cf_name -> ptr
+            for (int64_t i : StorageInfo::singleton()._table_info[table_name].
+                    _table_property.node_info[node_id]) {
+                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                     = std::make_shared<LSMKeyValue>(table_name, i, cf_property.cf_name);
+            }
+            break;
+        }
+
         default: break;
     }
 
