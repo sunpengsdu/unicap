@@ -17,6 +17,11 @@ namespace cap {
 class CommonKeyValue : public KVStorage {
 
 public:
+
+    CommonKeyValue() : KVStorage() {
+
+
+    }
     ~CommonKeyValue() {
 
     }
@@ -24,6 +29,7 @@ public:
     int64_t vector_put(std::vector<std::string> row_key,
                                 std::vector<std::string> column_key,
                                 std::vector<std::string> value) {
+        write_lock _lock(KVStorage::_rwmutex);
         for (int i = 0; i < row_key.size(); ++i) {
             _storage_container[row_key[i]][column_key[i]] = value[i];
         }
@@ -34,6 +40,7 @@ public:
                                 std::vector<std::string> column_key,
                                 int64_t time_stamp,
                                 std::vector<std::string> value) {
+        write_lock _lock(KVStorage::_rwmutex);
         LOG(FATAL) << "NOT IMPLEMENTED \n";
         return 1;
     }
@@ -41,6 +48,7 @@ public:
     void vector_get(std::vector<std::string> row_key,
                             std::vector<std::string> column_key,
                             std::vector<std::string>& value) {
+        read_lock _lock(KVStorage::_rwmutex);
 
         for (int i = 0; i < row_key.size(); ++i) {
             if (_storage_container.find(row_key[i]) == _storage_container.end()
@@ -51,10 +59,11 @@ public:
                 value.push_back("NULL");
             }
         }
-
     }
 
     void scan_all(std::vector<std::vector<std::string>>& value) {
+        read_lock _lock(KVStorage::_rwmutex);
+
         value.resize(3);
         for (auto& row_key : _storage_container) {
             for (auto& column_key : row_key.second) {
@@ -66,15 +75,14 @@ public:
     }
 
     void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
+        read_lock _lock(KVStorage::_rwmutex);
         LOG(FATAL) << "NOT IMPLEMENTED \n";
     }
 
     std::unordered_map<std::string,
                     std::unordered_map<std::string,
                                     std::string> > _storage_container;
-
     //std::map<int64_t, std::string> _history_data;
-
 };
 
 }

@@ -3,6 +3,7 @@
 
 #include "./job_tracker_function.h"
 #include "../storage/common_key_value.h"
+#include <atomic>
 
 using namespace  ::ntu::cap;
 
@@ -18,7 +19,44 @@ int main(int argc, char **argv) {
   create_cf("a", "a", StorageType::CommonKeyValue);
  // create_cf("a", "b", StorageType::CommonKeyValue);
 
-  create_task()
+
+  auto i =  NodeInfo::singleton()._client_task_tracker[0];
+   i->open_transport();
+   std::vector<std::string> row;
+   std::vector<std::string> column;
+   std::vector<std::string> value;
+   row.push_back("a");
+   row.push_back("b");
+   column.push_back("1");
+   column.push_back("2");
+   value.push_back("a1");
+   value.push_back("b2");
+   i->method()->vector_put("a", 0, "a",row, column, value);
+   i->method()->vector_put("a", 0, "a",row, column, value);
+   i->method()->vector_put("a", 0, "a",row, column, value);
+   i->method()->vector_put("a", 0, "a",row, column, value);
+   i->close_transport();
+
+   std::vector<std::vector<std::string> > return_value;
+   i->open_transport();
+   i->method()->scan_all(return_value, "a", 0, "a");
+   i->method()->scan_all(return_value, "a", 0, "a");
+   i->method()->scan_all(return_value, "a", 0, "a");
+   i->close_transport();
+
+   for (int j=0; j<return_value[0].size(); ++j) {
+       std::cout << return_value[0][j] << ":"
+                 << return_value[1][j] << "->"
+                 << return_value[2][j] << "\n";
+   }
+
+
+ // create_task()
+
+
+ // foo.compare_exchange_weak(&i, j, std::memory_order_release, std::memory_order_release);
+
+ // std::atomic::compare_exchange_weak(std::ref(0), 1, std::memory_order_release, std::memory_order_release);
 
   server_side_thread.join();
   return 0;
