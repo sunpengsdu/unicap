@@ -314,17 +314,17 @@ uint32_t JobTracker_get_all_task_tracker_info_result::read(::apache::thrift::pro
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->success.clear();
-            uint32_t _size40;
-            ::apache::thrift::protocol::TType _ktype41;
-            ::apache::thrift::protocol::TType _vtype42;
-            xfer += iprot->readMapBegin(_ktype41, _vtype42, _size40);
-            uint32_t _i44;
-            for (_i44 = 0; _i44 < _size40; ++_i44)
+            uint32_t _size42;
+            ::apache::thrift::protocol::TType _ktype43;
+            ::apache::thrift::protocol::TType _vtype44;
+            xfer += iprot->readMapBegin(_ktype43, _vtype44, _size42);
+            uint32_t _i46;
+            for (_i46 = 0; _i46 < _size42; ++_i46)
             {
-              int64_t _key45;
-              xfer += iprot->readI64(_key45);
-              TaskTrackerInfo& _val46 = this->success[_key45];
-              xfer += _val46.read(iprot);
+              int64_t _key47;
+              xfer += iprot->readI64(_key47);
+              TaskTrackerInfo& _val48 = this->success[_key47];
+              xfer += _val48.read(iprot);
             }
             xfer += iprot->readMapEnd();
           }
@@ -355,11 +355,11 @@ uint32_t JobTracker_get_all_task_tracker_info_result::write(::apache::thrift::pr
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-      std::map<int64_t, TaskTrackerInfo> ::const_iterator _iter47;
-      for (_iter47 = this->success.begin(); _iter47 != this->success.end(); ++_iter47)
+      std::map<int64_t, TaskTrackerInfo> ::const_iterator _iter49;
+      for (_iter49 = this->success.begin(); _iter49 != this->success.end(); ++_iter49)
       {
-        xfer += oprot->writeI64(_iter47->first);
-        xfer += _iter47->second.write(oprot);
+        xfer += oprot->writeI64(_iter49->first);
+        xfer += _iter49->second.write(oprot);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -399,20 +399,206 @@ uint32_t JobTracker_get_all_task_tracker_info_presult::read(::apache::thrift::pr
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             (*(this->success)).clear();
-            uint32_t _size48;
-            ::apache::thrift::protocol::TType _ktype49;
-            ::apache::thrift::protocol::TType _vtype50;
-            xfer += iprot->readMapBegin(_ktype49, _vtype50, _size48);
-            uint32_t _i52;
-            for (_i52 = 0; _i52 < _size48; ++_i52)
+            uint32_t _size50;
+            ::apache::thrift::protocol::TType _ktype51;
+            ::apache::thrift::protocol::TType _vtype52;
+            xfer += iprot->readMapBegin(_ktype51, _vtype52, _size50);
+            uint32_t _i54;
+            for (_i54 = 0; _i54 < _size50; ++_i54)
             {
-              int64_t _key53;
-              xfer += iprot->readI64(_key53);
-              TaskTrackerInfo& _val54 = (*(this->success))[_key53];
-              xfer += _val54.read(iprot);
+              int64_t _key55;
+              xfer += iprot->readI64(_key55);
+              TaskTrackerInfo& _val56 = (*(this->success))[_key55];
+              xfer += _val56.read(iprot);
             }
             xfer += iprot->readMapEnd();
           }
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+JobTracker_fetch_task_args::~JobTracker_fetch_task_args() throw() {
+}
+
+
+uint32_t JobTracker_fetch_task_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->task.read(iprot);
+          this->__isset.task = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t JobTracker_fetch_task_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("JobTracker_fetch_task_args");
+
+  xfer += oprot->writeFieldBegin("task", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->task.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+JobTracker_fetch_task_pargs::~JobTracker_fetch_task_pargs() throw() {
+}
+
+
+uint32_t JobTracker_fetch_task_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("JobTracker_fetch_task_pargs");
+
+  xfer += oprot->writeFieldBegin("task", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->task)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+JobTracker_fetch_task_result::~JobTracker_fetch_task_result() throw() {
+}
+
+
+uint32_t JobTracker_fetch_task_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t JobTracker_fetch_task_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("JobTracker_fetch_task_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+    xfer += oprot->writeI64(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+JobTracker_fetch_task_presult::~JobTracker_fetch_task_presult() throw() {
+}
+
+
+uint32_t JobTracker_fetch_task_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64((*(this->success)));
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -547,6 +733,64 @@ void JobTrackerClient::recv_get_all_task_tracker_info(std::map<int64_t, TaskTrac
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "get_all_task_tracker_info failed: unknown result");
 }
 
+int64_t JobTrackerClient::fetch_task(const TaskNode& task)
+{
+  send_fetch_task(task);
+  return recv_fetch_task();
+}
+
+void JobTrackerClient::send_fetch_task(const TaskNode& task)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("fetch_task", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  JobTracker_fetch_task_pargs args;
+  args.task = &task;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int64_t JobTrackerClient::recv_fetch_task()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("fetch_task") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int64_t _return;
+  JobTracker_fetch_task_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "fetch_task failed: unknown result");
+}
+
 bool JobTrackerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
@@ -671,6 +915,60 @@ void JobTrackerProcessor::process_get_all_task_tracker_info(int32_t seqid, ::apa
 
   if (this->eventHandler_.get() != NULL) {
     this->eventHandler_->postWrite(ctx, "JobTracker.get_all_task_tracker_info", bytes);
+  }
+}
+
+void JobTrackerProcessor::process_fetch_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("JobTracker.fetch_task", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "JobTracker.fetch_task");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "JobTracker.fetch_task");
+  }
+
+  JobTracker_fetch_task_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "JobTracker.fetch_task", bytes);
+  }
+
+  JobTracker_fetch_task_result result;
+  try {
+    result.success = iface_->fetch_task(args.task);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "JobTracker.fetch_task");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("fetch_task", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "JobTracker.fetch_task");
+  }
+
+  oprot->writeMessageBegin("fetch_task", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "JobTracker.fetch_task", bytes);
   }
 }
 

@@ -6,19 +6,19 @@
 using namespace  ::ntu::cap;
 
 int main(int argc, char **argv) {
-  //google::InitGoogleLogging(argv[0]);
+    //google::InitGoogleLogging(argv[0]);
 
-  std::thread server_side_thread;
-  server_side_thread = start_job_tracker(10);
+    std::thread server_side_thread;
+    server_side_thread = start_job_tracker(10);
 
-  KeyPartition rrr;
-  rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
-  create_table("a", 10, rrr);
-  create_cf("a", "a", StorageType::InMemoryKeyValue);
+    KeyPartition rrr;
+    rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
+    create_table("a", 10, rrr);
+    create_cf("a", "a", StorageType::InMemoryKeyValue);
 
 
 
-  auto i =  NodeInfo::singleton()._client_task_tracker[0];
+    auto i =  NodeInfo::singleton()._client_task_tracker[0];
     i->open_transport();
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -56,16 +56,16 @@ int main(int argc, char **argv) {
 
 
 
- // create_cf("a", "b", StorageType::CommonKeyValue);
+// create_cf("a", "b", StorageType::CommonKeyValue);
 
 
- // create_task()
+// create_task()
 
 
- // foo.compare_exchange_weak(&i, j, std::memory_order_release, std::memory_order_release);
+// foo.compare_exchange_weak(&i, j, std::memory_order_release, std::memory_order_release);
 
- // std::atomic::compare_exchange_weak(std::ref(0), 1, std::memory_order_release, std::memory_order_release);
+// std::atomic::compare_exchange_weak(std::ref(0), 1, std::memory_order_release, std::memory_order_release);
 
-  server_side_thread.join();
-  return 0;
+    server_side_thread.join();
+    return 0;
 }

@@ -29,7 +29,7 @@ public:
     }
 
     ColumnFamily(const std::string& cf_name,
-            const StorageType::type storage_type) {
+                 const StorageType::type storage_type) {
         _cf_property.cf_name = cf_name;
         _cf_property.storage_type = storage_type;
     }

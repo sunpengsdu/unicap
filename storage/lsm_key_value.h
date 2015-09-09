@@ -32,7 +32,7 @@ public:
         boost::filesystem::create_directories(_path);
         _options.create_if_missing = true;
 
-      //  boost::filesystem::remove_all(_path);
+        //  boost::filesystem::remove_all(_path);
 
         leveldb::Status status = leveldb::DB::Open(_options, _path, &_db);
         CHECK_EQ(status.ok(), true);
@@ -42,8 +42,8 @@ public:
     }
 
     int64_t vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                std::vector<std::string> value) {
+                       std::vector<std::string> column_key,
+                       std::vector<std::string> value) {
 
         CHECK_EQ(row_key.size(), column_key.size());
         CHECK_EQ(row_key.size(), value.size());
@@ -60,9 +60,9 @@ public:
     }
 
     int64_t timely_vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                int64_t time_stamp,
-                                std::vector<std::string> value) {
+                              std::vector<std::string> column_key,
+                              int64_t time_stamp,
+                              std::vector<std::string> value) {
         CHECK_EQ(row_key.size(), column_key.size());
         CHECK_EQ(row_key.size(), value.size());
 
@@ -71,8 +71,8 @@ public:
     }
 
     void vector_get(std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            std::vector<std::string>& value) {
+                    std::vector<std::string> column_key,
+                    std::vector<std::string>& value) {
         CHECK_EQ(row_key.size(), column_key.size());
         value.clear();
 

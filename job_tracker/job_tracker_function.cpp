@@ -19,9 +19,9 @@ std::thread start_job_tracker(int64_t thread_num) {
     auto server_thread = JobTrackerServer::singleton().start();
 
     while(NodeInfo::singleton()._ready_task_tracker_number
-          != NodeInfo::singleton()._task_tracker_number
-          || NodeInfo::singleton()._ready_task_tracker_number == 0) {
-      std::this_thread::sleep_for(std::chrono::microseconds(10));
+            != NodeInfo::singleton()._task_tracker_number
+            || NodeInfo::singleton()._ready_task_tracker_number == 0) {
+        std::this_thread::sleep_for(std::chrono::microseconds(10));
     }
     JobTrackerServer::singleton().create_task_tracker_client();
     JobTrackerServer::singleton().check_client_task_tracker();
@@ -30,7 +30,7 @@ std::thread start_job_tracker(int64_t thread_num) {
 }
 
 int64_t create_table(const std::string& table_name,
-                    const int64_t shard_num) {
+                     const int64_t shard_num) {
 
     Table new_table(table_name, shard_num);
     new_table.allocate_shard();
@@ -42,19 +42,19 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : NodeInfo::singleton()._client_task_tracker){
-         i.second->open_transport();
-         i.second->method()->create_table(new_table._table_property);
-         i.second->close_transport();
-     }
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        i.second->open_transport();
+        i.second->method()->create_table(new_table._table_property);
+        i.second->close_transport();
+    }
 
     VLOG(0) << "CREATE TABLE " << table_name;
     return 1;
 }
 
 int64_t create_table(const std::string& table_name,
-                    const int64_t shard_num,
-                    const KeyPartition partition) {
+                     const int64_t shard_num,
+                     const KeyPartition partition) {
 
     Table new_table(table_name, shard_num, partition);
     new_table.allocate_shard();
@@ -66,18 +66,18 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : NodeInfo::singleton()._client_task_tracker){
-         i.second->open_transport();
-         i.second->method()->create_table(new_table._table_property);
-         i.second->close_transport();
-     }
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        i.second->open_transport();
+        i.second->method()->create_table(new_table._table_property);
+        i.second->close_transport();
+    }
 
     VLOG(0) << "CREATE TABLE " << table_name;
     return 1;
 }
 
 int64_t create_table(const std::string& table_name,
-                    const Table& base_table) {
+                     const Table& base_table) {
 
     Table new_table(table_name, base_table);
 
@@ -88,19 +88,19 @@ int64_t create_table(const std::string& table_name,
 
     StorageInfo::singleton()._table_info[table_name] = new_table;
 
-    for (auto i : NodeInfo::singleton()._client_task_tracker){
-         i.second->open_transport();
-         i.second->method()->create_table(new_table._table_property);
-         i.second->close_transport();
-     }
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        i.second->open_transport();
+        i.second->method()->create_table(new_table._table_property);
+        i.second->close_transport();
+    }
 
     VLOG(0) << "CREATE TABLE " << table_name;
     return 1;
 }
 
 int64_t create_cf(const std::string& table_name,
-                const std::string cf_name,
-                const StorageType::type cf_type) {
+                  const std::string cf_name,
+                  const StorageType::type cf_type) {
 
     ColumnFamily new_cf(cf_name, cf_type);
 
@@ -112,11 +112,11 @@ int64_t create_cf(const std::string& table_name,
 
     StorageInfo::singleton()._cf_info[table_name][cf_name] = new_cf;
 
-    for (auto i : NodeInfo::singleton()._client_task_tracker){
-           i.second->open_transport();
-           i.second->method()->create_cf(table_name, new_cf._cf_property);
-           i.second->close_transport();
-       }
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        i.second->open_transport();
+        i.second->method()->create_cf(table_name, new_cf._cf_property);
+        i.second->close_transport();
+    }
 
     VLOG(0) << "CREATE CF " << cf_name << " FOR TABLE " << table_name;
     return 1;

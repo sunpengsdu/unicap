@@ -49,6 +49,8 @@ class TableProperty;
 
 class ColumnFamilyProperty;
 
+class TaskNode;
+
 typedef struct _KeyPartition__isset {
   _KeyPartition__isset() : key_to_shard(false) {}
   bool key_to_shard :1;
@@ -239,6 +241,81 @@ class ColumnFamilyProperty {
 };
 
 void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b);
+
+typedef struct _TaskNode__isset {
+  _TaskNode__isset() : dst_shard_id(false) {}
+  bool dst_shard_id :1;
+} _TaskNode__isset;
+
+class TaskNode {
+ public:
+
+  static const char* ascii_fingerprint; // = "BF7C2E21ACBF1DF13D033E1828E6827C";
+  static const uint8_t binary_fingerprint[16]; // = {0xBF,0x7C,0x2E,0x21,0xAC,0xBF,0x1D,0xF1,0x3D,0x03,0x3E,0x18,0x28,0xE6,0x82,0x7C};
+
+  TaskNode(const TaskNode&);
+  TaskNode& operator=(const TaskNode&);
+  TaskNode() : function_name(), src_table_name(), src_shard_id(0), src_cf_name(), dst_table_name(), dst_cf_name(), dst_shard_id(0) {
+  }
+
+  virtual ~TaskNode() throw();
+  std::string function_name;
+  std::string src_table_name;
+  int64_t src_shard_id;
+  std::string src_cf_name;
+  std::string dst_table_name;
+  std::string dst_cf_name;
+  int64_t dst_shard_id;
+
+  _TaskNode__isset __isset;
+
+  void __set_function_name(const std::string& val);
+
+  void __set_src_table_name(const std::string& val);
+
+  void __set_src_shard_id(const int64_t val);
+
+  void __set_src_cf_name(const std::string& val);
+
+  void __set_dst_table_name(const std::string& val);
+
+  void __set_dst_cf_name(const std::string& val);
+
+  void __set_dst_shard_id(const int64_t val);
+
+  bool operator == (const TaskNode & rhs) const
+  {
+    if (!(function_name == rhs.function_name))
+      return false;
+    if (!(src_table_name == rhs.src_table_name))
+      return false;
+    if (!(src_shard_id == rhs.src_shard_id))
+      return false;
+    if (!(src_cf_name == rhs.src_cf_name))
+      return false;
+    if (!(dst_table_name == rhs.dst_table_name))
+      return false;
+    if (!(dst_cf_name == rhs.dst_cf_name))
+      return false;
+    if (__isset.dst_shard_id != rhs.__isset.dst_shard_id)
+      return false;
+    else if (__isset.dst_shard_id && !(dst_shard_id == rhs.dst_shard_id))
+      return false;
+    return true;
+  }
+  bool operator != (const TaskNode &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TaskNode & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const TaskNode& obj);
+};
+
+void swap(TaskNode &a, TaskNode &b);
 
 }} // namespace
 

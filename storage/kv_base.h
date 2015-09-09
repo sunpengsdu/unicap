@@ -46,13 +46,13 @@ public:
     }
 
     virtual int64_t vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                std::vector<std::string> value) = 0;
+                               std::vector<std::string> column_key,
+                               std::vector<std::string> value) = 0;
 
     virtual int64_t timely_vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                int64_t time_stamp,
-                                std::vector<std::string> value) = 0;
+                                      std::vector<std::string> column_key,
+                                      int64_t time_stamp,
+                                      std::vector<std::string> value) = 0;
 
     virtual void vector_get(std::vector<std::string> row_key,
                             std::vector<std::string> column_key,

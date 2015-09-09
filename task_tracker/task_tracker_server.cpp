@@ -5,108 +5,107 @@
  *      Author: sunshine
  */
 #include "./task_tracker_server.h"
-namespace ntu{
-namespace cap{
+namespace ntu {
+namespace cap {
 
 TaskTrackerServer::TaskTrackerServer() {
-        _port        = 9010;
-        _thread_num  = 0;
+    _port        = 9010;
+    _thread_num  = 0;
 
-        MPI_Comm_rank(MPI_COMM_WORLD, &NodeInfo::singleton()._node_id);
-        MPI_Comm_size(MPI_COMM_WORLD, &NodeInfo::singleton()._node_num);
-        MPI_Get_processor_name(NodeInfo::singleton()._processor_name,
-                            &NodeInfo::singleton()._name_length);
-        NodeInfo::singleton()._host_name =
-                std::string(NodeInfo::singleton()._processor_name,
-                            NodeInfo::singleton()._name_length);
+    MPI_Comm_rank(MPI_COMM_WORLD, &NodeInfo::singleton()._node_id);
+    MPI_Comm_size(MPI_COMM_WORLD, &NodeInfo::singleton()._node_num);
+    MPI_Get_processor_name(NodeInfo::singleton()._processor_name,
+                           &NodeInfo::singleton()._name_length);
+    NodeInfo::singleton()._host_name =
+        std::string(NodeInfo::singleton()._processor_name,
+                    NodeInfo::singleton()._name_length);
 
-        _thread_num = NodeInfo::singleton()._node_num;
-        NodeInfo::singleton()._client_job_tracker =
-                boost::shared_ptr<UnicapClient<JobTrackerClient>>
-                (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
-    }
+    _thread_num = NodeInfo::singleton()._node_num;
+    NodeInfo::singleton()._client_job_tracker =
+        boost::shared_ptr<UnicapClient<JobTrackerClient>>
+        (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
+}
 
 int64_t TaskTrackerServer::set_thread_num(int64_t thread_num) {
-        _thread_num = thread_num;
-        return 1;
-    }
+    _thread_num = thread_num;
+    return 1;
+}
 
 int64_t TaskTrackerServer::regeister() {
     NodeInfo::singleton()._client_job_tracker->open_transport();
-        _port = NodeInfo::singleton()._client_job_tracker
-                ->method()
-                ->register_task_tracker(
-                        NodeInfo::singleton()._node_id,
-                        NodeInfo::singleton()._processor_name,
-                        NodeInfo::singleton()._storage_weight);
+    _port = NodeInfo::singleton()._client_job_tracker ->
+            method() ->
+            register_task_tracker(
+                    NodeInfo::singleton()._node_id,
+                    NodeInfo::singleton()._processor_name,
+                    NodeInfo::singleton()._storage_weight);
     NodeInfo::singleton()._port = _port;
 
     NodeInfo::singleton()._client_job_tracker
-                ->close_transport();
-        return 1;
-    }
+    ->close_transport();
+    return 1;
+}
 
 int64_t TaskTrackerServer::fetch_node_info() {
-    NodeInfo::singleton()._client_job_tracker
-            ->open_transport();
-    NodeInfo::singleton()._client_job_tracker
-            ->method()
-            ->get_all_task_tracker_info(
-                    NodeInfo::singleton()._task_tracker_info);
+    NodeInfo::singleton()._client_job_tracker ->
+            open_transport();
+    NodeInfo::singleton()._client_job_tracker ->
+            method() ->
+            get_all_task_tracker_info(NodeInfo::singleton()._task_tracker_info);
 
-    NodeInfo::singleton()._client_job_tracker
-            ->close_transport();
-       return 1;
-    }
+    NodeInfo::singleton()._client_job_tracker ->
+            close_transport();
+    return 1;
+}
 
 int64_t TaskTrackerServer::create_task_tracker_client() {
     for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
         NodeInfo::singleton()._client_task_tracker[kvp.first] =
-                boost::shared_ptr<UnicapClient<TaskTrackerClient>>
-                (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
-                                                    kvp.second.port));
-        }
-        return 1;
+            boost::shared_ptr<UnicapClient<TaskTrackerClient>>
+            (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                                                kvp.second.port));
     }
+    return 1;
+}
 
 int64_t TaskTrackerServer::check_client_task_tracker() {
-        VLOG(0) << NodeInfo::singleton()._node_id
-                << " ("
-                << NodeInfo::singleton()._host_name
-                << " : "
-                << NodeInfo::singleton()._port
-                << " -> "
-                << "CHECK NETWORK CONNECTION";
-        for (auto i : NodeInfo::singleton()._client_task_tracker){
-            std::string re;
-            i.second->open_transport();
-            i.second->method()->ping(re);
-            CHECK_EQ(re, "Pong");
-            i.second->close_transport();
-        }
+    VLOG(0) << NodeInfo::singleton()._node_id
+            << " ("
+            << NodeInfo::singleton()._host_name
+            << " : "
+            << NodeInfo::singleton()._port
+            << " -> "
+            << "CHECK NETWORK CONNECTION";
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        std::string re;
+        i.second->open_transport();
+        i.second->method()->ping(re);
+        CHECK_EQ(re, "Pong");
+        i.second->close_transport();
     }
+}
 
 std::thread TaskTrackerServer::start() {
-        _handler          = boost::shared_ptr<TaskTrackerHandler>(new TaskTrackerHandler());
-        _processor        = boost::shared_ptr<TProcessor>(new TaskTrackerProcessor(_handler));
-        _serverTransport  = boost::shared_ptr<TServerTransport>(new TServerSocket(_port));
-        _transportFactory = boost::shared_ptr<TTransportFactory>(new TBufferedTransportFactory());
-        _protocolFactory  = boost::shared_ptr<TProtocolFactory>(new TBinaryProtocolFactory());
+    _handler          = boost::shared_ptr<TaskTrackerHandler>(new TaskTrackerHandler());
+    _processor        = boost::shared_ptr<TProcessor>(new TaskTrackerProcessor(_handler));
+    _serverTransport  = boost::shared_ptr<TServerTransport>(new TServerSocket(_port));
+    _transportFactory = boost::shared_ptr<TTransportFactory>(new TBufferedTransportFactory());
+    _protocolFactory  = boost::shared_ptr<TProtocolFactory>(new TBinaryProtocolFactory());
 
-        _threadManager    = boost::shared_ptr<ThreadManager>(ThreadManager::newSimpleThreadManager(_thread_num));
-        _threadFactory    = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    _threadManager    = boost::shared_ptr<ThreadManager>(ThreadManager::newSimpleThreadManager(_thread_num));
+    _threadFactory    = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
 
-        _threadManager->threadFactory(_threadFactory);
-        _threadManager->start();
-        _server =  boost::shared_ptr<TThreadPoolServer>(new TThreadPoolServer(_processor,
-                                        _serverTransport,
-                                        _transportFactory,
-                                        _protocolFactory,
-                                        _threadManager));
-        std::thread thread_server(serve, std::ref(_server));
+    _threadManager->threadFactory(_threadFactory);
+    _threadManager->start();
+    _server =  boost::shared_ptr<TThreadPoolServer>(new TThreadPoolServer(_processor,
+               _serverTransport,
+               _transportFactory,
+               _protocolFactory,
+               _threadManager));
+    std::thread thread_server(serve, std::ref(_server));
 
-        return thread_server;
-    }
+    return thread_server;
+}
 
 }
 }

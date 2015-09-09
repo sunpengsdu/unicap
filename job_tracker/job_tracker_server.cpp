@@ -27,16 +27,16 @@ int64_t JobTrackerServer::set_thread_num(int64_t thread_num) {
 int64_t JobTrackerServer::create_task_tracker_client() {
     for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
         NodeInfo::singleton()._client_task_tracker[kvp.first] =
-                boost::shared_ptr<UnicapClient<TaskTrackerClient>>
-                    (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
-                                                        kvp.second.port));
+            boost::shared_ptr<UnicapClient<TaskTrackerClient>>
+            (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
+                    kvp.second.port));
     }
     return 1;
 }
 
 int64_t JobTrackerServer::check_client_task_tracker() {
 
-    for (auto i : NodeInfo::singleton()._client_task_tracker){
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
         VLOG(0) << "CHECK NETWORK CONNECTION: "
                 << i.first
                 << " ("
@@ -53,27 +53,27 @@ int64_t JobTrackerServer::check_client_task_tracker() {
 }
 
 std::thread JobTrackerServer::start() {
-        _handler          = boost::shared_ptr<JobTrackerHandler>(new JobTrackerHandler());
-        _processor        = boost::shared_ptr<TProcessor>(new JobTrackerProcessor(_handler));
-        _serverTransport  = boost::shared_ptr<TServerTransport>(new TServerSocket(_port));
-        _transportFactory = boost::shared_ptr<TTransportFactory>(new TBufferedTransportFactory());
-        _protocolFactory  = boost::shared_ptr<TProtocolFactory>(new TBinaryProtocolFactory());
+    _handler          = boost::shared_ptr<JobTrackerHandler>(new JobTrackerHandler());
+    _processor        = boost::shared_ptr<TProcessor>(new JobTrackerProcessor(_handler));
+    _serverTransport  = boost::shared_ptr<TServerTransport>(new TServerSocket(_port));
+    _transportFactory = boost::shared_ptr<TTransportFactory>(new TBufferedTransportFactory());
+    _protocolFactory  = boost::shared_ptr<TProtocolFactory>(new TBinaryProtocolFactory());
 
-        _threadManager    = boost::shared_ptr<ThreadManager>(ThreadManager::newSimpleThreadManager(_thread_num));
-        _threadFactory    = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    _threadManager    = boost::shared_ptr<ThreadManager>(ThreadManager::newSimpleThreadManager(_thread_num));
+    _threadFactory    = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
 
-        _threadManager->threadFactory(_threadFactory);
-        _threadManager->start();
-        _server =  boost::shared_ptr<TThreadPoolServer>(new TThreadPoolServer(_processor,
-                                        _serverTransport,
-                                        _transportFactory,
-                                        _protocolFactory,
-                                        _threadManager));
+    _threadManager->threadFactory(_threadFactory);
+    _threadManager->start();
+    _server =  boost::shared_ptr<TThreadPoolServer>(new TThreadPoolServer(_processor,
+               _serverTransport,
+               _transportFactory,
+               _protocolFactory,
+               _threadManager));
 
-        std::thread thread_server(serve, std::ref(_server));
+    std::thread thread_server(serve, std::ref(_server));
 
-        return thread_server;
-    }
+    return thread_server;
+}
 
 }
 }

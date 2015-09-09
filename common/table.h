@@ -74,14 +74,14 @@ public:
             _table_property.node_info[location].push_back(i);
         }
         return 1;
-        }
+    }
 
     TableProperty _table_property;
- //   std::string _table_name;
- //   int64_t     _shard_num;
- //   std::map<int64_t, int64_t> _shard_location;
- //   std::map<int64_t, std::vector<int64_t>> _node_info;
- //   KeyPartition _partition;
+//   std::string _table_name;
+//   int64_t     _shard_num;
+//   std::map<int64_t, int64_t> _shard_location;
+//   std::map<int64_t, std::vector<int64_t>> _node_info;
+//   KeyPartition _partition;
 };
 
 }

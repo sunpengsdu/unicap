@@ -23,18 +23,18 @@ namespace cap {
 std::thread start_job_tracker(int64_t thread_num = 10);
 
 int64_t create_table(const std::string& table_name,
-                    const int64_t shard_num);
+                     const int64_t shard_num);
 
 int64_t create_table(const std::string& table_name,
-                    const int64_t shard_num,
-                    const KeyPartition partition);
+                     const int64_t shard_num,
+                     const KeyPartition partition);
 
 int64_t create_table(const std::string& table_name,
-                    const Table& base_table) ;
+                     const Table& base_table) ;
 
 int64_t create_cf(const std::string& table_name,
-                const std::string cf_name,
-                const StorageType::type cf_type);
+                  const std::string cf_name,
+                  const StorageType::type cf_type);
 
 }
 }

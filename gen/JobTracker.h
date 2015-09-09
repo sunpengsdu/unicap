@@ -17,6 +17,7 @@ class JobTrackerIf {
   virtual ~JobTrackerIf() {}
   virtual int64_t register_task_tracker(const int64_t node_id, const std::string& node_name, const int64_t storage_weight) = 0;
   virtual void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return) = 0;
+  virtual int64_t fetch_task(const TaskNode& task) = 0;
 };
 
 class JobTrackerIfFactory {
@@ -52,6 +53,10 @@ class JobTrackerNull : virtual public JobTrackerIf {
   }
   void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & /* _return */) {
     return;
+  }
+  int64_t fetch_task(const TaskNode& /* task */) {
+    int64_t _return = 0;
+    return _return;
   }
 };
 
@@ -297,6 +302,126 @@ class JobTracker_get_all_task_tracker_info_presult {
   friend std::ostream& operator<<(std::ostream& out, const JobTracker_get_all_task_tracker_info_presult& obj);
 };
 
+typedef struct _JobTracker_fetch_task_args__isset {
+  _JobTracker_fetch_task_args__isset() : task(false) {}
+  bool task :1;
+} _JobTracker_fetch_task_args__isset;
+
+class JobTracker_fetch_task_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "8441444A81F891FC9F618054D77F1851";
+  static const uint8_t binary_fingerprint[16]; // = {0x84,0x41,0x44,0x4A,0x81,0xF8,0x91,0xFC,0x9F,0x61,0x80,0x54,0xD7,0x7F,0x18,0x51};
+
+  JobTracker_fetch_task_args(const JobTracker_fetch_task_args&);
+  JobTracker_fetch_task_args& operator=(const JobTracker_fetch_task_args&);
+  JobTracker_fetch_task_args() {
+  }
+
+  virtual ~JobTracker_fetch_task_args() throw();
+  TaskNode task;
+
+  _JobTracker_fetch_task_args__isset __isset;
+
+  void __set_task(const TaskNode& val);
+
+  bool operator == (const JobTracker_fetch_task_args & rhs) const
+  {
+    if (!(task == rhs.task))
+      return false;
+    return true;
+  }
+  bool operator != (const JobTracker_fetch_task_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const JobTracker_fetch_task_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const JobTracker_fetch_task_args& obj);
+};
+
+
+class JobTracker_fetch_task_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "8441444A81F891FC9F618054D77F1851";
+  static const uint8_t binary_fingerprint[16]; // = {0x84,0x41,0x44,0x4A,0x81,0xF8,0x91,0xFC,0x9F,0x61,0x80,0x54,0xD7,0x7F,0x18,0x51};
+
+
+  virtual ~JobTracker_fetch_task_pargs() throw();
+  const TaskNode* task;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const JobTracker_fetch_task_pargs& obj);
+};
+
+typedef struct _JobTracker_fetch_task_result__isset {
+  _JobTracker_fetch_task_result__isset() : success(false) {}
+  bool success :1;
+} _JobTracker_fetch_task_result__isset;
+
+class JobTracker_fetch_task_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+  JobTracker_fetch_task_result(const JobTracker_fetch_task_result&);
+  JobTracker_fetch_task_result& operator=(const JobTracker_fetch_task_result&);
+  JobTracker_fetch_task_result() : success(0) {
+  }
+
+  virtual ~JobTracker_fetch_task_result() throw();
+  int64_t success;
+
+  _JobTracker_fetch_task_result__isset __isset;
+
+  void __set_success(const int64_t val);
+
+  bool operator == (const JobTracker_fetch_task_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const JobTracker_fetch_task_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const JobTracker_fetch_task_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const JobTracker_fetch_task_result& obj);
+};
+
+typedef struct _JobTracker_fetch_task_presult__isset {
+  _JobTracker_fetch_task_presult__isset() : success(false) {}
+  bool success :1;
+} _JobTracker_fetch_task_presult__isset;
+
+class JobTracker_fetch_task_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+  virtual ~JobTracker_fetch_task_presult() throw();
+  int64_t* success;
+
+  _JobTracker_fetch_task_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const JobTracker_fetch_task_presult& obj);
+};
+
 class JobTrackerClient : virtual public JobTrackerIf {
  public:
   JobTrackerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -328,6 +453,9 @@ class JobTrackerClient : virtual public JobTrackerIf {
   void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return);
   void send_get_all_task_tracker_info();
   void recv_get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return);
+  int64_t fetch_task(const TaskNode& task);
+  void send_fetch_task(const TaskNode& task);
+  int64_t recv_fetch_task();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -345,11 +473,13 @@ class JobTrackerProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_register_task_tracker(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_get_all_task_tracker_info(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_fetch_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   JobTrackerProcessor(boost::shared_ptr<JobTrackerIf> iface) :
     iface_(iface) {
     processMap_["register_task_tracker"] = &JobTrackerProcessor::process_register_task_tracker;
     processMap_["get_all_task_tracker_info"] = &JobTrackerProcessor::process_get_all_task_tracker_info;
+    processMap_["fetch_task"] = &JobTrackerProcessor::process_fetch_task;
   }
 
   virtual ~JobTrackerProcessor() {}
@@ -395,6 +525,15 @@ class JobTrackerMultiface : virtual public JobTrackerIf {
     }
     ifaces_[i]->get_all_task_tracker_info(_return);
     return;
+  }
+
+  int64_t fetch_task(const TaskNode& task) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->fetch_task(task);
+    }
+    return ifaces_[i]->fetch_task(task);
   }
 
 };

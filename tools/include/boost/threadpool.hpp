@@ -1,7 +1,7 @@
 /*! \file
 * \brief Main include.
 *
-* This is the only file you have to include in order to use the 
+* This is the only file you have to include in order to use the
 * complete threadpool library.
 *
 * Copyright (c) 2005-2007 Philipp Henkel

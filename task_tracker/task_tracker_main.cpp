@@ -32,22 +32,22 @@ std::thread task_tracker_initial(int64_t thread_num) {
 
 int main(int argc, char **argv) {
 
-  //google::InitGoogleLogging(argv[0]);
-  MPI_Init(&argc, &argv);
-  auto server_thread = task_tracker_initial(10);
+    //google::InitGoogleLogging(argv[0]);
+    MPI_Init(&argc, &argv);
+    auto server_thread = task_tracker_initial(10);
 
 
-  boost::threadpool::pool task_pool(2);
-  std::cout << task_pool.size() << "\n"
+    boost::threadpool::pool task_pool(2);
+    std::cout << task_pool.size() << "\n"
               << task_pool.empty() << "\n"
               << task_pool.pending() << "\n"
               << task_pool.active() << "\n";
 
 
 
-  server_thread.join();
-  MPI_Finalize();
-  return 0;
+    server_thread.join();
+    MPI_Finalize();
+    return 0;
 }
 
 

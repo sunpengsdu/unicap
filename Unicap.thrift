@@ -1,7 +1,11 @@
 namespace cpp ntu.cap
 
 enum StorageType {
-CommonKeyValue = 1,
+InMemoryKeyValue = 1,
+LSMKeyValue = 2,
+OnDiskKeyValue = 3,
+InMemoryImage = 4,
+InMemoryMatrix = 5,
 }
 
 enum KeyPartitionAlgo {
@@ -33,9 +37,20 @@ struct ColumnFamilyProperty {
 2:  required StorageType storage_type,
 }
 
+struct TaskNode {
+1:  required string function_name,
+2:  required string src_table_name,
+3:  required i64    src_shard_id,
+4:  required string src_cf_name,
+5:  required string dst_table_name,
+6:  required string dst_cf_name,
+7:  optional i64    dst_shard_id,
+}
+
 service JobTracker {
     i64 register_task_tracker(1:i64 node_id, 2:string node_name, 3:i64 storage_weight),
-    map<i64, TaskTrackerInfo> get_all_task_tracker_info()
+    map<i64, TaskTrackerInfo> get_all_task_tracker_info(),
+    i64 fetch_task(1:TaskNode task)
 }
 
 service TaskTracker {

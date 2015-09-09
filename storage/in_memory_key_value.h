@@ -32,8 +32,8 @@ public:
     }
 
     int64_t vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                std::vector<std::string> value) {
+                       std::vector<std::string> column_key,
+                       std::vector<std::string> value) {
         CHECK_EQ(row_key.size(), column_key.size());
         CHECK_EQ(row_key.size(), value.size());
         write_lock _lock(KVStorage::_rwmutex);
@@ -44,9 +44,9 @@ public:
     }
 
     int64_t timely_vector_put(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                int64_t time_stamp,
-                                std::vector<std::string> value) {
+                              std::vector<std::string> column_key,
+                              int64_t time_stamp,
+                              std::vector<std::string> value) {
         CHECK_EQ(row_key.size(), column_key.size());
         CHECK_EQ(row_key.size(), value.size());
         write_lock _lock(KVStorage::_rwmutex);
@@ -55,8 +55,8 @@ public:
     }
 
     void vector_get(std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            std::vector<std::string>& value) {
+                    std::vector<std::string> column_key,
+                    std::vector<std::string>& value) {
         CHECK_EQ(row_key.size(), column_key.size());
         value.clear();
 
@@ -64,11 +64,12 @@ public:
 
         for (int i = 0; i < row_key.size(); ++i) {
             if (_storage_container.find(row_key[i]) == _storage_container.end()
-                || _storage_container[row_key[i]].find(column_key[i])
-                        == _storage_container[row_key[i]].end() ) {
-                value.push_back(_storage_container[row_key[i]][column_key[i]]);
-            } else {
+                    || _storage_container[row_key[i]].find(column_key[i])
+                    == _storage_container[row_key[i]].end() ) {
                 value.push_back("NULL");
+            } else {
+                value.push_back(_storage_container[row_key[i]][column_key[i]]);
+
             }
         }
     }
@@ -93,8 +94,8 @@ public:
     }
 
     std::unordered_map<std::string,
-                    std::unordered_map<std::string,
-                                    std::string> > _storage_container;
+    std::unordered_map<std::string,
+    std::string> > _storage_container;
     //std::map<int64_t, std::string> _history_data;
 };
 
