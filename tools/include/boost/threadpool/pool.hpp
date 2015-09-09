@@ -1,4 +1,4 @@
-n/*! \file
+/*! \file
 * \brief Thread pool core.
 *
 * This file contains the threadpool's core class: pool<Task, SchedulingPolicy>.

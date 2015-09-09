@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   KeyPartition rrr;
   rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
   create_table("a", 10, rrr);
-  create_cf("a", "a", StorageType::LSMKeyValue);
+  create_cf("a", "a", StorageType::InMemoryKeyValue);
 
 
 

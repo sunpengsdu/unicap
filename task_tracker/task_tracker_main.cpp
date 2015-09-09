@@ -10,6 +10,7 @@
 #include "./task_tracker_server.h"
 #include "../common/unicap_client.h"
 #include "../common/storage_info.h"
+#include "../tools/include/boost/threadpool.hpp"
 
 using namespace  ::ntu::cap;
 
@@ -34,6 +35,15 @@ int main(int argc, char **argv) {
   //google::InitGoogleLogging(argv[0]);
   MPI_Init(&argc, &argv);
   auto server_thread = task_tracker_initial(10);
+
+
+  boost::threadpool::pool task_pool(2);
+  std::cout << task_pool.size() << "\n"
+              << task_pool.empty() << "\n"
+              << task_pool.pending() << "\n"
+              << task_pool.active() << "\n";
+
+
 
   server_thread.join();
   MPI_Finalize();
