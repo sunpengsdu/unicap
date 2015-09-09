@@ -65,9 +65,16 @@ void JobTrackerHandler::get_all_task_tracker_info(std::map<int64_t,
     _register_lock.unlock();
 }
 
-int64_t JobTrackerHandler::fetch_task(const TaskNode& task) {
+void JobTrackerHandler::fetch_task(TaskNode& _return, const int64_t task_tracker_id) {
     // Your implementation goes here
-    printf("fetch_task\n");
+    _return.status = true;
+    _return.__set_function_name("test");
+    if (CPUFunctions::singleton()._cpu_functions_p.find(_return.function_name)
+        == CPUFunctions::singleton()._cpu_functions_p.end()) {
+        LOG(FATAL) << "FUNCTION "
+                   << _return.function_name
+                   << " CANNOT FIND";
+    }
 }
 
 }

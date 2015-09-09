@@ -651,28 +651,38 @@ TaskNode::~TaskNode() throw() {
 }
 
 
+void TaskNode::__set_status(const bool val) {
+    this->status = val;
+}
+
 void TaskNode::__set_function_name(const std::string& val) {
     this->function_name = val;
+    __isset.function_name = true;
 }
 
 void TaskNode::__set_src_table_name(const std::string& val) {
     this->src_table_name = val;
+    __isset.src_table_name = true;
 }
 
 void TaskNode::__set_src_shard_id(const int64_t val) {
     this->src_shard_id = val;
+    __isset.src_shard_id = true;
 }
 
 void TaskNode::__set_src_cf_name(const std::string& val) {
     this->src_cf_name = val;
+    __isset.src_cf_name = true;
 }
 
 void TaskNode::__set_dst_table_name(const std::string& val) {
     this->dst_table_name = val;
+    __isset.dst_table_name = true;
 }
 
 void TaskNode::__set_dst_cf_name(const std::string& val) {
     this->dst_cf_name = val;
+    __isset.dst_cf_name = true;
 }
 
 void TaskNode::__set_dst_shard_id(const int64_t val) {
@@ -680,8 +690,8 @@ void TaskNode::__set_dst_shard_id(const int64_t val) {
     __isset.dst_shard_id = true;
 }
 
-const char* TaskNode::ascii_fingerprint = "BF7C2E21ACBF1DF13D033E1828E6827C";
-const uint8_t TaskNode::binary_fingerprint[16] = {0xBF,0x7C,0x2E,0x21,0xAC,0xBF,0x1D,0xF1,0x3D,0x03,0x3E,0x18,0x28,0xE6,0x82,0x7C};
+const char* TaskNode::ascii_fingerprint = "9D8C9564DEBA838798497640CF0532B6";
+const uint8_t TaskNode::binary_fingerprint[16] = {0x9D,0x8C,0x95,0x64,0xDE,0xBA,0x83,0x87,0x98,0x49,0x76,0x40,0xCF,0x05,0x32,0xB6};
 
 uint32_t TaskNode::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -694,12 +704,7 @@ uint32_t TaskNode::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     using ::apache::thrift::protocol::TProtocolException;
 
-    bool isset_function_name = false;
-    bool isset_src_table_name = false;
-    bool isset_src_shard_id = false;
-    bool isset_src_cf_name = false;
-    bool isset_dst_table_name = false;
-    bool isset_dst_cf_name = false;
+    bool isset_status = false;
 
     while (true) {
         xfer += iprot->readFieldBegin(fname, ftype, fid);
@@ -708,54 +713,62 @@ uint32_t TaskNode::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         switch (fid) {
         case 1:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->function_name);
-                isset_function_name = true;
+            if (ftype == ::apache::thrift::protocol::T_BOOL) {
+                xfer += iprot->readBool(this->status);
+                isset_status = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 2:
             if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->src_table_name);
-                isset_src_table_name = true;
+                xfer += iprot->readString(this->function_name);
+                this->__isset.function_name = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 3:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->src_shard_id);
-                isset_src_shard_id = true;
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->src_table_name);
+                this->__isset.src_table_name = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 4:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->src_cf_name);
-                isset_src_cf_name = true;
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->src_shard_id);
+                this->__isset.src_shard_id = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 5:
             if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->dst_table_name);
-                isset_dst_table_name = true;
+                xfer += iprot->readString(this->src_cf_name);
+                this->__isset.src_cf_name = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 6:
             if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->dst_cf_name);
-                isset_dst_cf_name = true;
+                xfer += iprot->readString(this->dst_table_name);
+                this->__isset.dst_table_name = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
             break;
         case 7:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->dst_cf_name);
+                this->__isset.dst_cf_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 8:
             if (ftype == ::apache::thrift::protocol::T_I64) {
                 xfer += iprot->readI64(this->dst_shard_id);
                 this->__isset.dst_shard_id = true;
@@ -772,17 +785,7 @@ uint32_t TaskNode::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     xfer += iprot->readStructEnd();
 
-    if (!isset_function_name)
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-    if (!isset_src_table_name)
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-    if (!isset_src_shard_id)
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-    if (!isset_src_cf_name)
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-    if (!isset_dst_table_name)
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-    if (!isset_dst_cf_name)
+    if (!isset_status)
         throw TProtocolException(TProtocolException::INVALID_DATA);
     return xfer;
 }
@@ -792,32 +795,42 @@ uint32_t TaskNode::write(::apache::thrift::protocol::TProtocol* oprot) const {
     oprot->incrementRecursionDepth();
     xfer += oprot->writeStructBegin("TaskNode");
 
-    xfer += oprot->writeFieldBegin("function_name", ::apache::thrift::protocol::T_STRING, 1);
-    xfer += oprot->writeString(this->function_name);
+    xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_BOOL, 1);
+    xfer += oprot->writeBool(this->status);
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("src_table_name", ::apache::thrift::protocol::T_STRING, 2);
-    xfer += oprot->writeString(this->src_table_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("src_shard_id", ::apache::thrift::protocol::T_I64, 3);
-    xfer += oprot->writeI64(this->src_shard_id);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("src_cf_name", ::apache::thrift::protocol::T_STRING, 4);
-    xfer += oprot->writeString(this->src_cf_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("dst_table_name", ::apache::thrift::protocol::T_STRING, 5);
-    xfer += oprot->writeString(this->dst_table_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("dst_cf_name", ::apache::thrift::protocol::T_STRING, 6);
-    xfer += oprot->writeString(this->dst_cf_name);
-    xfer += oprot->writeFieldEnd();
-
+    if (this->__isset.function_name) {
+        xfer += oprot->writeFieldBegin("function_name", ::apache::thrift::protocol::T_STRING, 2);
+        xfer += oprot->writeString(this->function_name);
+        xfer += oprot->writeFieldEnd();
+    }
+    if (this->__isset.src_table_name) {
+        xfer += oprot->writeFieldBegin("src_table_name", ::apache::thrift::protocol::T_STRING, 3);
+        xfer += oprot->writeString(this->src_table_name);
+        xfer += oprot->writeFieldEnd();
+    }
+    if (this->__isset.src_shard_id) {
+        xfer += oprot->writeFieldBegin("src_shard_id", ::apache::thrift::protocol::T_I64, 4);
+        xfer += oprot->writeI64(this->src_shard_id);
+        xfer += oprot->writeFieldEnd();
+    }
+    if (this->__isset.src_cf_name) {
+        xfer += oprot->writeFieldBegin("src_cf_name", ::apache::thrift::protocol::T_STRING, 5);
+        xfer += oprot->writeString(this->src_cf_name);
+        xfer += oprot->writeFieldEnd();
+    }
+    if (this->__isset.dst_table_name) {
+        xfer += oprot->writeFieldBegin("dst_table_name", ::apache::thrift::protocol::T_STRING, 6);
+        xfer += oprot->writeString(this->dst_table_name);
+        xfer += oprot->writeFieldEnd();
+    }
+    if (this->__isset.dst_cf_name) {
+        xfer += oprot->writeFieldBegin("dst_cf_name", ::apache::thrift::protocol::T_STRING, 7);
+        xfer += oprot->writeString(this->dst_cf_name);
+        xfer += oprot->writeFieldEnd();
+    }
     if (this->__isset.dst_shard_id) {
-        xfer += oprot->writeFieldBegin("dst_shard_id", ::apache::thrift::protocol::T_I64, 7);
+        xfer += oprot->writeFieldBegin("dst_shard_id", ::apache::thrift::protocol::T_I64, 8);
         xfer += oprot->writeI64(this->dst_shard_id);
         xfer += oprot->writeFieldEnd();
     }
@@ -829,6 +842,7 @@ uint32_t TaskNode::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
 void swap(TaskNode &a, TaskNode &b) {
     using ::std::swap;
+    swap(a.status, b.status);
     swap(a.function_name, b.function_name);
     swap(a.src_table_name, b.src_table_name);
     swap(a.src_shard_id, b.src_shard_id);
@@ -840,6 +854,7 @@ void swap(TaskNode &a, TaskNode &b) {
 }
 
 TaskNode::TaskNode(const TaskNode& other40) {
+    status = other40.status;
     function_name = other40.function_name;
     src_table_name = other40.src_table_name;
     src_shard_id = other40.src_shard_id;
@@ -850,6 +865,7 @@ TaskNode::TaskNode(const TaskNode& other40) {
     __isset = other40.__isset;
 }
 TaskNode& TaskNode::operator=(const TaskNode& other41) {
+    status = other41.status;
     function_name = other41.function_name;
     src_table_name = other41.src_table_name;
     src_shard_id = other41.src_shard_id;
@@ -863,12 +879,19 @@ TaskNode& TaskNode::operator=(const TaskNode& other41) {
 std::ostream& operator<<(std::ostream& out, const TaskNode& obj) {
     using apache::thrift::to_string;
     out << "TaskNode(";
-    out << "function_name=" << to_string(obj.function_name);
-    out << ", " << "src_table_name=" << to_string(obj.src_table_name);
-    out << ", " << "src_shard_id=" << to_string(obj.src_shard_id);
-    out << ", " << "src_cf_name=" << to_string(obj.src_cf_name);
-    out << ", " << "dst_table_name=" << to_string(obj.dst_table_name);
-    out << ", " << "dst_cf_name=" << to_string(obj.dst_cf_name);
+    out << "status=" << to_string(obj.status);
+    out << ", " << "function_name=";
+    (obj.__isset.function_name ? (out << to_string(obj.function_name)) : (out << "<null>"));
+    out << ", " << "src_table_name=";
+    (obj.__isset.src_table_name ? (out << to_string(obj.src_table_name)) : (out << "<null>"));
+    out << ", " << "src_shard_id=";
+    (obj.__isset.src_shard_id ? (out << to_string(obj.src_shard_id)) : (out << "<null>"));
+    out << ", " << "src_cf_name=";
+    (obj.__isset.src_cf_name ? (out << to_string(obj.src_cf_name)) : (out << "<null>"));
+    out << ", " << "dst_table_name=";
+    (obj.__isset.dst_table_name ? (out << to_string(obj.dst_table_name)) : (out << "<null>"));
+    out << ", " << "dst_cf_name=";
+    (obj.__isset.dst_cf_name ? (out << to_string(obj.dst_cf_name)) : (out << "<null>"));
     out << ", " << "dst_shard_id=";
     (obj.__isset.dst_shard_id ? (out << to_string(obj.dst_shard_id)) : (out << "<null>"));
     out << ")";

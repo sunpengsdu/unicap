@@ -41,8 +41,8 @@ int64_t TaskTrackerServer::regeister() {
                     NodeInfo::singleton()._storage_weight);
     NodeInfo::singleton()._port = _port;
 
-    NodeInfo::singleton()._client_job_tracker
-    ->close_transport();
+    NodeInfo::singleton()._client_job_tracker ->
+            close_transport();
     return 1;
 }
 

@@ -18,7 +18,7 @@ public:
     virtual ~JobTrackerIf() {}
     virtual int64_t register_task_tracker(const int64_t node_id, const std::string& node_name, const int64_t storage_weight) = 0;
     virtual void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return) = 0;
-    virtual int64_t fetch_task(const TaskNode& task) = 0;
+    virtual void fetch_task(TaskNode& _return, const int64_t task_tracker_id) = 0;
 };
 
 class JobTrackerIfFactory {
@@ -55,9 +55,8 @@ public:
     void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & /* _return */) {
         return;
     }
-    int64_t fetch_task(const TaskNode& /* task */) {
-        int64_t _return = 0;
-        return _return;
+    void fetch_task(TaskNode& /* _return */, const int64_t /* task_tracker_id */) {
+        return;
     }
 };
 
@@ -300,30 +299,30 @@ public:
 };
 
 typedef struct _JobTracker_fetch_task_args__isset {
-    _JobTracker_fetch_task_args__isset() : task(false) {}
-    bool task :1;
+    _JobTracker_fetch_task_args__isset() : task_tracker_id(false) {}
+    bool task_tracker_id :1;
 } _JobTracker_fetch_task_args__isset;
 
 class JobTracker_fetch_task_args {
 public:
 
-    static const char* ascii_fingerprint; // = "8441444A81F891FC9F618054D77F1851";
-    static const uint8_t binary_fingerprint[16]; // = {0x84,0x41,0x44,0x4A,0x81,0xF8,0x91,0xFC,0x9F,0x61,0x80,0x54,0xD7,0x7F,0x18,0x51};
+    static const char* ascii_fingerprint; // = "56A59CE7FFAF82BCA8A19FAACDE4FB75";
+    static const uint8_t binary_fingerprint[16]; // = {0x56,0xA5,0x9C,0xE7,0xFF,0xAF,0x82,0xBC,0xA8,0xA1,0x9F,0xAA,0xCD,0xE4,0xFB,0x75};
 
     JobTracker_fetch_task_args(const JobTracker_fetch_task_args&);
     JobTracker_fetch_task_args& operator=(const JobTracker_fetch_task_args&);
-    JobTracker_fetch_task_args() {
+    JobTracker_fetch_task_args() : task_tracker_id(0) {
     }
 
     virtual ~JobTracker_fetch_task_args() throw();
-    TaskNode task;
+    int64_t task_tracker_id;
 
     _JobTracker_fetch_task_args__isset __isset;
 
-    void __set_task(const TaskNode& val);
+    void __set_task_tracker_id(const int64_t val);
 
     bool operator == (const JobTracker_fetch_task_args & rhs) const {
-        if (!(task == rhs.task))
+        if (!(task_tracker_id == rhs.task_tracker_id))
             return false;
         return true;
     }
@@ -343,12 +342,12 @@ public:
 class JobTracker_fetch_task_pargs {
 public:
 
-    static const char* ascii_fingerprint; // = "8441444A81F891FC9F618054D77F1851";
-    static const uint8_t binary_fingerprint[16]; // = {0x84,0x41,0x44,0x4A,0x81,0xF8,0x91,0xFC,0x9F,0x61,0x80,0x54,0xD7,0x7F,0x18,0x51};
+    static const char* ascii_fingerprint; // = "56A59CE7FFAF82BCA8A19FAACDE4FB75";
+    static const uint8_t binary_fingerprint[16]; // = {0x56,0xA5,0x9C,0xE7,0xFF,0xAF,0x82,0xBC,0xA8,0xA1,0x9F,0xAA,0xCD,0xE4,0xFB,0x75};
 
 
     virtual ~JobTracker_fetch_task_pargs() throw();
-    const TaskNode* task;
+    const int64_t* task_tracker_id;
 
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -363,20 +362,20 @@ typedef struct _JobTracker_fetch_task_result__isset {
 class JobTracker_fetch_task_result {
 public:
 
-    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
-    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
+    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
 
     JobTracker_fetch_task_result(const JobTracker_fetch_task_result&);
     JobTracker_fetch_task_result& operator=(const JobTracker_fetch_task_result&);
-    JobTracker_fetch_task_result() : success(0) {
+    JobTracker_fetch_task_result() {
     }
 
     virtual ~JobTracker_fetch_task_result() throw();
-    int64_t success;
+    TaskNode success;
 
     _JobTracker_fetch_task_result__isset __isset;
 
-    void __set_success(const int64_t val);
+    void __set_success(const TaskNode& val);
 
     bool operator == (const JobTracker_fetch_task_result & rhs) const {
         if (!(success == rhs.success))
@@ -403,12 +402,12 @@ typedef struct _JobTracker_fetch_task_presult__isset {
 class JobTracker_fetch_task_presult {
 public:
 
-    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
-    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
+    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
 
 
     virtual ~JobTracker_fetch_task_presult() throw();
-    int64_t* success;
+    TaskNode* success;
 
     _JobTracker_fetch_task_presult__isset __isset;
 
@@ -448,9 +447,9 @@ public:
     void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return);
     void send_get_all_task_tracker_info();
     void recv_get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return);
-    int64_t fetch_task(const TaskNode& task);
-    void send_fetch_task(const TaskNode& task);
-    int64_t recv_fetch_task();
+    void fetch_task(TaskNode& _return, const int64_t task_tracker_id);
+    void send_fetch_task(const int64_t task_tracker_id);
+    void recv_fetch_task(TaskNode& _return);
 protected:
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -522,13 +521,14 @@ public:
         return;
     }
 
-    int64_t fetch_task(const TaskNode& task) {
+    void fetch_task(TaskNode& _return, const int64_t task_tracker_id) {
         size_t sz = ifaces_.size();
         size_t i = 0;
         for (; i < (sz - 1); ++i) {
-            ifaces_[i]->fetch_task(task);
+            ifaces_[i]->fetch_task(_return, task_tracker_id);
         }
-        return ifaces_[i]->fetch_task(task);
+        ifaces_[i]->fetch_task(_return, task_tracker_id);
+        return;
     }
 
 };

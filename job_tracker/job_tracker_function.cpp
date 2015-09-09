@@ -21,7 +21,7 @@ std::thread start_job_tracker(int64_t thread_num) {
     while(NodeInfo::singleton()._ready_task_tracker_number
             != NodeInfo::singleton()._task_tracker_number
             || NodeInfo::singleton()._ready_task_tracker_number == 0) {
-        std::this_thread::sleep_for(std::chrono::microseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     JobTrackerServer::singleton().create_task_tracker_client();
     JobTrackerServer::singleton().check_client_task_tracker();

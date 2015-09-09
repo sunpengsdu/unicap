@@ -240,22 +240,29 @@ public:
 void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b);
 
 typedef struct _TaskNode__isset {
-    _TaskNode__isset() : dst_shard_id(false) {}
+    _TaskNode__isset() : function_name(false), src_table_name(false), src_shard_id(false), src_cf_name(false), dst_table_name(false), dst_cf_name(false), dst_shard_id(false) {}
+    bool function_name :1;
+    bool src_table_name :1;
+    bool src_shard_id :1;
+    bool src_cf_name :1;
+    bool dst_table_name :1;
+    bool dst_cf_name :1;
     bool dst_shard_id :1;
 } _TaskNode__isset;
 
 class TaskNode {
 public:
 
-    static const char* ascii_fingerprint; // = "BF7C2E21ACBF1DF13D033E1828E6827C";
-    static const uint8_t binary_fingerprint[16]; // = {0xBF,0x7C,0x2E,0x21,0xAC,0xBF,0x1D,0xF1,0x3D,0x03,0x3E,0x18,0x28,0xE6,0x82,0x7C};
+    static const char* ascii_fingerprint; // = "9D8C9564DEBA838798497640CF0532B6";
+    static const uint8_t binary_fingerprint[16]; // = {0x9D,0x8C,0x95,0x64,0xDE,0xBA,0x83,0x87,0x98,0x49,0x76,0x40,0xCF,0x05,0x32,0xB6};
 
     TaskNode(const TaskNode&);
     TaskNode& operator=(const TaskNode&);
-    TaskNode() : function_name(), src_table_name(), src_shard_id(0), src_cf_name(), dst_table_name(), dst_cf_name(), dst_shard_id(0) {
+    TaskNode() : status(0), function_name(), src_table_name(), src_shard_id(0), src_cf_name(), dst_table_name(), dst_cf_name(), dst_shard_id(0) {
     }
 
     virtual ~TaskNode() throw();
+    bool status;
     std::string function_name;
     std::string src_table_name;
     int64_t src_shard_id;
@@ -265,6 +272,8 @@ public:
     int64_t dst_shard_id;
 
     _TaskNode__isset __isset;
+
+    void __set_status(const bool val);
 
     void __set_function_name(const std::string& val);
 
@@ -281,17 +290,31 @@ public:
     void __set_dst_shard_id(const int64_t val);
 
     bool operator == (const TaskNode & rhs) const {
-        if (!(function_name == rhs.function_name))
+        if (!(status == rhs.status))
             return false;
-        if (!(src_table_name == rhs.src_table_name))
+        if (__isset.function_name != rhs.__isset.function_name)
             return false;
-        if (!(src_shard_id == rhs.src_shard_id))
+        else if (__isset.function_name && !(function_name == rhs.function_name))
             return false;
-        if (!(src_cf_name == rhs.src_cf_name))
+        if (__isset.src_table_name != rhs.__isset.src_table_name)
             return false;
-        if (!(dst_table_name == rhs.dst_table_name))
+        else if (__isset.src_table_name && !(src_table_name == rhs.src_table_name))
             return false;
-        if (!(dst_cf_name == rhs.dst_cf_name))
+        if (__isset.src_shard_id != rhs.__isset.src_shard_id)
+            return false;
+        else if (__isset.src_shard_id && !(src_shard_id == rhs.src_shard_id))
+            return false;
+        if (__isset.src_cf_name != rhs.__isset.src_cf_name)
+            return false;
+        else if (__isset.src_cf_name && !(src_cf_name == rhs.src_cf_name))
+            return false;
+        if (__isset.dst_table_name != rhs.__isset.dst_table_name)
+            return false;
+        else if (__isset.dst_table_name && !(dst_table_name == rhs.dst_table_name))
+            return false;
+        if (__isset.dst_cf_name != rhs.__isset.dst_cf_name)
+            return false;
+        else if (__isset.dst_cf_name && !(dst_cf_name == rhs.dst_cf_name))
             return false;
         if (__isset.dst_shard_id != rhs.__isset.dst_shard_id)
             return false;

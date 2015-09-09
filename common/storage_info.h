@@ -35,8 +35,8 @@ public:
 
     //table_name -> shard_id -> cf_name -> ptr
     std::map<std::string, std::map<int64_t,
-        std::map<std::string,
-        std::shared_ptr<KVStorage>>>> _cf_ptr;
+    std::map<std::string,
+    std::shared_ptr<KVStorage>>>> _cf_ptr;
 private:
 
 };
