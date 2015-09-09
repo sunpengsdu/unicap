@@ -6,12 +6,14 @@
  */
 #include "Unicap_constants.h"
 
-namespace ntu { namespace cap {
+namespace ntu {
+namespace cap {
 
 const UnicapConstants g_Unicap_constants;
 
 UnicapConstants::UnicapConstants() {
 }
 
-}} // namespace
+}
+} // namespace
 

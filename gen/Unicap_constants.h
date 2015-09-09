@@ -9,16 +9,18 @@
 
 #include "Unicap_types.h"
 
-namespace ntu { namespace cap {
+namespace ntu {
+namespace cap {
 
 class UnicapConstants {
- public:
-  UnicapConstants();
+public:
+    UnicapConstants();
 
 };
 
 extern const UnicapConstants g_Unicap_constants;
 
-}} // namespace
+}
+} // namespace
 
 #endif
