@@ -9,6 +9,7 @@
 #define NTU_CAP_UNICAP_STORAGE_KV_BASE_H_
 
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <list>
 #include <string>

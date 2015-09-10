@@ -17,6 +17,7 @@
 #include "../common/node_info.h"
 #include "../common/storage_info.h"
 #include "../computing/cpu_functions.h"
+#include "../user_cpu_functions.h"
 
 namespace ntu {
 namespace cap {
@@ -32,7 +33,9 @@ public:
     void get_all_task_tracker_info(std::map<int64_t,
                                    TaskTrackerInfo> & _return);
 
-    void fetch_task(TaskNode& _return, const int64_t task_tracker_id);
+    void fetch_cpu_task(TaskNode& _return, const int64_t task_tracker_id);
+
+    void fetch_gpu_task(TaskNode& _return, const int64_t task_tracker_id);
 
 private:
     std::mutex _register_lock;

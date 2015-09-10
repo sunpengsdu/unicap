@@ -94,8 +94,8 @@ public:
     }
 
     std::unordered_map<std::string,
-    std::unordered_map<std::string,
-    std::string> > _storage_container;
+                        std::unordered_map<std::string,
+                                        std::string> > _storage_container;
     //std::map<int64_t, std::string> _history_data;
 };
 

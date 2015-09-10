@@ -9,6 +9,7 @@
 #define NTU_CAP_UNICAP_JOB_TRACKER_NODE_INFO_H_
 
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <utility>
@@ -49,7 +50,9 @@ public:
     std::string _host_name;
 
     boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
-    std::map<int64_t,  boost::shared_ptr<UnicapClient<TaskTrackerClient>> > _client_task_tracker;
+    std::unordered_map<int64_t,
+                boost::shared_ptr<UnicapClient<TaskTrackerClient>> >
+                _client_task_tracker;
 };
 
 }

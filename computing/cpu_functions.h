@@ -17,6 +17,7 @@
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
 #include "../common/storage_info.h"
+#include "../task_tracker/cpu_networks.h"
 
 
 namespace ntu {
@@ -38,7 +39,7 @@ public:
 
     static int64_t test (TaskNode new_task) {
         std::cout << "test the function\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2500));
         return 1;
     }
 

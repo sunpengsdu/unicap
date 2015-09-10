@@ -30,13 +30,14 @@ public:
         return storage_info;
     }
 
-    std::map<std::string, Table> _table_info;
-    std::map<std::string, std::map<std::string, ColumnFamily>> _cf_info;
+    std::unordered_map<std::string, Table> _table_info;
+    std::unordered_map<std::string, std::map<std::string, ColumnFamily>> _cf_info;
 
     //table_name -> shard_id -> cf_name -> ptr
-    std::map<std::string, std::map<int64_t,
-    std::map<std::string,
-    std::shared_ptr<KVStorage>>>> _cf_ptr;
+    std::unordered_map<std::string,
+            std::unordered_map<int64_t,
+            std::unordered_map<std::string,
+            std::shared_ptr<KVStorage>>>> _cf_ptr;
 private:
 
 };

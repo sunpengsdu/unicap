@@ -53,9 +53,6 @@ int main(int argc, char **argv) {
                   << return_value2[2][j] << "\n";
     }
 
-
-
-
 // create_cf("a", "b", StorageType::CommonKeyValue);
 
 
