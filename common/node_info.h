@@ -49,6 +49,9 @@ public:
     char _processor_name[256];
     std::string _host_name;
 
+    std::string _master_host_name;
+    int         _master_port;
+
     boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
     std::unordered_map<int64_t,
                 boost::shared_ptr<UnicapClient<TaskTrackerClient>> >

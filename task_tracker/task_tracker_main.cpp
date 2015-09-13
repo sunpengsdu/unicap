@@ -22,8 +22,8 @@ std::thread task_tracker_initial(int64_t thread_num) {
     MPI_Barrier(MPI_COMM_WORLD);
 
     TaskTrackerServer::singleton().fetch_node_info();
-    TaskTrackerServer::singleton().create_task_tracker_client();
-    TaskTrackerServer::singleton().check_client_task_tracker();
+//    TaskTrackerServer::singleton().create_task_tracker_client();
+//    TaskTrackerServer::singleton().check_client_task_tracker();
     MPI_Barrier(MPI_COMM_WORLD);
 
     return server_thread;
@@ -33,10 +33,16 @@ std::thread task_tracker_initial(int64_t thread_num) {
 int main(int argc, char **argv) {
 
     //google::InitGoogleLogging(argv[0]);
-    MPI_Init(&argc, &argv);
-    auto server_thread = task_tracker_initial(10);
+    NodeInfo::singleton()._master_host_name = "localhost";
+    NodeInfo::singleton()._master_port      = 9000;
 
-    TaskTrackerWorker client(2);
+    int64_t cpu_network_threads = 10;
+    int64_t cpu_worker_num = 2;
+
+    MPI_Init(&argc, &argv);
+    auto server_thread = task_tracker_initial(cpu_network_threads);
+
+    CPUWorker client(cpu_worker_num);
     auto work_cpu_thread   = client.cpu_worker_start();
 
     server_thread.join();

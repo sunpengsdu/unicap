@@ -240,7 +240,9 @@ public:
 void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b);
 
 typedef struct _TaskNode__isset {
-    _TaskNode__isset() : function_name(false), src_table_name(false), src_shard_id(false), src_cf_name(false), dst_table_name(false), dst_cf_name(false), dst_shard_id(false) {}
+    _TaskNode__isset() : stage_id(false), task_id(false), function_name(false), src_table_name(false), src_shard_id(false), src_cf_name(false), dst_table_name(false), dst_cf_name(false), dst_shard_id(false) {}
+    bool stage_id :1;
+    bool task_id :1;
     bool function_name :1;
     bool src_table_name :1;
     bool src_shard_id :1;
@@ -253,16 +255,18 @@ typedef struct _TaskNode__isset {
 class TaskNode {
 public:
 
-    static const char* ascii_fingerprint; // = "9D8C9564DEBA838798497640CF0532B6";
-    static const uint8_t binary_fingerprint[16]; // = {0x9D,0x8C,0x95,0x64,0xDE,0xBA,0x83,0x87,0x98,0x49,0x76,0x40,0xCF,0x05,0x32,0xB6};
+    static const char* ascii_fingerprint; // = "798F338BF6386D059FAE60C04F1048BF";
+    static const uint8_t binary_fingerprint[16]; // = {0x79,0x8F,0x33,0x8B,0xF6,0x38,0x6D,0x05,0x9F,0xAE,0x60,0xC0,0x4F,0x10,0x48,0xBF};
 
     TaskNode(const TaskNode&);
     TaskNode& operator=(const TaskNode&);
-    TaskNode() : status(0), function_name(), src_table_name(), src_shard_id(0), src_cf_name(), dst_table_name(), dst_cf_name(), dst_shard_id(0) {
+    TaskNode() : status(0), stage_id(0), task_id(0), function_name(), src_table_name(), src_shard_id(0), src_cf_name(), dst_table_name(), dst_cf_name(), dst_shard_id(0) {
     }
 
     virtual ~TaskNode() throw();
     bool status;
+    int64_t stage_id;
+    int64_t task_id;
     std::string function_name;
     std::string src_table_name;
     int64_t src_shard_id;
@@ -274,6 +278,10 @@ public:
     _TaskNode__isset __isset;
 
     void __set_status(const bool val);
+
+    void __set_stage_id(const int64_t val);
+
+    void __set_task_id(const int64_t val);
 
     void __set_function_name(const std::string& val);
 
@@ -291,6 +299,14 @@ public:
 
     bool operator == (const TaskNode & rhs) const {
         if (!(status == rhs.status))
+            return false;
+        if (__isset.stage_id != rhs.__isset.stage_id)
+            return false;
+        else if (__isset.stage_id && !(stage_id == rhs.stage_id))
+            return false;
+        if (__isset.task_id != rhs.__isset.task_id)
+            return false;
+        else if (__isset.task_id && !(task_id == rhs.task_id))
             return false;
         if (__isset.function_name != rhs.__isset.function_name)
             return false;

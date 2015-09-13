@@ -37,6 +37,10 @@ public:
 
     void fetch_gpu_task(TaskNode& _return, const int64_t task_tracker_id);
 
+    int64_t complete_cpu_task(const int64_t stage_id, const int64_t task_id);
+
+    int64_t complete_gpu_task(const int64_t stage_id, const int64_t task_id);
+
 private:
     std::mutex _register_lock;
     int64_t _base_port = 9010;

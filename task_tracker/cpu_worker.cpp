@@ -9,15 +9,15 @@
 namespace ntu {
 namespace cap {
 
-TaskTrackerWorker::TaskTrackerWorker() {
+CPUWorker::CPUWorker() {
     _worker_number = 1;
 }
 
-TaskTrackerWorker::TaskTrackerWorker(int64_t worker_number) {
+CPUWorker::CPUWorker(int64_t worker_number) {
         _worker_number = worker_number;
 }
 
-int64_t TaskTrackerWorker::create_network() {
+int64_t CPUWorker::create_network() {
 
     std::thread::id id = std::this_thread::get_id();
 
@@ -26,21 +26,28 @@ int64_t TaskTrackerWorker::create_network() {
         return 1;
     }
     std::unordered_map<int64_t,
-                   boost::shared_ptr<UnicapClient<TaskTrackerClient>>> network;
+        boost::shared_ptr<UnicapClient<TaskTrackerClient>>> cpu_network;
     for (auto& kvp : NodeInfo::singleton()._task_tracker_info) {
-        network[kvp.first] =
+        cpu_network[kvp.first] =
            boost::shared_ptr<UnicapClient<TaskTrackerClient>>
                (new UnicapClient<TaskTrackerClient>(kvp.second.host_name,
                                                kvp.second.port));
     }
-    CPUNetworks::singleton().create_network(id, network);
+
+    boost::shared_ptr<UnicapClient<JobTrackerClient>> job_tracker_network =
+        boost::shared_ptr<UnicapClient<JobTrackerClient>>
+            (new UnicapClient<JobTrackerClient>(NodeInfo::singleton()._master_host_name,
+                                               NodeInfo::singleton()._master_port));
+
+
+    CPUNetworks::singleton().create_network(id, cpu_network, job_tracker_network);
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     VLOG(0) << "CREATE STORAGE NETWORK FOR THREAD " << id;
 
     return 1;
 }
 
-int64_t TaskTrackerWorker::cpu_execute_tasks(int64_t worker_number) {
+int64_t CPUWorker::cpu_execute_tasks(int64_t worker_number) {
 
     TaskNode new_task;
     std::string function_name;
@@ -73,9 +80,7 @@ int64_t TaskTrackerWorker::cpu_execute_tasks(int64_t worker_number) {
 
         if (new_task.status) {
             function_name = new_task.function_name;
-            auto i = std::bind(UCPUFunctions::singleton()._cpu_functions_p[function_name],
-                                new_task);
-
+            auto i = std::bind(CPUWorker::functions, function_name, new_task);
             task_pool.schedule(i);
 
         } else {
@@ -85,7 +90,18 @@ int64_t TaskTrackerWorker::cpu_execute_tasks(int64_t worker_number) {
     return 1;
 }
 
-std::thread TaskTrackerWorker::cpu_worker_start() {
+int64_t CPUWorker::functions(std::string function_name, TaskNode task) {
+    UCPUFunctions::singleton()._cpu_functions_p[function_name](task);
+    std::thread::id thread_id = std::this_thread::get_id();
+
+    CPUNetworks::singleton()._job_tracker_network[thread_id]->open_transport();
+    CPUNetworks::singleton()._job_tracker_network[thread_id]->method()->complete_cpu_task(1, 1);
+    CPUNetworks::singleton()._job_tracker_network[thread_id]->close_transport();
+
+    return 1;
+}
+
+std::thread CPUWorker::cpu_worker_start() {
     auto work_thread = std::thread(cpu_execute_tasks, _worker_number);
     return work_thread;
 }

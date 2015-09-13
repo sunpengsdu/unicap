@@ -777,6 +777,398 @@ uint32_t JobTracker_fetch_gpu_task_presult::read(::apache::thrift::protocol::TPr
     return xfer;
 }
 
+
+JobTracker_complete_cpu_task_args::~JobTracker_complete_cpu_task_args() throw() {
+}
+
+
+uint32_t JobTracker_complete_cpu_task_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 1:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->stage_id);
+                this->__isset.stage_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 2:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->task_id);
+                this->__isset.task_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t JobTracker_complete_cpu_task_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("JobTracker_complete_cpu_task_args");
+
+    xfer += oprot->writeFieldBegin("stage_id", ::apache::thrift::protocol::T_I64, 1);
+    xfer += oprot->writeI64(this->stage_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("task_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64(this->task_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+JobTracker_complete_cpu_task_pargs::~JobTracker_complete_cpu_task_pargs() throw() {
+}
+
+
+uint32_t JobTracker_complete_cpu_task_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("JobTracker_complete_cpu_task_pargs");
+
+    xfer += oprot->writeFieldBegin("stage_id", ::apache::thrift::protocol::T_I64, 1);
+    xfer += oprot->writeI64((*(this->stage_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("task_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64((*(this->task_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+JobTracker_complete_cpu_task_result::~JobTracker_complete_cpu_task_result() throw() {
+}
+
+
+uint32_t JobTracker_complete_cpu_task_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->success);
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t JobTracker_complete_cpu_task_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+    uint32_t xfer = 0;
+
+    xfer += oprot->writeStructBegin("JobTracker_complete_cpu_task_result");
+
+    if (this->__isset.success) {
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+        xfer += oprot->writeI64(this->success);
+        xfer += oprot->writeFieldEnd();
+    }
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+
+JobTracker_complete_cpu_task_presult::~JobTracker_complete_cpu_task_presult() throw() {
+}
+
+
+uint32_t JobTracker_complete_cpu_task_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64((*(this->success)));
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+
+JobTracker_complete_gpu_task_args::~JobTracker_complete_gpu_task_args() throw() {
+}
+
+
+uint32_t JobTracker_complete_gpu_task_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 1:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->stage_id);
+                this->__isset.stage_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 2:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->task_id);
+                this->__isset.task_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t JobTracker_complete_gpu_task_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("JobTracker_complete_gpu_task_args");
+
+    xfer += oprot->writeFieldBegin("stage_id", ::apache::thrift::protocol::T_I64, 1);
+    xfer += oprot->writeI64(this->stage_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("task_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64(this->task_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+JobTracker_complete_gpu_task_pargs::~JobTracker_complete_gpu_task_pargs() throw() {
+}
+
+
+uint32_t JobTracker_complete_gpu_task_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("JobTracker_complete_gpu_task_pargs");
+
+    xfer += oprot->writeFieldBegin("stage_id", ::apache::thrift::protocol::T_I64, 1);
+    xfer += oprot->writeI64((*(this->stage_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("task_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64((*(this->task_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+JobTracker_complete_gpu_task_result::~JobTracker_complete_gpu_task_result() throw() {
+}
+
+
+uint32_t JobTracker_complete_gpu_task_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->success);
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t JobTracker_complete_gpu_task_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+    uint32_t xfer = 0;
+
+    xfer += oprot->writeStructBegin("JobTracker_complete_gpu_task_result");
+
+    if (this->__isset.success) {
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+        xfer += oprot->writeI64(this->success);
+        xfer += oprot->writeFieldEnd();
+    }
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+
+JobTracker_complete_gpu_task_presult::~JobTracker_complete_gpu_task_presult() throw() {
+}
+
+
+uint32_t JobTracker_complete_gpu_task_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64((*(this->success)));
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
 int64_t JobTrackerClient::register_task_tracker(const int64_t node_id, const std::string& node_name, const int64_t storage_weight) {
     send_register_task_tracker(node_id, node_name, storage_weight);
     return recv_register_task_tracker();
@@ -996,6 +1388,118 @@ void JobTrackerClient::recv_fetch_gpu_task(TaskNode& _return) {
         return;
     }
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "fetch_gpu_task failed: unknown result");
+}
+
+int64_t JobTrackerClient::complete_cpu_task(const int64_t stage_id, const int64_t task_id) {
+    send_complete_cpu_task(stage_id, task_id);
+    return recv_complete_cpu_task();
+}
+
+void JobTrackerClient::send_complete_cpu_task(const int64_t stage_id, const int64_t task_id) {
+    int32_t cseqid = 0;
+    oprot_->writeMessageBegin("complete_cpu_task", ::apache::thrift::protocol::T_CALL, cseqid);
+
+    JobTracker_complete_cpu_task_pargs args;
+    args.stage_id = &stage_id;
+    args.task_id = &task_id;
+    args.write(oprot_);
+
+    oprot_->writeMessageEnd();
+    oprot_->getTransport()->writeEnd();
+    oprot_->getTransport()->flush();
+}
+
+int64_t JobTrackerClient::recv_complete_cpu_task() {
+
+    int32_t rseqid = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TMessageType mtype;
+
+    iprot_->readMessageBegin(fname, mtype, rseqid);
+    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        throw x;
+    }
+    if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    if (fname.compare("complete_cpu_task") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    int64_t _return;
+    JobTracker_complete_cpu_task_presult result;
+    result.success = &_return;
+    result.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+
+    if (result.__isset.success) {
+        return _return;
+    }
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "complete_cpu_task failed: unknown result");
+}
+
+int64_t JobTrackerClient::complete_gpu_task(const int64_t stage_id, const int64_t task_id) {
+    send_complete_gpu_task(stage_id, task_id);
+    return recv_complete_gpu_task();
+}
+
+void JobTrackerClient::send_complete_gpu_task(const int64_t stage_id, const int64_t task_id) {
+    int32_t cseqid = 0;
+    oprot_->writeMessageBegin("complete_gpu_task", ::apache::thrift::protocol::T_CALL, cseqid);
+
+    JobTracker_complete_gpu_task_pargs args;
+    args.stage_id = &stage_id;
+    args.task_id = &task_id;
+    args.write(oprot_);
+
+    oprot_->writeMessageEnd();
+    oprot_->getTransport()->writeEnd();
+    oprot_->getTransport()->flush();
+}
+
+int64_t JobTrackerClient::recv_complete_gpu_task() {
+
+    int32_t rseqid = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TMessageType mtype;
+
+    iprot_->readMessageBegin(fname, mtype, rseqid);
+    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        throw x;
+    }
+    if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    if (fname.compare("complete_gpu_task") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    int64_t _return;
+    JobTracker_complete_gpu_task_presult result;
+    result.success = &_return;
+    result.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+
+    if (result.__isset.success) {
+        return _return;
+    }
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "complete_gpu_task failed: unknown result");
 }
 
 bool JobTrackerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -1226,6 +1730,112 @@ void JobTrackerProcessor::process_fetch_gpu_task(int32_t seqid, ::apache::thrift
 
     if (this->eventHandler_.get() != NULL) {
         this->eventHandler_->postWrite(ctx, "JobTracker.fetch_gpu_task", bytes);
+    }
+}
+
+void JobTrackerProcessor::process_complete_cpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+    void* ctx = NULL;
+    if (this->eventHandler_.get() != NULL) {
+        ctx = this->eventHandler_->getContext("JobTracker.complete_cpu_task", callContext);
+    }
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "JobTracker.complete_cpu_task");
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preRead(ctx, "JobTracker.complete_cpu_task");
+    }
+
+    JobTracker_complete_cpu_task_args args;
+    args.read(iprot);
+    iprot->readMessageEnd();
+    uint32_t bytes = iprot->getTransport()->readEnd();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postRead(ctx, "JobTracker.complete_cpu_task", bytes);
+    }
+
+    JobTracker_complete_cpu_task_result result;
+    try {
+        result.success = iface_->complete_cpu_task(args.stage_id, args.task_id);
+        result.__isset.success = true;
+    } catch (const std::exception& e) {
+        if (this->eventHandler_.get() != NULL) {
+            this->eventHandler_->handlerError(ctx, "JobTracker.complete_cpu_task");
+        }
+
+        ::apache::thrift::TApplicationException x(e.what());
+        oprot->writeMessageBegin("complete_cpu_task", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        x.write(oprot);
+        oprot->writeMessageEnd();
+        oprot->getTransport()->writeEnd();
+        oprot->getTransport()->flush();
+        return;
+    }
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preWrite(ctx, "JobTracker.complete_cpu_task");
+    }
+
+    oprot->writeMessageBegin("complete_cpu_task", ::apache::thrift::protocol::T_REPLY, seqid);
+    result.write(oprot);
+    oprot->writeMessageEnd();
+    bytes = oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postWrite(ctx, "JobTracker.complete_cpu_task", bytes);
+    }
+}
+
+void JobTrackerProcessor::process_complete_gpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+    void* ctx = NULL;
+    if (this->eventHandler_.get() != NULL) {
+        ctx = this->eventHandler_->getContext("JobTracker.complete_gpu_task", callContext);
+    }
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "JobTracker.complete_gpu_task");
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preRead(ctx, "JobTracker.complete_gpu_task");
+    }
+
+    JobTracker_complete_gpu_task_args args;
+    args.read(iprot);
+    iprot->readMessageEnd();
+    uint32_t bytes = iprot->getTransport()->readEnd();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postRead(ctx, "JobTracker.complete_gpu_task", bytes);
+    }
+
+    JobTracker_complete_gpu_task_result result;
+    try {
+        result.success = iface_->complete_gpu_task(args.stage_id, args.task_id);
+        result.__isset.success = true;
+    } catch (const std::exception& e) {
+        if (this->eventHandler_.get() != NULL) {
+            this->eventHandler_->handlerError(ctx, "JobTracker.complete_gpu_task");
+        }
+
+        ::apache::thrift::TApplicationException x(e.what());
+        oprot->writeMessageBegin("complete_gpu_task", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        x.write(oprot);
+        oprot->writeMessageEnd();
+        oprot->getTransport()->writeEnd();
+        oprot->getTransport()->flush();
+        return;
+    }
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preWrite(ctx, "JobTracker.complete_gpu_task");
+    }
+
+    oprot->writeMessageBegin("complete_gpu_task", ::apache::thrift::protocol::T_REPLY, seqid);
+    result.write(oprot);
+    oprot->writeMessageEnd();
+    bytes = oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postWrite(ctx, "JobTracker.complete_gpu_task", bytes);
     }
 }
 

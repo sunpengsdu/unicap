@@ -33,32 +33,28 @@ public:
         _size       = 0;
     }
 
-    Stage(std::string func_name,
-            std::string dst_table,
-            std::string dst_cf,
-            int64_t task_num) {
+    Stage(std::string func_name) {
         _function_name = func_name;
         _src_table  = "";
         _src_cf     = "";
-        _dst_table  = dst_table;
-        _dst_cf     = dst_cf;
-        _size       = task_num;
+        _dst_table  = "";
+        _dst_cf     = "";
+        _size       = 0;
     }
 
-    Stage(std::string func_name,
-            std::string src_table,
-            std::string src_cf,
-            std::string dst_table,
-            std::string dst_cf) {
-        _function_name = func_name;
-        _src_table  = src_table;
-        _src_cf     = src_cf;
-        _dst_table  = dst_table;
-        _dst_cf     = dst_cf;
-        _size       = StorageInfo::singleton().
-                        _table_info[src_table].
-                        _table_property.
-                        shard_num;
+    int64_t set_function_name(std::string function_name) {
+        _function_name = function_name;
+        return 1;
+    }
+
+    int64_t set_src_table(std::string src_table) {
+       _src_table = src_table;
+       return 1;
+    }
+
+    int64_t add_src_cf(std::string src_cf) {
+
+        return 1;
     }
 
     int64_t size() {
@@ -67,7 +63,7 @@ public:
 
     int64_t push_task(int64_t node_id) {
         TaskNode new_task;
-        --_size;
+        return 1;
     }
 
     std::string _function_name;

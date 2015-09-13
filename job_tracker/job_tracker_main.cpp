@@ -8,8 +8,12 @@ using namespace  ::ntu::cap;
 int main(int argc, char **argv) {
     //google::InitGoogleLogging(argv[0]);
 
+    NodeInfo::singleton()._master_port = 9000;
+
+    int64_t server_threads = 10;
+
     std::thread server_side_thread;
-    server_side_thread = start_job_tracker(10);
+    server_side_thread = start_job_tracker(server_threads);
 
     KeyPartition rrr;
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);

@@ -26,9 +26,11 @@ public:
 
     int64_t create_network(std::thread::id id,
             std::unordered_map<int64_t,
-                boost::shared_ptr<UnicapClient<TaskTrackerClient>>> network) {
+                boost::shared_ptr<UnicapClient<TaskTrackerClient>>> cpu_network,
+            boost::shared_ptr<UnicapClient<JobTrackerClient>> job_tracker_network) {
         _lock.lock();
-        _cpu_networks[id] = network;
+        _cpu_networks[id] = cpu_network;
+        _job_tracker_network[id] = job_tracker_network;
         _lock.unlock();
         return 1;
     }
@@ -54,6 +56,9 @@ public:
     std::unordered_map<std::thread::id, std::unordered_map<int64_t,
             boost::shared_ptr<UnicapClient<TaskTrackerClient>>>>
             _cpu_networks;
+    std::unordered_map<std::thread::id,
+            boost::shared_ptr<UnicapClient<JobTrackerClient>>>
+            _job_tracker_network;
 };
 
 }

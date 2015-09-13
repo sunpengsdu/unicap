@@ -23,7 +23,8 @@ TaskTrackerServer::TaskTrackerServer() {
     _thread_num = NodeInfo::singleton()._node_num;
     NodeInfo::singleton()._client_job_tracker =
         boost::shared_ptr<UnicapClient<JobTrackerClient>>
-        (new UnicapClient<JobTrackerClient>(JOBTRACKERNAME, JOBTRACKERPORT));
+        (new UnicapClient<JobTrackerClient>(NodeInfo::singleton()._master_host_name,
+                                            NodeInfo::singleton()._master_port));
 }
 
 int64_t TaskTrackerServer::set_thread_num(int64_t thread_num) {

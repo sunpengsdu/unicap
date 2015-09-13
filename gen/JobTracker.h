@@ -20,6 +20,8 @@ public:
     virtual void get_all_task_tracker_info(std::map<int64_t, TaskTrackerInfo> & _return) = 0;
     virtual void fetch_cpu_task(TaskNode& _return, const int64_t task_tracker_id) = 0;
     virtual void fetch_gpu_task(TaskNode& _return, const int64_t task_tracker_id) = 0;
+    virtual int64_t complete_cpu_task(const int64_t stage_id, const int64_t task_id) = 0;
+    virtual int64_t complete_gpu_task(const int64_t stage_id, const int64_t task_id) = 0;
 };
 
 class JobTrackerIfFactory {
@@ -61,6 +63,14 @@ public:
     }
     void fetch_gpu_task(TaskNode& /* _return */, const int64_t /* task_tracker_id */) {
         return;
+    }
+    int64_t complete_cpu_task(const int64_t /* stage_id */, const int64_t /* task_id */) {
+        int64_t _return = 0;
+        return _return;
+    }
+    int64_t complete_gpu_task(const int64_t /* stage_id */, const int64_t /* task_id */) {
+        int64_t _return = 0;
+        return _return;
     }
 };
 
@@ -366,8 +376,8 @@ typedef struct _JobTracker_fetch_cpu_task_result__isset {
 class JobTracker_fetch_cpu_task_result {
 public:
 
-    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
-    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
+    static const char* ascii_fingerprint; // = "D860527690E7078EF4FD5C2B70E07C96";
+    static const uint8_t binary_fingerprint[16]; // = {0xD8,0x60,0x52,0x76,0x90,0xE7,0x07,0x8E,0xF4,0xFD,0x5C,0x2B,0x70,0xE0,0x7C,0x96};
 
     JobTracker_fetch_cpu_task_result(const JobTracker_fetch_cpu_task_result&);
     JobTracker_fetch_cpu_task_result& operator=(const JobTracker_fetch_cpu_task_result&);
@@ -406,8 +416,8 @@ typedef struct _JobTracker_fetch_cpu_task_presult__isset {
 class JobTracker_fetch_cpu_task_presult {
 public:
 
-    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
-    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
+    static const char* ascii_fingerprint; // = "D860527690E7078EF4FD5C2B70E07C96";
+    static const uint8_t binary_fingerprint[16]; // = {0xD8,0x60,0x52,0x76,0x90,0xE7,0x07,0x8E,0xF4,0xFD,0x5C,0x2B,0x70,0xE0,0x7C,0x96};
 
 
     virtual ~JobTracker_fetch_cpu_task_presult() throw();
@@ -484,8 +494,8 @@ typedef struct _JobTracker_fetch_gpu_task_result__isset {
 class JobTracker_fetch_gpu_task_result {
 public:
 
-    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
-    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
+    static const char* ascii_fingerprint; // = "D860527690E7078EF4FD5C2B70E07C96";
+    static const uint8_t binary_fingerprint[16]; // = {0xD8,0x60,0x52,0x76,0x90,0xE7,0x07,0x8E,0xF4,0xFD,0x5C,0x2B,0x70,0xE0,0x7C,0x96};
 
     JobTracker_fetch_gpu_task_result(const JobTracker_fetch_gpu_task_result&);
     JobTracker_fetch_gpu_task_result& operator=(const JobTracker_fetch_gpu_task_result&);
@@ -524,8 +534,8 @@ typedef struct _JobTracker_fetch_gpu_task_presult__isset {
 class JobTracker_fetch_gpu_task_presult {
 public:
 
-    static const char* ascii_fingerprint; // = "A07388EB1490D58AB4891E036AA887A2";
-    static const uint8_t binary_fingerprint[16]; // = {0xA0,0x73,0x88,0xEB,0x14,0x90,0xD5,0x8A,0xB4,0x89,0x1E,0x03,0x6A,0xA8,0x87,0xA2};
+    static const char* ascii_fingerprint; // = "D860527690E7078EF4FD5C2B70E07C96";
+    static const uint8_t binary_fingerprint[16]; // = {0xD8,0x60,0x52,0x76,0x90,0xE7,0x07,0x8E,0xF4,0xFD,0x5C,0x2B,0x70,0xE0,0x7C,0x96};
 
 
     virtual ~JobTracker_fetch_gpu_task_presult() throw();
@@ -536,6 +546,256 @@ public:
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
     friend std::ostream& operator<<(std::ostream& out, const JobTracker_fetch_gpu_task_presult& obj);
+};
+
+typedef struct _JobTracker_complete_cpu_task_args__isset {
+    _JobTracker_complete_cpu_task_args__isset() : stage_id(false), task_id(false) {}
+    bool stage_id :1;
+    bool task_id :1;
+} _JobTracker_complete_cpu_task_args__isset;
+
+class JobTracker_complete_cpu_task_args {
+public:
+
+    static const char* ascii_fingerprint; // = "F33135321253DAEB67B0E79E416CA831";
+    static const uint8_t binary_fingerprint[16]; // = {0xF3,0x31,0x35,0x32,0x12,0x53,0xDA,0xEB,0x67,0xB0,0xE7,0x9E,0x41,0x6C,0xA8,0x31};
+
+    JobTracker_complete_cpu_task_args(const JobTracker_complete_cpu_task_args&);
+    JobTracker_complete_cpu_task_args& operator=(const JobTracker_complete_cpu_task_args&);
+    JobTracker_complete_cpu_task_args() : stage_id(0), task_id(0) {
+    }
+
+    virtual ~JobTracker_complete_cpu_task_args() throw();
+    int64_t stage_id;
+    int64_t task_id;
+
+    _JobTracker_complete_cpu_task_args__isset __isset;
+
+    void __set_stage_id(const int64_t val);
+
+    void __set_task_id(const int64_t val);
+
+    bool operator == (const JobTracker_complete_cpu_task_args & rhs) const {
+        if (!(stage_id == rhs.stage_id))
+            return false;
+        if (!(task_id == rhs.task_id))
+            return false;
+        return true;
+    }
+    bool operator != (const JobTracker_complete_cpu_task_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const JobTracker_complete_cpu_task_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_cpu_task_args& obj);
+};
+
+
+class JobTracker_complete_cpu_task_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "F33135321253DAEB67B0E79E416CA831";
+    static const uint8_t binary_fingerprint[16]; // = {0xF3,0x31,0x35,0x32,0x12,0x53,0xDA,0xEB,0x67,0xB0,0xE7,0x9E,0x41,0x6C,0xA8,0x31};
+
+
+    virtual ~JobTracker_complete_cpu_task_pargs() throw();
+    const int64_t* stage_id;
+    const int64_t* task_id;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_cpu_task_pargs& obj);
+};
+
+typedef struct _JobTracker_complete_cpu_task_result__isset {
+    _JobTracker_complete_cpu_task_result__isset() : success(false) {}
+    bool success :1;
+} _JobTracker_complete_cpu_task_result__isset;
+
+class JobTracker_complete_cpu_task_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    JobTracker_complete_cpu_task_result(const JobTracker_complete_cpu_task_result&);
+    JobTracker_complete_cpu_task_result& operator=(const JobTracker_complete_cpu_task_result&);
+    JobTracker_complete_cpu_task_result() : success(0) {
+    }
+
+    virtual ~JobTracker_complete_cpu_task_result() throw();
+    int64_t success;
+
+    _JobTracker_complete_cpu_task_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const JobTracker_complete_cpu_task_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const JobTracker_complete_cpu_task_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const JobTracker_complete_cpu_task_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_cpu_task_result& obj);
+};
+
+typedef struct _JobTracker_complete_cpu_task_presult__isset {
+    _JobTracker_complete_cpu_task_presult__isset() : success(false) {}
+    bool success :1;
+} _JobTracker_complete_cpu_task_presult__isset;
+
+class JobTracker_complete_cpu_task_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~JobTracker_complete_cpu_task_presult() throw();
+    int64_t* success;
+
+    _JobTracker_complete_cpu_task_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_cpu_task_presult& obj);
+};
+
+typedef struct _JobTracker_complete_gpu_task_args__isset {
+    _JobTracker_complete_gpu_task_args__isset() : stage_id(false), task_id(false) {}
+    bool stage_id :1;
+    bool task_id :1;
+} _JobTracker_complete_gpu_task_args__isset;
+
+class JobTracker_complete_gpu_task_args {
+public:
+
+    static const char* ascii_fingerprint; // = "F33135321253DAEB67B0E79E416CA831";
+    static const uint8_t binary_fingerprint[16]; // = {0xF3,0x31,0x35,0x32,0x12,0x53,0xDA,0xEB,0x67,0xB0,0xE7,0x9E,0x41,0x6C,0xA8,0x31};
+
+    JobTracker_complete_gpu_task_args(const JobTracker_complete_gpu_task_args&);
+    JobTracker_complete_gpu_task_args& operator=(const JobTracker_complete_gpu_task_args&);
+    JobTracker_complete_gpu_task_args() : stage_id(0), task_id(0) {
+    }
+
+    virtual ~JobTracker_complete_gpu_task_args() throw();
+    int64_t stage_id;
+    int64_t task_id;
+
+    _JobTracker_complete_gpu_task_args__isset __isset;
+
+    void __set_stage_id(const int64_t val);
+
+    void __set_task_id(const int64_t val);
+
+    bool operator == (const JobTracker_complete_gpu_task_args & rhs) const {
+        if (!(stage_id == rhs.stage_id))
+            return false;
+        if (!(task_id == rhs.task_id))
+            return false;
+        return true;
+    }
+    bool operator != (const JobTracker_complete_gpu_task_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const JobTracker_complete_gpu_task_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_gpu_task_args& obj);
+};
+
+
+class JobTracker_complete_gpu_task_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "F33135321253DAEB67B0E79E416CA831";
+    static const uint8_t binary_fingerprint[16]; // = {0xF3,0x31,0x35,0x32,0x12,0x53,0xDA,0xEB,0x67,0xB0,0xE7,0x9E,0x41,0x6C,0xA8,0x31};
+
+
+    virtual ~JobTracker_complete_gpu_task_pargs() throw();
+    const int64_t* stage_id;
+    const int64_t* task_id;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_gpu_task_pargs& obj);
+};
+
+typedef struct _JobTracker_complete_gpu_task_result__isset {
+    _JobTracker_complete_gpu_task_result__isset() : success(false) {}
+    bool success :1;
+} _JobTracker_complete_gpu_task_result__isset;
+
+class JobTracker_complete_gpu_task_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    JobTracker_complete_gpu_task_result(const JobTracker_complete_gpu_task_result&);
+    JobTracker_complete_gpu_task_result& operator=(const JobTracker_complete_gpu_task_result&);
+    JobTracker_complete_gpu_task_result() : success(0) {
+    }
+
+    virtual ~JobTracker_complete_gpu_task_result() throw();
+    int64_t success;
+
+    _JobTracker_complete_gpu_task_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const JobTracker_complete_gpu_task_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const JobTracker_complete_gpu_task_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const JobTracker_complete_gpu_task_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_gpu_task_result& obj);
+};
+
+typedef struct _JobTracker_complete_gpu_task_presult__isset {
+    _JobTracker_complete_gpu_task_presult__isset() : success(false) {}
+    bool success :1;
+} _JobTracker_complete_gpu_task_presult__isset;
+
+class JobTracker_complete_gpu_task_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~JobTracker_complete_gpu_task_presult() throw();
+    int64_t* success;
+
+    _JobTracker_complete_gpu_task_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const JobTracker_complete_gpu_task_presult& obj);
 };
 
 class JobTrackerClient : virtual public JobTrackerIf {
@@ -575,6 +835,12 @@ public:
     void fetch_gpu_task(TaskNode& _return, const int64_t task_tracker_id);
     void send_fetch_gpu_task(const int64_t task_tracker_id);
     void recv_fetch_gpu_task(TaskNode& _return);
+    int64_t complete_cpu_task(const int64_t stage_id, const int64_t task_id);
+    void send_complete_cpu_task(const int64_t stage_id, const int64_t task_id);
+    int64_t recv_complete_cpu_task();
+    int64_t complete_gpu_task(const int64_t stage_id, const int64_t task_id);
+    void send_complete_gpu_task(const int64_t stage_id, const int64_t task_id);
+    int64_t recv_complete_gpu_task();
 protected:
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -594,6 +860,8 @@ private:
     void process_get_all_task_tracker_info(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_fetch_cpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_fetch_gpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_complete_cpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_complete_gpu_task(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
 public:
     JobTrackerProcessor(boost::shared_ptr<JobTrackerIf> iface) :
         iface_(iface) {
@@ -601,6 +869,8 @@ public:
         processMap_["get_all_task_tracker_info"] = &JobTrackerProcessor::process_get_all_task_tracker_info;
         processMap_["fetch_cpu_task"] = &JobTrackerProcessor::process_fetch_cpu_task;
         processMap_["fetch_gpu_task"] = &JobTrackerProcessor::process_fetch_gpu_task;
+        processMap_["complete_cpu_task"] = &JobTrackerProcessor::process_complete_cpu_task;
+        processMap_["complete_gpu_task"] = &JobTrackerProcessor::process_complete_gpu_task;
     }
 
     virtual ~JobTrackerProcessor() {}
@@ -666,6 +936,24 @@ public:
         }
         ifaces_[i]->fetch_gpu_task(_return, task_tracker_id);
         return;
+    }
+
+    int64_t complete_cpu_task(const int64_t stage_id, const int64_t task_id) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->complete_cpu_task(stage_id, task_id);
+        }
+        return ifaces_[i]->complete_cpu_task(stage_id, task_id);
+    }
+
+    int64_t complete_gpu_task(const int64_t stage_id, const int64_t task_id) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->complete_gpu_task(stage_id, task_id);
+        }
+        return ifaces_[i]->complete_gpu_task(stage_id, task_id);
     }
 
 };

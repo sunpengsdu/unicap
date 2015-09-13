@@ -33,9 +33,6 @@
 #include "../common/table.h"
 #include "../common/column_family.h"
 
-#define JOBTRACKERNAME "localhost"
-#define JOBTRACKERPORT 9000
-
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;

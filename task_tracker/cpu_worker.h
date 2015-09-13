@@ -19,20 +19,22 @@
 namespace ntu {
 namespace cap {
 
-class TaskTrackerWorker {
+class CPUWorker {
 
 public:
 
-    static TaskTrackerWorker& singleton() {
-        static TaskTrackerWorker client;
+    static CPUWorker& singleton() {
+        static CPUWorker client;
         return client;
     }
 
-    TaskTrackerWorker();
+    CPUWorker();
 
-    TaskTrackerWorker(int64_t worker_number);
+    CPUWorker(int64_t worker_number);
 
     static int64_t cpu_execute_tasks(int64_t worker_number);
+
+    static int64_t functions(std::string function_name, TaskNode task);
 
     std::thread cpu_worker_start();
 

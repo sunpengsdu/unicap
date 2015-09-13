@@ -79,8 +79,19 @@ void JobTrackerHandler::fetch_cpu_task(TaskNode& _return, const int64_t task_tra
 
 void JobTrackerHandler::fetch_gpu_task(TaskNode& _return, const int64_t task_tracker_id) {
     // Your implementation goes here
-    printf("fetch_gpu_task\n");
+    //printf("fetch_gpu_task\n");
 }
+
+int64_t JobTrackerHandler::complete_cpu_task(const int64_t stage_id, const int64_t task_id) {
+    // Your implementation goes here
+    printf("complete_cpu_task\n");
+}
+
+int64_t JobTrackerHandler::complete_gpu_task(const int64_t stage_id, const int64_t task_id) {
+    // Your implementation goes here
+    printf("complete_gpu_task\n");
+}
+
 
 }
 }

@@ -6,15 +6,12 @@
  */
 #include "./job_tracker_function.h"
 
-#define JOBTRACKERNAME "localhost"
-#define JOBTRACKERPORT 9000
-
 namespace ntu {
 namespace cap {
 
 std::thread start_job_tracker(int64_t thread_num) {
 
-    JobTrackerServer::singleton().set_port(JOBTRACKERPORT);
+    JobTrackerServer::singleton().set_port(NodeInfo::singleton()._master_port);
     JobTrackerServer::singleton().set_thread_num(thread_num);
     auto server_thread = JobTrackerServer::singleton().start();
 
