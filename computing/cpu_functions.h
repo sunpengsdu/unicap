@@ -19,7 +19,6 @@
 #include "../common/storage_info.h"
 #include "../task_tracker/cpu_networks.h"
 
-
 namespace ntu {
 namespace cap {
 
@@ -33,15 +32,9 @@ public:
        return cpu_function;
     }
 
-    CPUFunctions() {
-        _cpu_functions_p["test"] = test;
-    }
+    CPUFunctions();
 
-    static int64_t test (TaskNode new_task) {
-        std::cout << "test the function\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(2500));
-        return 1;
-    }
+    static int64_t test (TaskNode new_task);
 
     std::map<std::string, cpu_function_p> _cpu_functions_p;
 };

@@ -17,6 +17,7 @@
 #include "../common/table.h"
 #include "../common/column_family.h"
 #include "../common/storage_info.h"
+#include "../user_cpu_functions.h"
 
 namespace ntu {
 namespace cap {
@@ -24,55 +25,40 @@ namespace cap {
 class Stage {
 public:
 
-    Stage() {
-        _function_name = "";
-        _src_table  = "";
-        _src_cf     = "";
-        _dst_table  = "";
-        _dst_cf     = "";
-        _size       = 0;
-    }
+    Stage();
 
-    Stage(std::string func_name) {
-        _function_name = func_name;
-        _src_table  = "";
-        _src_cf     = "";
-        _dst_table  = "";
-        _dst_cf     = "";
-        _size       = 0;
-    }
+    int64_t set_function_name(std::string function_name);
 
-    int64_t set_function_name(std::string function_name) {
-        _function_name = function_name;
-        return 1;
-    }
+    int64_t set_src(std::string src_table, std::vector<std::string> src_cf);
 
-    int64_t set_src_table(std::string src_table) {
-       _src_table = src_table;
-       return 1;
-    }
+    int64_t non_src(int64_t task_num);
 
-    int64_t add_src_cf(std::string src_cf) {
+    int64_t set_dst(std::string dst_table, std::string dst_cf);
 
-        return 1;
-    }
+    int64_t size();
 
-    int64_t size() {
-        return _size;
-    }
+    int64_t fetch_task(int64_t node_id, TaskNode &new_task);
 
-    int64_t push_task(int64_t node_id) {
-        TaskNode new_task;
-        return 1;
-    }
+    int64_t complete_task(int64_t task_id);
 
+   // static int64_t _stage_num;
+    int64_t     _stage_id;
     std::string _function_name;
     std::string _src_table;
-    std::string _src_cf;
+    std::vector<std::string> _src_cf;
     std::string _dst_table;
     std::string _dst_cf;
-    std::vector<int64_t> _source_shard;
+
     int64_t _size;
+
+    //task id - shard id - cf name
+    std::map<int64_t, std::pair<int64_t, std::string>> _wait_task;
+    std::map<int64_t, std::pair<int64_t, std::string>> _executing_task;
+    std::map<int64_t, std::pair<int64_t, std::string>> _complete_task;
+
+    std::map<int64_t, std::vector<int64_t>> _shard_allocation ;
+
+    std::mutex _lock;
 };
 
 }

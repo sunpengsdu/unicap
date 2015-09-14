@@ -21,17 +21,12 @@ public:
     }
 
     UCPUFunctions() : CPUFunctions() {
-        CPUFunctions::_cpu_functions_p["test2"] = test2;
+        CPUFunctions::_cpu_functions_p["hello_word"] = hello_word;
     }
 
-    static int64_t test2 (TaskNode new_task) {
-        std::cout << "test the user function ";
-        std::string test;
-        CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][0]->open_transport();
-        CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][0]->method()->ping(test);
-        CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][0]->close_transport();
-        std::cout << test << "\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(2500));
+    static int64_t hello_word (TaskNode new_task) {
+        std::cout << "hello word" << "\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         return 1;
     }
 

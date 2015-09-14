@@ -18,6 +18,7 @@
 #include "../common/storage_info.h"
 #include "../computing/cpu_functions.h"
 #include "../user_cpu_functions.h"
+#include "scheduler.h"
 
 namespace ntu {
 namespace cap {

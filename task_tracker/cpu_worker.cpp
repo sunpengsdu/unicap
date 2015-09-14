@@ -84,7 +84,7 @@ int64_t CPUWorker::cpu_execute_tasks(int64_t worker_number) {
             task_pool.schedule(i);
 
         } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
     return 1;
@@ -95,7 +95,9 @@ int64_t CPUWorker::functions(std::string function_name, TaskNode task) {
     std::thread::id thread_id = std::this_thread::get_id();
 
     CPUNetworks::singleton()._job_tracker_network[thread_id]->open_transport();
-    CPUNetworks::singleton()._job_tracker_network[thread_id]->method()->complete_cpu_task(1, 1);
+    CPUNetworks::singleton()._job_tracker_network[thread_id]->
+                            method()->
+                            complete_cpu_task(task.stage_id, task.task_id);
     CPUNetworks::singleton()._job_tracker_network[thread_id]->close_transport();
 
     return 1;
