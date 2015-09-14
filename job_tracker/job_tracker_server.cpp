@@ -50,6 +50,7 @@ int64_t JobTrackerServer::check_client_task_tracker() {
         CHECK_EQ(re, "Pong");
         i.second->close_transport();
     }
+    return 1;
 }
 
 std::thread JobTrackerServer::start() {

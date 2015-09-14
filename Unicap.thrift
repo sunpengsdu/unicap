@@ -38,19 +38,25 @@ struct ColumnFamilyProperty {
 }
 
 struct TaskNode {
-1:  required string function_name,
-2:  required string src_table_name,
-3:  required i64    src_shard_id,
-4:  required string src_cf_name,
-5:  required string dst_table_name,
-6:  required string dst_cf_name,
-7:  optional i64    dst_shard_id,
+1:  required bool   status,
+2:  optional i64    stage_id,
+3:  optional i64    task_id,
+4:  optional string function_name,
+5:  optional string src_table_name,
+6:  optional i64    src_shard_id,
+7:  optional string src_cf_name,
+8:  optional string dst_table_name,
+9:  optional string dst_cf_name,
+10:  optional i64    dst_shard_id,
 }
 
 service JobTracker {
     i64 register_task_tracker(1:i64 node_id, 2:string node_name, 3:i64 storage_weight),
     map<i64, TaskTrackerInfo> get_all_task_tracker_info(),
-    i64 fetch_task(1:TaskNode task)
+    TaskNode fetch_cpu_task(1:i64 task_tracker_id)
+    TaskNode fetch_gpu_task(1:i64 task_tracker_id)
+    i64 complete_cpu_task(1:i64 stage_id, 2:i64 task_id)
+    i64 complete_gpu_task(1:i64 stage_id, 2:i64 task_id)
 }
 
 service TaskTracker {

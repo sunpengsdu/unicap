@@ -1,40 +1,64 @@
 cmake_minimum_required (VERSION 2.8)
 project (UniCAP)
 
+set(LINK_DIR "/lib /usr/lib /usr/local/lib")
 
+set(CMAKE_CXX_COMPILER "g++")
+#set(CMAKE_CXX_FLAGS "-std=c++11")
 INCLUDE_DIRECTORIES(/usr/local/include)
 #link_directories(/usr/local/lib)
-set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-std=c++11")
 
-FIND_LIBRARY(libthrift thrift /usr/local/lib)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+
+FIND_LIBRARY(libthrift thrift ${LINK_DIR})
 IF(NOT libthrift)
 MESSAGE(FATAL_ERROR “libthrift not found”)
 ENDIF(NOT libthrift)
 MESSAGE(--${libthrift})
 
 
-FIND_LIBRARY(libglog glog /usr/local/lib)
+FIND_LIBRARY(libglog glog ${LINK_DIR})
 IF(NOT libglog)
 MESSAGE(FATAL_ERROR “libglog not found”)
 ENDIF(NOT libglog)
 MESSAGE(--${libglog})
 
 
-FIND_LIBRARY(libleveldb leveldb /usr/local/lib)
+FIND_LIBRARY(libleveldb leveldb ${LINK_DIR})
 IF(NOT libleveldb)
 MESSAGE(FATAL_ERROR “libleveldb not found”)
 ENDIF(NOT libleveldb)
 MESSAGE(--${libleveldb})
 
-FIND_PACKAGE( Boost 1.40 COMPONENTS system filesystem thread REQUIRED )
+FIND_LIBRARY(libmpi mpi ${LINK_DIR})
+IF(NOT libmpi)
+MESSAGE(FATAL_ERROR “libmpi not found”)
+ENDIF(NOT libmpi)
+MESSAGE(--${libmpi})
+
+FIND_PACKAGE( Boost 1.4 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-MESSAGE(--${Boost_LIBRARIES})
+MESSAGE("\${Boost_LIBRARIES} - ${Boost_LIBRARIES}") 
 
 add_subdirectory(gen)
 add_subdirectory(computing)
 add_subdirectory(job_tracker)
 
-add_executable(UniCAPMaster, job_tracker.cpp)
-target_link_libraries(UniCAPMaster, Gen, Computing, JobTracker, ${Boost_LIBRARIES}, ${libthrift}, ${libglog}, ${libleveldb})
-#target_link_libraries(UniCAPMaster, glog, thrift, leveldb, boost_filesystem, boost_system, boost_thread-mt, Gen, Computing, JobTracker)
+add_executable(uniCAPMaster job_tracker.cpp)
+target_link_libraries(uniCAPMaster ${libthrift} ${libglog} ${libleveldb} ${Boost_LIBRARIES} Gen Computing JobTracker)
+
+
+set(CMAKE_CXX_COMPILER "mpic++")
+add_subdirectory(task_tracker)
+add_executable(uniCAPSlave task_tracker.cpp)
+target_link_libraries(uniCAPSlave ${libthrift} ${libglog} ${libleveldb} ${Boost_LIBRARIES} Gen Computing TaskTracker)

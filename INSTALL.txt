@@ -1,0 +1,11 @@
+https://launchpad.net/~boost-latest/+archive/ubuntu/ppa
+Install boost at least 1.54
+
+sudo apt-get install libboost1.55-dev  libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
+
+Install thrift
+wget http://mirror.nus.edu.sg/apache/thrift/0.9.2/thrift-0.9.2.tar.gz
+
+sudo apt-get install libopenmpi-dev openmpi-bin openmpi-common openmpi-doc
+
+

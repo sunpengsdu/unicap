@@ -84,6 +84,7 @@ int64_t TaskTrackerServer::check_client_task_tracker() {
         CHECK_EQ(re, "Pong");
         i.second->close_transport();
     }
+    return 1;
 }
 
 std::thread TaskTrackerServer::start() {
