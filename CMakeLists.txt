@@ -26,13 +26,17 @@ MESSAGE(FATAL_ERROR “libthrift not found”)
 ENDIF(NOT libthrift)
 MESSAGE(--${libthrift})
 
-
 FIND_LIBRARY(libglog glog ${LINK_DIR})
 IF(NOT libglog)
 MESSAGE(FATAL_ERROR “libglog not found”)
 ENDIF(NOT libglog)
 MESSAGE(--${libglog})
 
+FIND_LIBRARY(libgflags gflags  ${LINK_DIR})
+IF(NOT libgflags)
+MESSAGE(FATAL_ERROR “libgflags not found”)
+ENDIF(NOT libgflags)
+MESSAGE(--${libgflags})
 
 FIND_LIBRARY(libleveldb leveldb ${LINK_DIR})
 IF(NOT libleveldb)
@@ -40,25 +44,31 @@ MESSAGE(FATAL_ERROR “libleveldb not found”)
 ENDIF(NOT libleveldb)
 MESSAGE(--${libleveldb})
 
+FIND_LIBRARY(libsnappy snappy ${LINK_DIR})
+IF(NOT libsnappy)
+MESSAGE(FATAL_ERROR “libsnappy not found”)
+ENDIF(NOT libsnappy)
+MESSAGE(--${libsnappy})
+
 FIND_LIBRARY(libmpi mpi ${LINK_DIR})
 IF(NOT libmpi)
 MESSAGE(FATAL_ERROR “libmpi not found”)
 ENDIF(NOT libmpi)
 MESSAGE(--${libmpi})
 
-FIND_PACKAGE( Boost 1.4 COMPONENTS system filesystem thread REQUIRED )
+FIND_PACKAGE( Boost 1.5 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-MESSAGE("\${Boost_LIBRARIES} - ${Boost_LIBRARIES}") 
+MESSAGE("\${Boost_LIBRARIES} - ${Boost_LIBRARIES}")
 
 add_subdirectory(gen)
-add_subdirectory(computing)
 add_subdirectory(job_tracker)
+add_subdirectory(computing)
 
 add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster ${libthrift} ${libglog} ${libleveldb} ${Boost_LIBRARIES} Gen Computing JobTracker)
+target_link_libraries(uniCAPMaster JobTracker Computing Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
 add_subdirectory(task_tracker)
 add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave ${libthrift} ${libglog} ${libleveldb} ${Boost_LIBRARIES} Gen Computing TaskTracker)
+target_link_libraries(uniCAPSlave TaskTracker Computing Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
