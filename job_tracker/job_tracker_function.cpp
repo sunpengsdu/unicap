@@ -45,7 +45,7 @@ int64_t create_table(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(2) << "CREATE TABLE " << table_name;
+    DLOG(INFO) << "CREATE TABLE " << table_name;
     return 1;
 }
 

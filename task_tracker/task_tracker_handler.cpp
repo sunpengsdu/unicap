@@ -47,14 +47,14 @@ int64_t TaskTrackerHandler::create_table(const TableProperty& table_property) {
     Table new_table(table_property);
     StorageInfo::singleton()._table_info[table_property.table_name] = new_table;
 
-    VLOG(2) << NodeInfo::singleton()._node_id
-            << "("
-            << NodeInfo::singleton()._host_name
-            << ":"
-            << NodeInfo::singleton()._port
-            << ")->"
-            << "CREATE TABLE "
-            << new_table._table_property.table_name;
+    DLOG(INFO) << NodeInfo::singleton()._node_id
+               << "("
+               << NodeInfo::singleton()._host_name
+               << ":"
+               << NodeInfo::singleton()._port
+               << ")->"
+               << "CREATE TABLE "
+               << new_table._table_property.table_name;
     return 1;
 }
 
@@ -95,16 +95,16 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
         break;
     }
 
-    VLOG(2) << NodeInfo::singleton()._node_id
-            << "("
-            << NodeInfo::singleton()._host_name
-            << ":"
-            << NodeInfo::singleton()._port
-            << ")->"
-            << "CREATE CF "
-            << table_name
-            << " # "
-            << cf_property.cf_name;
+    DLOG(INFO) << NodeInfo::singleton()._node_id
+               << "("
+               << NodeInfo::singleton()._host_name
+               << ":"
+               << NodeInfo::singleton()._port
+               << ")->"
+               << "CREATE CF "
+               << table_name
+               << " # "
+               << cf_property.cf_name;
     return 1;
 }
 

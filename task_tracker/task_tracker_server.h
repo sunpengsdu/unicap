@@ -64,9 +64,9 @@ public:
     std::thread start();
 
     static int64_t serve(boost::shared_ptr<TThreadPoolServer> &server) {
-        VLOG(2) << "START TASK TRACKER";
+        LOG(INFO) << "START TASK TRACKER";
         server->serve();
-        VLOG(2) << "STOP TASK TRACKER";
+        LOG(INFO) << "STOP TASK TRACKER";
         return 1;
     }
 

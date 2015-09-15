@@ -37,13 +37,13 @@ int64_t JobTrackerServer::create_task_tracker_client() {
 int64_t JobTrackerServer::check_client_task_tracker() {
 
     for (auto i : NodeInfo::singleton()._client_task_tracker) {
-        VLOG(2) << "CHECK NETWORK CONNECTION: "
-                << i.first
-                << " ("
-                << NodeInfo::singleton()._task_tracker_info[i.first].host_name
-                << ":"
-                << NodeInfo::singleton()._task_tracker_info[i.first].port
-                << ")";
+        DLOG(INFO) << "CHECK NETWORK CONNECTION: "
+                   << i.first
+                   << " ("
+                   << NodeInfo::singleton()._task_tracker_info[i.first].host_name
+                   << ":"
+                   << NodeInfo::singleton()._task_tracker_info[i.first].port
+                   << ")";
         std::string re;
         i.second->open_transport();
         i.second->method()->ping(re);

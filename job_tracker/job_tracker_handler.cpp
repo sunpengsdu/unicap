@@ -22,8 +22,8 @@ int64_t JobTrackerHandler::register_task_tracker(const int64_t node_id,
     _register_lock.lock();
     if (NodeInfo::singleton()._task_tracker_info.find(node_id)
             != NodeInfo::singleton()._task_tracker_info.end()) {
-        VLOG(2) << "Node ID: " << node_id
-                << " Already Exists";
+        DLOG(INFO) << "Node ID: " << node_id
+                   << " Already Exists";
     } else {
         if (NodeInfo::singleton()._physical_node_info.find(node_name)
                 != NodeInfo::singleton()._physical_node_info.end()) {
@@ -46,13 +46,13 @@ int64_t JobTrackerHandler::register_task_tracker(const int64_t node_id,
     }
     _register_lock.unlock();
 
-    VLOG(2) << "Register Node"
-            << " -> "
-            << node_id
-            << "("
-            << node_name
-            << " : "
-            << available_port;
+    LOG(INFO) << "Register Node"
+              << " -> "
+              << node_id
+              << "("
+              << node_name
+              << " : "
+              << available_port;
 
     return NodeInfo::singleton()._task_tracker_info[node_id].port;
 }
@@ -79,9 +79,9 @@ void JobTrackerHandler::fetch_gpu_task(TaskNode& _return, const int64_t task_tra
 int64_t JobTrackerHandler::complete_cpu_task(const int64_t stage_id, const int64_t task_id) {
     // Your implementation goes here
     // printf("complete_cpu_task\n");
-    VLOG(2) << "COMPLETE TASK "
-            << "STAGE: " << stage_id
-            << " ID: "    << task_id;
+    DLOG(INFO) << "COMPLETE TASK "
+               << "STAGE: " << stage_id
+               << " ID: "    << task_id;
     Scheduler::singleton()._stage_pool[stage_id]->complete_task(task_id);
     return 1;
 }

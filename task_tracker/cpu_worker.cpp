@@ -42,7 +42,7 @@ int64_t CPUWorker::create_network() {
 
     CPUNetworks::singleton().create_network(id, cpu_network, job_tracker_network);
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    VLOG(2) << "CREATE STORAGE NETWORK FOR THREAD " << id;
+    DLOG(INFO) << "CREATE STORAGE NETWORK FOR THREAD " << id;
 
     return 1;
 }
@@ -91,11 +91,11 @@ int64_t CPUWorker::cpu_execute_tasks(int64_t worker_number) {
 }
 
 int64_t CPUWorker::functions(std::string function_name, TaskNode task) {
-    VLOG(2) << "START TASK "
-            << "STAGE: "
-            << task.stage_id
-            << " ID: "
-            << task.task_id;
+    DLOG(INFO) << "START TASK "
+               << "STAGE: "
+               << task.stage_id
+               << " ID: "
+               << task.task_id;
     UCPUFunctions::singleton()._cpu_functions_p[function_name](task);
     std::thread::id thread_id = std::this_thread::get_id();
 

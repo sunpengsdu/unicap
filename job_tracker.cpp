@@ -9,6 +9,7 @@ using namespace  ::ntu::cap;
 
 int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
+    google::LogToStderr();
 
     NodeInfo::singleton()._master_port = 9000;
     std::thread server_side_thread;

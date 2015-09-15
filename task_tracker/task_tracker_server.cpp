@@ -70,13 +70,13 @@ int64_t TaskTrackerServer::create_task_tracker_client() {
 }
 
 int64_t TaskTrackerServer::check_client_task_tracker() {
-    VLOG(0) << NodeInfo::singleton()._node_id
-            << " ("
-            << NodeInfo::singleton()._host_name
-            << " : "
-            << NodeInfo::singleton()._port
-            << " -> "
-            << "CHECK NETWORK CONNECTION";
+    DLOG(INFO) << NodeInfo::singleton()._node_id
+               << " ("
+               << NodeInfo::singleton()._host_name
+               << " : "
+               << NodeInfo::singleton()._port
+               << " -> "
+               << "CHECK NETWORK CONNECTION";
     for (auto i : NodeInfo::singleton()._client_task_tracker) {
         std::string re;
         i.second->open_transport();
