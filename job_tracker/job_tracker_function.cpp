@@ -69,7 +69,7 @@ int64_t create_table(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(0) << "CREATE TABLE " << table_name;
+    VLOG(2) << "CREATE TABLE " << table_name;
     return 1;
 }
 
@@ -91,7 +91,7 @@ int64_t create_table(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(0) << "CREATE TABLE " << table_name;
+    VLOG(2) << "CREATE TABLE " << table_name;
     return 1;
 }
 
@@ -115,7 +115,7 @@ int64_t create_cf(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(0) << "CREATE CF " << cf_name << " FOR TABLE " << table_name;
+    VLOG(2) << "CREATE CF " << cf_name << " FOR TABLE " << table_name;
     return 1;
 }
 

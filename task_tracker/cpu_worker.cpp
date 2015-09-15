@@ -91,6 +91,11 @@ int64_t CPUWorker::cpu_execute_tasks(int64_t worker_number) {
 }
 
 int64_t CPUWorker::functions(std::string function_name, TaskNode task) {
+    VLOG(2) << "START TASK "
+            << "STAGE: "
+            << task.stage_id
+            << " ID: "
+            << task.task_id;
     UCPUFunctions::singleton()._cpu_functions_p[function_name](task);
     std::thread::id thread_id = std::this_thread::get_id();
 

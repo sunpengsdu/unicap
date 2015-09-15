@@ -81,7 +81,7 @@ int64_t JobTrackerHandler::complete_cpu_task(const int64_t stage_id, const int64
     // printf("complete_cpu_task\n");
     VLOG(2) << "COMPLETE TASK "
             << "STAGE: " << stage_id
-            << "ID: "    << task_id;
+            << " ID: "    << task_id;
     Scheduler::singleton()._stage_pool[stage_id]->complete_task(task_id);
     return 1;
 }

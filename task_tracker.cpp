@@ -7,6 +7,7 @@
 #include <iostream>
 #include <mpi.h>
 #include <glog/logging.h>
+#include <gflags/gflags.h>
 #include "task_tracker/cpu_worker.h"
 #include "task_tracker/task_tracker_server.h"
 
@@ -31,8 +32,7 @@ std::thread task_tracker_initial(int64_t thread_num) {
 
 
 int main(int argc, char **argv) {
-
-    google::InitGoogleLogging(argv[0]);
+    google::ParseCommandLineFlags(&argc, &argv, true);
     NodeInfo::singleton()._master_host_name = "localhost";
     NodeInfo::singleton()._master_port      = 9000;
 
