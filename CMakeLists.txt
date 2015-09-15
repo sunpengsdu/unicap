@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 2.8.12)
 project (UniCAP)
 
 set(LINK_DIR "/lib /usr/lib /usr/local/lib")
@@ -66,10 +66,10 @@ add_subdirectory(job_tracker)
 add_subdirectory(computing)
 
 add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
 add_subdirectory(task_tracker)
 add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})

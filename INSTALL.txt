@@ -1,6 +1,9 @@
 https://launchpad.net/~boost-latest/+archive/ubuntu/ppa
 Install boost at least 1.54
 
+#gcc version at least 4.8
+sudo apt-get install gcc-4.8 g++-4.8 
+
 sudo apt-get install libboost1.55-all-dev  libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
 
 Install thrift
@@ -37,6 +40,9 @@ cd lmdb/libraries/liblmdb
 make && make install
 
 apt-get install libleveldb-dev libsnappy-dev
+
+apt-get install protobuf-compiler  libprotobuf-dev libkrb5-dev libxml2-dev libuuid1 uuid-dev libgsasl7 libgsasl7-dev 
+
 sudo apt-get install libopenmpi-dev openmpi-bin openmpi-common openmpi-doc
 
 
