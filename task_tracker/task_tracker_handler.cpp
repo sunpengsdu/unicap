@@ -47,7 +47,7 @@ int64_t TaskTrackerHandler::create_table(const TableProperty& table_property) {
     Table new_table(table_property);
     StorageInfo::singleton()._table_info[table_property.table_name] = new_table;
 
-    VLOG(0) << NodeInfo::singleton()._node_id
+    VLOG(2) << NodeInfo::singleton()._node_id
             << "("
             << NodeInfo::singleton()._host_name
             << ":"
@@ -95,7 +95,7 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
         break;
     }
 
-    VLOG(0) << NodeInfo::singleton()._node_id
+    VLOG(2) << NodeInfo::singleton()._node_id
             << "("
             << NodeInfo::singleton()._host_name
             << ":"

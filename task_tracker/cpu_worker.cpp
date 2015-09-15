@@ -42,7 +42,7 @@ int64_t CPUWorker::create_network() {
 
     CPUNetworks::singleton().create_network(id, cpu_network, job_tracker_network);
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    VLOG(0) << "CREATE STORAGE NETWORK FOR THREAD " << id;
+    VLOG(2) << "CREATE STORAGE NETWORK FOR THREAD " << id;
 
     return 1;
 }

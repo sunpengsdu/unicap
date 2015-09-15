@@ -32,7 +32,7 @@ std::thread task_tracker_initial(int64_t thread_num) {
 
 int main(int argc, char **argv) {
 
-    //google::InitGoogleLogging(argv[0]);
+    google::InitGoogleLogging(argv[0]);
     NodeInfo::singleton()._master_host_name = "localhost";
     NodeInfo::singleton()._master_port      = 9000;
 
