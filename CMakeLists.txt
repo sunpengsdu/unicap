@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8.12)
 project (UniCAP)
 
-set(LINK_DIR "/lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/tools/lib”)
+set(LINK_DIR "/lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/tools/lib")
 
 set(CMAKE_CXX_COMPILER "g++")
 #set(CMAKE_CXX_FLAGS "-std=c++11")
@@ -19,7 +19,7 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-FIND_LIBRARY(libhdfs hdfs ${LINK_DIR})
+FIND_LIBRARY(libhdfs hdfs3 ${LINK_DIR})
 IF(NOT libhdfs)
 MESSAGE(FATAL_ERROR “libhdfs not found”)
 ENDIF(NOT libhdfs)
