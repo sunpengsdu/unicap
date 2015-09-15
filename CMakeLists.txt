@@ -37,12 +37,6 @@ MESSAGE(FATAL_ERROR “libglog not found”)
 ENDIF(NOT libglog)
 MESSAGE(--${libglog})
 
-FIND_LIBRARY(libgflags NAMES "gflags" PATHS  ${LINK_DIR})
-IF(NOT libgflags)
-MESSAGE(FATAL_ERROR “libgflags not found”)
-ENDIF(NOT libgflags)
-MESSAGE(--${libgflags})
-
 FIND_LIBRARY(libleveldb NAMES "leveldb" PATHS ${LINK_DIR})
 IF(NOT libleveldb)
 MESSAGE(FATAL_ERROR “libleveldb not found”)
@@ -71,10 +65,10 @@ add_subdirectory(job_tracker)
 add_subdirectory(computing)
 
 add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libgflags} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
 add_subdirectory(task_tracker)
 add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libgflags} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
