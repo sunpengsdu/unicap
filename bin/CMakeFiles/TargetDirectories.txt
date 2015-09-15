@@ -1,6 +1,0 @@
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/CMakeFiles/uniCAPMaster.dir
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/gen/CMakeFiles/Gen.dir
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/computing/CMakeFiles/Computing.dir
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/task_tracker/CMakeFiles/TaskTracker.dir
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/CMakeFiles/uniCAPSlave.dir
-/Users/sunshine/Documents/workspace/unicap_eclipse/src/unicap/bin/job_tracker/CMakeFiles/JobTracker.dir
