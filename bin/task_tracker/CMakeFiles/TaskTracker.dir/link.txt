@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq libTaskTracker.a  CMakeFiles/TaskTracker.dir/cpu_worker.cpp.o CMakeFiles/TaskTracker.dir/task_tracker_handler.cpp.o CMakeFiles/TaskTracker.dir/task_tracker_server.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libTaskTracker.a

@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq libCommon.a  CMakeFiles/Common.dir/column_family.cpp.o CMakeFiles/Common.dir/node_info.cpp.o CMakeFiles/Common.dir/storage_info.cpp.o CMakeFiles/Common.dir/table.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libCommon.a
