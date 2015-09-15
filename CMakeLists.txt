@@ -19,7 +19,6 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-
 FIND_LIBRARY(libthrift thrift ${LINK_DIR})
 IF(NOT libthrift)
 MESSAGE(FATAL_ERROR “libthrift not found”)
@@ -60,15 +59,17 @@ FIND_PACKAGE( Boost 1.5 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 MESSAGE("\${Boost_LIBRARIES} - ${Boost_LIBRARIES}")
 
+add_subdirectory(common)
+add_subdirectory(storage)
 add_subdirectory(gen)
 add_subdirectory(job_tracker)
 add_subdirectory(computing)
 
 add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster JobTracker Computing Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
 add_subdirectory(task_tracker)
 add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave TaskTracker Computing Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})

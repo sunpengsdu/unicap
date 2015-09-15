@@ -13,7 +13,6 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
 

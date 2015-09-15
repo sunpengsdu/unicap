@@ -21,23 +21,15 @@ namespace cap {
 
 class ColumnFamily {
 public:
-    ColumnFamily() {
-    }
+    ColumnFamily();
 
-    ColumnFamily(const ColumnFamilyProperty& cf_property) {
-        _cf_property = cf_property;
-    }
+    ColumnFamily(const ColumnFamilyProperty& cf_property);
 
     ColumnFamily(const std::string& cf_name,
-                 const StorageType::type storage_type) {
-        _cf_property.cf_name = cf_name;
-        _cf_property.storage_type = storage_type;
-    }
+                 const StorageType::type storage_type);
 
-    int64_t set_storage_type(const StorageType::type storage_type) {
-        _cf_property.storage_type = storage_type;
-        return 1;
-    }
+    int64_t set_storage_type(const StorageType::type storage_type);
+
     ColumnFamilyProperty _cf_property;
 };
 

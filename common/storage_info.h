@@ -22,13 +22,9 @@ namespace cap {
 class StorageInfo {
 public:
 
-    StorageInfo() {
-    }
+    StorageInfo();
 
-    static StorageInfo& singleton() {
-        static StorageInfo storage_info;
-        return storage_info;
-    }
+    static StorageInfo& singleton();
 
     std::unordered_map<std::string, Table> _table_info;
     std::unordered_map<std::string, std::map<std::string, ColumnFamily>> _cf_info;

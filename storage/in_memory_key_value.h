@@ -18,84 +18,34 @@ class InMemoryKeyValue : public KVStorage {
 
 public:
 
-    InMemoryKeyValue() : KVStorage() {
+    InMemoryKeyValue();
 
-    }
+    InMemoryKeyValue(const std::string table_name,
+                    const int64_t shard_id,
+                    const std::string cf_name);
 
-    InMemoryKeyValue(const std::string table_name, const int64_t shard_id, const std::string cf_name)
-        : KVStorage(table_name, shard_id, cf_name) {
-
-    }
-
-    ~InMemoryKeyValue() {
-
-    }
+    ~InMemoryKeyValue();
 
     int64_t vector_put(std::vector<std::string> row_key,
                        std::vector<std::string> column_key,
-                       std::vector<std::string> value) {
-        CHECK_EQ(row_key.size(), column_key.size());
-        CHECK_EQ(row_key.size(), value.size());
-        write_lock _lock(KVStorage::_rwmutex);
-        for (int i = 0; i < row_key.size(); ++i) {
-            _storage_container[row_key[i]][column_key[i]] = value[i];
-        }
-        return 1;
-    }
+                       std::vector<std::string> value);
 
     int64_t timely_vector_put(std::vector<std::string> row_key,
                               std::vector<std::string> column_key,
                               int64_t time_stamp,
-                              std::vector<std::string> value) {
-        CHECK_EQ(row_key.size(), column_key.size());
-        CHECK_EQ(row_key.size(), value.size());
-        write_lock _lock(KVStorage::_rwmutex);
-        LOG(FATAL) << "NOT IMPLEMENTED \n";
-        return 1;
-    }
+                              std::vector<std::string> value);
 
     void vector_get(std::vector<std::string> row_key,
                     std::vector<std::string> column_key,
-                    std::vector<std::string>& value) {
-        CHECK_EQ(row_key.size(), column_key.size());
-        value.clear();
+                    std::vector<std::string>& value);
 
-        read_lock _lock(KVStorage::_rwmutex);
+    void scan_all(std::vector<std::vector<std::string>>& value);
 
-        for (int i = 0; i < row_key.size(); ++i) {
-            if (_storage_container.find(row_key[i]) == _storage_container.end()
-                    || _storage_container[row_key[i]].find(column_key[i])
-                    == _storage_container[row_key[i]].end() ) {
-                value.push_back("NULL");
-            } else {
-                value.push_back(_storage_container[row_key[i]][column_key[i]]);
-
-            }
-        }
-    }
-
-    void scan_all(std::vector<std::vector<std::string>>& value) {
-        read_lock _lock(KVStorage::_rwmutex);
-        value.clear();
-        value.resize(3);
-        for (auto& row_key : _storage_container) {
-            for (auto& column_key : row_key.second) {
-                value[0].push_back(row_key.first);
-                value[1].push_back(column_key.first);
-                value[2].push_back(column_key.second);
-            }
-        }
-    }
-
-    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
-        read_lock _lock(KVStorage::_rwmutex);
-        value.clear();
-        LOG(FATAL) << "NOT IMPLEMENTED \n";
-    }
+    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
 
     std::unordered_map<std::string,
-                        std::unordered_map<std::string,
-                                        std::string> > _storage_container;
+                    std::unordered_map<std::string,
+                    std::string> > _storage_container;
     //std::map<int64_t, std::string> _history_data;
 };
 

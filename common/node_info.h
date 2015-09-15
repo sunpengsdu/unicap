@@ -22,21 +22,10 @@ namespace cap {
 
 class NodeInfo {
 public:
-    NodeInfo() {
-        _task_tracker_number = 0;
-        _ready_task_tracker_number = 0;
-        _node_id = 0;
-        _node_num = 0;
-        _name_length = 0;
-        _port = 0;
-        _storage_weight = 1;
-        _master_port = 9000;
-    }
+    NodeInfo();
 
-    static NodeInfo& singleton() {
-        static NodeInfo node_info;
-        return node_info;
-    }
+    static NodeInfo& singleton();
+
     //map<node_id, pair<hostname, port>>
     std::map<int64_t, TaskTrackerInfo> _task_tracker_info;
     //number of task trackers in each physical node
