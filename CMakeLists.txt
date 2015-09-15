@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8.12)
 project (UniCAP)
 
-set(LINK_DIR "/lib /usr/lib /usr/local/lib")
+set(LINK_DIR "/lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/tools/lib“)
 
 set(CMAKE_CXX_COMPILER "g++")
 #set(CMAKE_CXX_FLAGS "-std=c++11")
@@ -18,6 +18,12 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
+
+FIND_LIBRARY(libhdfs hdfs ${LINK_DIR})
+IF(NOT libhdfs)
+MESSAGE(FATAL_ERROR “libhdfs not found”)
+ENDIF(NOT libhdfs)
+MESSAGE(--${libhdfs})
 
 FIND_LIBRARY(libthrift thrift ${LINK_DIR})
 IF(NOT libthrift)
@@ -57,7 +63,6 @@ MESSAGE(--${libmpi})
 
 FIND_PACKAGE( Boost 1.5 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-MESSAGE("\${Boost_LIBRARIES} - ${Boost_LIBRARIES}")
 
 add_subdirectory(common)
 add_subdirectory(storage)
@@ -66,10 +71,10 @@ add_subdirectory(job_tracker)
 add_subdirectory(computing)
 
 add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
 add_subdirectory(task_tracker)
 add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${Boost_LIBRARIES})
+target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libgflags} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
