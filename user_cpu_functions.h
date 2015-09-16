@@ -21,11 +21,11 @@ public:
     }
 
     UCPUFunctions() : CPUFunctions() {
-        CPUFunctions::_cpu_functions_p["hello_word"] = hello_word;
+        CPUFunctions::_cpu_functions_p["hello_world"] = hello_world;
     }
 
-    static int64_t hello_word (TaskNode new_task) {
-        std::cout << "hello word" << "\n";
+    static int64_t hello_world (TaskNode new_task) {
+        std::cout << "hello world" << "\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         return 1;
     }

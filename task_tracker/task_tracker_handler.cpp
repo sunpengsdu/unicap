@@ -22,8 +22,6 @@ void TaskTrackerHandler::ping(std::string& _return) {
 int64_t TaskTrackerHandler::check_table(const std::string& table_name,
                                         const int64_t shard_id,
                                         const std::string& cf_name) {
-    int64_t node_id = NodeInfo::singleton()._node_id;
-
     if (StorageInfo::singleton()._cf_ptr.find(table_name)
             == StorageInfo::singleton()._cf_ptr.end() ) {
         LOG(FATAL) << "CANNOT FIND TABLE " << table_name;

@@ -11,34 +11,29 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
 
+
+
     NodeInfo::singleton()._master_port = 9000;
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
+
+
+    load_local_txt_dir("./data", "s", "p");
+
 
     KeyPartition rrr;
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
     create_table("a", 10, rrr);
     create_cf("a", "a", StorageType::InMemoryKeyValue);
 
+/*
     std::shared_ptr<Stage>stage_1 = std::shared_ptr<Stage>(new Stage());
-    std::vector<std::string> src_cf;
-    src_cf.push_back("a");
-    stage_1->set_function_name("hello_word");
-    stage_1->set_src("a", src_cf);
-    stage_1->set_dst("a", "a");
+    stage_1->set_function_name("hello_world");
+    stage_1->non_src(100);
+   // stage_2->set_dst("a", "a");
     Scheduler::singleton().push_back(stage_1);
+*/
 
-    std::shared_ptr<Stage>stage_2 = std::shared_ptr<Stage>(new Stage());
-    stage_2->set_function_name("hello_word");
-    stage_2->non_src(10);
-    stage_2->set_dst("a", "a");
-    Scheduler::singleton().push_back(stage_2);
-
-
-    /*
-
-    auto i =  NodeInfo::singleton()._client_task_tracker[0];
-    i->open_transport();
     std::vector<std::string> row;
     std::vector<std::string> column;
     std::vector<std::string> value;
@@ -48,30 +43,26 @@ int main(int argc, char **argv) {
     column.push_back("2");
     value.push_back("a1");
     value.push_back("b2");
-    i->method()->vector_put("a", 0, "a",row, column, value);
-    i->close_transport();
+    Storage::vector_put("a", "a", 0, row, column, value);
+
 
     std::vector<std::string> return_value1;
-    i->open_transport();
-    i->method()->vector_get(return_value1, "a", 0, "a", row, column);
-    i->close_transport();
+
+    Storage::vector_get("a","a", 0, row, column, return_value1);
 
     for (int j=0; j<return_value1.size(); ++j) {
         std::cout << return_value1[j] << "\n";
     }
-
-
     std::vector<std::vector<std::string> > return_value2;
-    i->open_transport();
-    i->method()->scan_all(return_value2, "a", 0, "a");
-    i->close_transport();
+
+    Storage::scan_all("s", "p", 10, return_value2);
 
     for (int j=0; j<return_value2[0].size(); ++j) {
         std::cout << return_value2[0][j] << ":"
                   << return_value2[1][j] << "->"
                   << return_value2[2][j] << "\n";
     }
-*/
+
 // create_cf("a", "b", StorageType::CommonKeyValue);
 
 

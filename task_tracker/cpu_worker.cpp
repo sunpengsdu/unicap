@@ -104,7 +104,11 @@ int64_t CPUWorker::functions(std::string function_name, TaskNode task) {
                             method()->
                             complete_cpu_task(task.stage_id, task.task_id);
     CPUNetworks::singleton()._job_tracker_network[thread_id]->close_transport();
-
+    DLOG(INFO) << "COMPLETE TASK "
+               << "STAGE: "
+               << task.stage_id
+               << " ID: "
+               << task.task_id;
     return 1;
 }
 

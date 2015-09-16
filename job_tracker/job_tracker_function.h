@@ -11,8 +11,14 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <sstream>
+#include <string>
+#include <fstream>
 #include <glog/logging.h>
-#include "./job_tracker_server.h"
+#include <boost/filesystem.hpp>
+
+#include "job_tracker_server.h"
+#include "../common/storage.h"
 #include "../common/table.h"
 #include "../common/column_family.h"
 #include "../common/storage_info.h"
@@ -36,6 +42,27 @@ int64_t create_cf(const std::string& table_name,
                   const std::string cf_name,
                   const StorageType::type cf_type);
 
+int64_t load_local_txt(const std::vector<std::string> path,
+                    const std::string table_name,
+                    const std::string cf_name,
+                    const int64_t block_size);
+
+int64_t load_local_txt(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name,
+                    const int64_t block_size);
+
+int64_t load_local_txt(const std::vector<std::string> path,
+                    const std::string table_name,
+                    const std::string cf_name);
+
+int64_t load_local_txt(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name);
+
+int64_t load_local_txt_dir(const std::string path,
+                        const std::string table_name,
+                        const std::string cf_name);
 }
 }
 

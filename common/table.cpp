@@ -23,7 +23,7 @@ Table::Table(const TableProperty& table_property) {
 Table::Table(const std::string& table_name, const int64_t shard_num) {
     _table_property.table_name = table_name;
     _table_property.shard_num  = shard_num;
-    _table_property.key_partition.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
+    _table_property.key_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
 }
 
 Table::Table(const std::string& table_name, const int64_t shard_num, const KeyPartition partition) {
