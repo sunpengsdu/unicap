@@ -27,12 +27,6 @@ MESSAGE(FATAL_ERROR “libhdfs not found”)
 ENDIF(NOT libhdfs)
 MESSAGE(--${libhdfs})
 
-FIND_LIBRARY(libjvm NAMES "jvm" PATHS ${LINK_DIR})
-IF(NOT libjvm)
-MESSAGE(FATAL_ERROR “libjvm not found”)
-ENDIF(NOT libjvm)
-MESSAGE(--${libjvm})
-
 FIND_LIBRARY(libthrift NAMES "thrift" PATHS ${LINK_DIR})
 IF(NOT libthrift)
 MESSAGE(FATAL_ERROR “libthrift not found”)
