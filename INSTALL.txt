@@ -38,3 +38,9 @@ apt-get install protobuf-compiler  libprotobuf-dev libkrb5-dev libxml2-dev libuu
 apt-get install libopenmpi-dev openmpi-bin openmpi-common openmpi-doc
 
 
+
+find /usr/lib/hadoop -name *.jar|awk '{ printf("export CLASSPATH=%s:$CLASSPATH\n", $0); }' >> j.sh
+find /usr/lib/hadoop/lib -name *.jar|awk '{ printf("export CLASSPATH=%s:$CLASSPATH\n", $0); }' >> j.sh
+find /usr/lib/hadoop-hdfs/ -name *.jar|awk '{ printf("export CLASSPATH=%s:$CLASSPATH\n", $0); }' >> j.sh
+find /usr/lib/hadoop-hdfs/lib/ -name *.jar|awk '{ printf("export CLASSPATH=%s:$CLASSPATH\n", $0); }' >> j.sh
+
