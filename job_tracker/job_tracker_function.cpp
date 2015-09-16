@@ -119,7 +119,7 @@ int64_t create_cf(const std::string& table_name,
     return 1;
 }
 
-int64_t load_local_txt(const std::vector<std::string> path,
+int64_t load_local_file_regular(const std::vector<std::string> path,
                     const std::string table_name,
                     const std::string cf_name,
                     const int64_t block_size) {
@@ -172,33 +172,7 @@ int64_t load_local_txt(const std::vector<std::string> path,
     return 1;
 }
 
-int64_t load_local_txt(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name,
-                    const int64_t block_size) {
-    std::vector<std::string> _path;
-    _path.push_back(path);
-    load_local_txt(_path, table_name, cf_name, block_size);
-    return 1;
-}
-
-int64_t load_local_txt(const std::vector<std::string> path,
-                    const std::string table_name,
-                    const std::string cf_name) {
-
-    load_local_txt(path, table_name, cf_name, 100);
-    return 1;
-}
-
-int64_t load_local_txt(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name) {
-
-    load_local_txt(path, table_name, cf_name, 100);
-    return 1;
-}
-
-int64_t find_local_txt(const std::string path, std::vector<std::string>& result) {
+int64_t find_local_file(const std::string path, std::vector<std::string>& result) {
 
     boost::filesystem::path dir_path(path);
     if (!boost::filesystem::exists( dir_path)){
@@ -213,7 +187,7 @@ int64_t find_local_txt(const std::string path, std::vector<std::string>& result)
     boost::filesystem::directory_iterator end_itr;
     for (boost::filesystem::directory_iterator itr(dir_path); itr != end_itr; ++itr) {
         if (boost::filesystem::is_directory(itr->status())) {
-            find_local_txt(itr->path().string(), result);
+            find_local_file(itr->path().string(), result);
         } else if (boost::filesystem::is_regular(itr->status())) {
             result.push_back(itr->path().string());
            //std::cout << *itr << std::endl;
@@ -223,17 +197,43 @@ int64_t find_local_txt(const std::string path, std::vector<std::string>& result)
     return 1;
 }
 
-int64_t load_local_txt_dir(const std::string path,
+int64_t load_local_file_dir(const std::string path,
                         const std::string table_name,
-                        const std::string cf_name) {
+                        const std::string cf_name,
+                        const int64_t block_size) {
 
     std::vector<std::string> txt_files;
-    find_local_txt(path, txt_files);
+    find_local_file(path, txt_files);
     for(auto i : txt_files) {
         std::cout << i << "\n";
     }
+    load_local_file_regular(txt_files, table_name, cf_name, block_size);
 
-    load_local_txt(txt_files, table_name, cf_name);
+    return 1;
+}
+
+int64_t load_local_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name) {
+    load_local_file(path, table_name, cf_name, 100);
+    return 1;
+}
+
+int64_t load_local_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name,
+                    const int64_t block_size) {
+    boost::filesystem::path check_path(path);
+    if(boost::filesystem::is_directory(check_path)) {
+        load_local_file_dir(path, table_name, cf_name, block_size);
+    } else if (boost::filesystem::is_regular(check_path)) {
+        std::vector<std::string> _path;
+        _path.push_back(path);
+        load_local_file_regular(_path, table_name, cf_name, block_size);
+    } else {
+        LOG(FATAL) << path << "IS NOT A DIR OR A REGULAR FILE";
+    }
+
 
     return 1;
 }
