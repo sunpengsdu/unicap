@@ -16,10 +16,9 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._hdfs_namenode = "localhost";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
-
     struct hdfsBuilder *builder = hdfsNewBuilder();
-    hdfsBuilderSetNameNode(builder, "localhost");
-    hdfsBuilderSetNameNodePort(builder, 9000);
+    hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
+    hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
     hdfsFS fs = hdfsBuilderConnect(builder);
 /*
     hdfsFileInfo *test;
