@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     google::LogToStderr();
 
     NodeInfo::singleton()._master_host_name = "localhost";
-    NodeInfo::singleton()._master_port      = 9000;
+    NodeInfo::singleton()._master_port      = 34000;
 
     int64_t cpu_network_threads = 10;
     int64_t cpu_worker_num = 2;

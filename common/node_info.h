@@ -41,6 +41,8 @@ public:
 
     std::string _master_host_name;
     int         _master_port;
+    std::string _hdfs_namenode;
+    int _hdfs_namenode_port;
 
     boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
     std::unordered_map<int64_t,

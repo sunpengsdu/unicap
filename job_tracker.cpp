@@ -3,6 +3,7 @@
 #include "job_tracker/job_tracker_function.h"
 #include "job_tracker/scheduler.h"
 
+#include "tools/include/hdfs/hdfs.h"
 
 using namespace  ::ntu::cap;
 
@@ -11,15 +12,24 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
 
+    NodeInfo::singleton()._master_port = 34000;
+    NodeInfo::singleton()._hdfs_namenode = "BDP-00";
+    NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
 
-    NodeInfo::singleton()._master_port = 9000;
+    hdfsFS fs;
+    fs = hdfsConnect(NodeInfo::singleton()._hdfs_namenode.c_str(),
+            NodeInfo::singleton()._hdfs_namenode_port);
+    hdfsFileInfo *test;
+    int numEntries;
+    test = hdfsListDirectory(fs, "/", &numEntries);
+
+    std::cout << numEntries << "\n";
+
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
 
-
     load_local_txt_dir("./data", "s", "p");
-
 
     KeyPartition rrr;
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
@@ -55,7 +65,7 @@ int main(int argc, char **argv) {
     }
     std::vector<std::vector<std::string> > return_value2;
 
-    Storage::scan_all("s", "p", 10, return_value2);
+    Storage::scan_all("s", "p", 0, return_value2);
 
     for (int j=0; j<return_value2[0].size(); ++j) {
         std::cout << return_value2[0][j] << ":"
