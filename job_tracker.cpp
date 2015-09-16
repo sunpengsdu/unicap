@@ -13,18 +13,21 @@ int main(int argc, char **argv) {
     google::LogToStderr();
 
     NodeInfo::singleton()._master_port = 34000;
-    NodeInfo::singleton()._hdfs_namenode = "BDP-00";
+    NodeInfo::singleton()._hdfs_namenode = "localhost";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
 
-    hdfsFS fs;
-    fs = hdfsConnect(NodeInfo::singleton()._hdfs_namenode.c_str(),
-            NodeInfo::singleton()._hdfs_namenode_port);
+    struct hdfsBuilder *builder = hdfsNewBuilder();
+    hdfsBuilderSetNameNode(builder, "localhost");
+    hdfsBuilderSetNameNodePort(builder, 9000);
+    hdfsFS fs = hdfsBuilderConnect(builder);
+/*
     hdfsFileInfo *test;
     int numEntries;
     test = hdfsListDirectory(fs, "/", &numEntries);
 
     std::cout << numEntries << "\n";
+*/
 
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);

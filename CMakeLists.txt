@@ -21,7 +21,7 @@ set(LINK_DIR /lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/tools/lib)
 set(CMAKE_CXX_COMPILER "g++")
 INCLUDE_DIRECTORIES(/usr/local/include)
 
-FIND_LIBRARY(libhdfs NAMES "hdfs3" PATHS ${LINK_DIR})
+FIND_LIBRARY(libhdfs NAMES "hdfs" PATHS ${LINK_DIR})
 IF(NOT libhdfs)
 MESSAGE(FATAL_ERROR “libhdfs not found”)
 ENDIF(NOT libhdfs)
