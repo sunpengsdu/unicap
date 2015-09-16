@@ -57,7 +57,7 @@ int64_t Stage::set_src(std::string src_table, std::vector<std::string> src_cf) {
 
     _size = src_cf.size() * shard_num;
 
-    for (int i = 0; i < src_cf.size(); ++i) {
+    for (uint64_t i = 0; i < src_cf.size(); ++i) {
         for (int j = 0; j < shard_num; ++j) {
             _wait_task[j + i * shard_num] = std::make_pair(j, src_cf[i]);
         }
@@ -96,7 +96,7 @@ int64_t Stage::set_dst(std::string dst_table, std::string dst_cf) {
     return 1;
 }
 
-int64_t Stage::size() {
+uint64_t Stage::size() {
     return _size;
 }
 

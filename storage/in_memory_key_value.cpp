@@ -26,7 +26,7 @@ int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
-    for (int i = 0; i < row_key.size(); ++i) {
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
         _storage_container[row_key[i]][column_key[i]] = value[i];
     }
     return 1;
@@ -51,7 +51,7 @@ void InMemoryKeyValue::vector_get(std::vector<std::string> row_key,
 
     read_lock _lock(KVStorage::_rwmutex);
 
-    for (int i = 0; i < row_key.size(); ++i) {
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
         if (_storage_container.find(row_key[i]) == _storage_container.end()
                 || _storage_container[row_key[i]].find(column_key[i])
                 == _storage_container[row_key[i]].end() ) {

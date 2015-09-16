@@ -32,7 +32,7 @@ public:
     }
 
     int64_t fetch_cpu_task(TaskNode& _return, const int64_t task_tracker_id) {
-        for (int i = 0; i < _stage_num; ++i) {
+        for (int64_t i = 0; i < _stage_num; ++i) {
             if (_stage_pool[i]->_complete_task.size() != _stage_pool[i]->size()) {
                 _stage_pool[i]->fetch_task(task_tracker_id, _return);
                 break;

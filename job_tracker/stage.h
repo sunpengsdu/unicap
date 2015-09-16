@@ -35,7 +35,7 @@ public:
 
     int64_t set_dst(std::string dst_table, std::string dst_cf);
 
-    int64_t size();
+    uint64_t size();
 
     int64_t fetch_task(int64_t node_id, TaskNode &new_task);
 
@@ -49,7 +49,7 @@ public:
     std::string _dst_table;
     std::string _dst_cf;
 
-    int64_t _size;
+    uint64_t _size;
 
     //task id - shard id - cf name
     std::map<int64_t, std::pair<int64_t, std::string>> _wait_task;

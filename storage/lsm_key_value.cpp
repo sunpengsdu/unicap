@@ -42,7 +42,7 @@ int64_t LSMKeyValue::vector_put(std::vector<std::string> row_key,
     CHECK_EQ(row_key.size(), value.size());
 
     std::string single_key;
-    for (int i = 0; i < row_key.size(); ++i) {
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
         single_key.clear();
         single_key.append(row_key[i]);
         single_key.append("!");
@@ -73,7 +73,7 @@ void LSMKeyValue::vector_get(std::vector<std::string> row_key,
     std::string single_value;
     leveldb::Status s;
 
-    for (int i = 0; i < row_key.size(); ++i) {
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
         single_key.clear();
         single_value.clear();
 

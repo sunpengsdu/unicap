@@ -63,14 +63,14 @@ int main(int argc, char **argv) {
 
     Storage::vector_get("a","a", 0, row, column, return_value1);
 
-    for (int j=0; j<return_value1.size(); ++j) {
+    for (uint64_t j=0; j<return_value1.size(); ++j) {
         std::cout << return_value1[j] << "\n";
     }
     std::vector<std::vector<std::string> > return_value2;
 
     Storage::scan_all("s", "p", 0, return_value2);
 
-    for (int j=0; j<return_value2[0].size(); ++j) {
+    for (uint64_t j=0; j<return_value2[0].size(); ++j) {
         std::cout << return_value2[0][j] << ":"
                   << return_value2[1][j] << "->"
                   << return_value2[2][j] << "\n";
