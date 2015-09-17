@@ -239,12 +239,16 @@ int64_t load_local_file(const std::string path,
     return 1;
 }
 
-int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, hdfsFS fs) {
+int64_t find_hdfs_file(std::vector<std::string>& files,
+                    std::vector<int64_t>& sizes,
+                    const std::string path,
+                    hdfsFS fs) {
     hdfsFileInfo *check_path;
     check_path = hdfsGetPathInfo(fs, path.c_str());
 
     if (check_path->mKind == tObjectKind::kObjectKindFile) {
         files.push_back(path);
+        sizes.push_back(check_path->mSize);
     } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
         hdfsFileInfo *check_dir;
         int numbers;
@@ -253,7 +257,7 @@ int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, 
             if (check_dir->mKind == tObjectKind::kObjectKindFile) {
                 files.push_back(check_dir->mName);
             } else if (check_dir->mKind == tObjectKind::kObjectKindDirectory) {
-                find_hdfs_file(files, check_dir->mName, fs);
+                find_hdfs_file(files, sizes, check_dir->mName, fs);
             }
             ++check_dir;
         }
@@ -264,6 +268,7 @@ int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, 
 }
 
 int64_t load_hdfs_file_regular(const std::vector<std::string> path,
+                            const std::vector<int64_t> size,
                             const std::string table_name,
                             const std::string cf_name,
                             const int64_t block_size,
@@ -281,13 +286,11 @@ int64_t load_hdfs_file_dir(const std::string path,
                             const int64_t block_size,
                             hdfsFS fs) {
     std::vector<std::string> files;
-    find_hdfs_file(files, path, fs);
-    load_hdfs_file_regular(files, table_name, cf_name, block_size, fs);
+    std::vector<int64_t> sizes;
+    find_hdfs_file(files, sizes, path, fs);
+    load_hdfs_file_regular(files, sizes, table_name, cf_name, block_size, fs);
     return 1;
 }
-
-
-
 
 int64_t load_hdfs_file(const std::string path,
                     const std::string table_name,
@@ -308,8 +311,10 @@ int64_t load_hdfs_file(const std::string path,
 
     if (check_path->mKind == tObjectKind::kObjectKindFile) {
         std::vector<std::string> regular_path;
+        std::vector<int64_t> regular_size;
          regular_path.push_back(path);
-         load_hdfs_file_regular(regular_path, table_name, cf_name, block_size, fs);
+         regular_size.push_back(check_path->mSize);
+         load_hdfs_file_regular(regular_path, regular_size, table_name, cf_name, block_size, fs);
     } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
         load_hdfs_file_dir(path, table_name, cf_name, block_size, fs);
     } else {
