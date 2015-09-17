@@ -239,11 +239,27 @@ int64_t load_local_file(const std::string path,
     return 1;
 }
 
+int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, hdfsFS fs) {
+    hdfsFileInfo *check_path;
+    check_path = hdfsGetPathInfo(fs, path.c_str());
 
-int64_t load_hdfs_file(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name) {
-    load_hdfs_file(path, table_name, cf_name, 1024*1024*16);
+    if (check_path->mKind == tObjectKind::kObjectKindFile) {
+        files.push_back(path);
+    } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
+        hdfsFileInfo *check_dir;
+        int numbers;
+        check_dir = hdfsListDirectory(fs, path.c_str(), &numbers);
+        for (int i = 0; i < numbers; ++i) {
+            if (check_dir->mKind == tObjectKind::kObjectKindFile) {
+                files.push_back(check_dir->mName);
+            } else if (check_dir->mKind == tObjectKind::kObjectKindDirectory) {
+                find_hdfs_file(files, check_dir->mName, fs);
+            }
+            ++check_dir;
+        }
+    } else {
+        LOG(FATAL) << "CANNOT DETECT HDFS FILE TYPE";
+    }
     return 1;
 }
 
@@ -270,29 +286,7 @@ int64_t load_hdfs_file_dir(const std::string path,
     return 1;
 }
 
-int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, hdfsFS fs) {
-    hdfsFileInfo *check_path;
-    check_path = hdfsGetPathInfo(fs, path.c_str());
 
-    if (check_path->mKind == tObjectKind::kObjectKindFile) {
-        files.push_back(path);
-    } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
-        hdfsFileInfo *check_dir;
-        int numbers;
-        check_dir = hdfsListDirectory(fs, path.c_str(), &numbers);
-        for (int i = 0; i < numbers; ++i) {
-            if (check_dir->mKind == tObjectKind::kObjectKindFile) {
-                files.push_back(check_dir->mName);
-            } else if (check_dir->mKind == tObjectKind::kObjectKindDirectory) {
-                find_hdfs_file(files, check_dir->mName, fs);
-            }
-            ++check_dir;
-        }
-    } else {
-        LOG(FATAL) << "CANNOT DETECT HDFS FILE TYPE";
-    }
-    return 1;
-}
 
 
 int64_t load_hdfs_file(const std::string path,
@@ -324,6 +318,13 @@ int64_t load_hdfs_file(const std::string path,
 
     hdfsDisconnect(fs);
 
+    return 1;
+}
+
+int64_t load_hdfs_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name) {
+    load_hdfs_file(path, table_name, cf_name, 1024*1024*16);
     return 1;
 }
 
