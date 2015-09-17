@@ -3,8 +3,6 @@
 #include "job_tracker/job_tracker_function.h"
 #include "job_tracker/scheduler.h"
 
-#include "tools/include/hdfs/hdfs.h"
-
 using namespace  ::ntu::cap;
 
 
@@ -13,27 +11,13 @@ int main(int argc, char **argv) {
     google::LogToStderr();
 
     NodeInfo::singleton()._master_port = 34000;
-    NodeInfo::singleton()._hdfs_namenode = "localhost";
+    NodeInfo::singleton()._hdfs_namenode = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
-
-
-    struct hdfsBuilder *builder = hdfsNewBuilder();
-    hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
-    hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
-    hdfsFS fs = hdfsBuilderConnect(builder);
-
-
-    hdfsFileInfo *test;
-    int numEntries;
-    test = hdfsListDirectory(fs, "/", &numEntries);
-
-    std::cout << numEntries << "\n";
-
 
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
 
-    load_local_file("./data", "s", "p");
+    load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
 
     KeyPartition rrr;
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);

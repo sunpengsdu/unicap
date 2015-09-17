@@ -149,9 +149,11 @@ int64_t load_local_file_regular(const std::vector<std::string> path,
 
     for (auto i : path) {
         std::ifstream data(i);
+        std::string row_key(i);
+        row_key.append("#");
 
         while (std::getline(data, line)) {
-            row.push_back(std::to_string(line_id));
+            row.push_back(row_key.append(std::to_string(line_id)));
             column.push_back("");
             value.push_back(line);
             c_size = c_size + line.size();
@@ -215,7 +217,7 @@ int64_t load_local_file_dir(const std::string path,
 int64_t load_local_file(const std::string path,
                     const std::string table_name,
                     const std::string cf_name) {
-    load_local_file(path, table_name, cf_name, 100);
+    load_local_file(path, table_name, cf_name, 1024*1024*16);
     return 1;
 }
 
@@ -234,6 +236,93 @@ int64_t load_local_file(const std::string path,
         LOG(FATAL) << path << "IS NOT A DIR OR A REGULAR FILE";
     }
 
+    return 1;
+}
+
+
+int64_t load_hdfs_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name) {
+    load_hdfs_file(path, table_name, cf_name, 1024*1024*16);
+    return 1;
+}
+
+int64_t load_hdfs_file_regular(const std::vector<std::string> path,
+                            const std::string table_name,
+                            const std::string cf_name,
+                            const int64_t block_size,
+                            hdfsFS fs) {
+    for (auto i : path) {
+        std::cout << i << "\n";
+    }
+    return 1;
+}
+
+
+int64_t load_hdfs_file_dir(const std::string path,
+                            const std::string table_name,
+                            const std::string cf_name,
+                            const int64_t block_size,
+                            hdfsFS fs) {
+    std::vector<std::string> files;
+    find_hdfs_file(files, path, fs);
+    load_hdfs_file_regular(files, table_name, cf_name, block_size, fs);
+    return 1;
+}
+
+int64_t find_hdfs_file(std::vector<std::string>& files, const std::string path, hdfsFS fs) {
+    hdfsFileInfo *check_path;
+    check_path = hdfsGetPathInfo(fs, path.c_str());
+
+    if (check_path->mKind == tObjectKind::kObjectKindFile) {
+        files.push_back(path);
+    } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
+        hdfsFileInfo *check_dir;
+        int numbers;
+        check_dir = hdfsListDirectory(fs, path.c_str(), &numbers);
+        for (int i = 0; i < numbers; ++i) {
+            if (check_dir->mKind == tObjectKind::kObjectKindFile) {
+                files.push_back(check_dir->mName);
+            } else if (check_dir->mKind == tObjectKind::kObjectKindDirectory) {
+                find_hdfs_file(files, check_dir->mName, fs);
+            }
+            ++check_dir;
+        }
+    } else {
+        LOG(FATAL) << "CANNOT DETECT HDFS FILE TYPE";
+    }
+    return 1;
+}
+
+
+int64_t load_hdfs_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name,
+                    const int64_t block_size) {
+
+    struct hdfsBuilder *builder = hdfsNewBuilder();
+    hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
+    hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
+    hdfsFS fs = hdfsBuilderConnect(builder);
+
+    if (hdfsExists(fs, path.c_str()) == -1) {
+        LOG(FATAL) << "CANNOT FIND HDFS PATH " << path;
+    }
+
+    hdfsFileInfo *check_path;
+    check_path = hdfsGetPathInfo(fs, path.c_str());
+
+    if (check_path->mKind == tObjectKind::kObjectKindFile) {
+        std::vector<std::string> regular_path;
+         regular_path.push_back(path);
+         load_hdfs_file_regular(regular_path, table_name, cf_name, block_size, fs);
+    } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
+        load_hdfs_file_dir(path, table_name, cf_name, block_size, fs);
+    } else {
+        LOG(FATAL) << "CANNOT DETECT HDFS FILE TYPE";
+    }
+
+    hdfsDisconnect(fs);
 
     return 1;
 }

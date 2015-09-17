@@ -22,6 +22,7 @@
 #include "../common/table.h"
 #include "../common/column_family.h"
 #include "../common/storage_info.h"
+#include "../tools/include/hdfs/hdfs.h"
 
 namespace ntu {
 namespace cap {
@@ -47,6 +48,15 @@ int64_t load_local_file(const std::string path,
                     const std::string cf_name);
 
 int64_t load_local_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name,
+                    const int64_t block_size);
+
+int64_t load_hdfs_file(const std::string path,
+                    const std::string table_name,
+                    const std::string cf_name);
+
+int64_t load_hdfs_file(const std::string path,
                     const std::string table_name,
                     const std::string cf_name,
                     const int64_t block_size);
