@@ -284,8 +284,9 @@ int64_t load_hdfs_file_regular(const std::vector<std::string> path,
                             hdfsFS fs) {
     int64_t totals_size = 0;
     int64_t block_num = 0;
-    for (auto i : size) {
-        totals_size += i;
+    CHECK_EQ(path.size(), size.size());
+    for (uint64_t i = 0; i < path.size(); ++i) {
+        totals_size += size[i];
     }
     block_num = totals_size/block_size + 1;
     std::cout << block_num;
