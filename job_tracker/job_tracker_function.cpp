@@ -274,9 +274,14 @@ int64_t load_hdfs_file_regular(const std::vector<std::string> path,
                             const std::string cf_name,
                             const int64_t block_size,
                             hdfsFS fs) {
-    for (auto i : path) {
-        std::cout << i << "\n";
+    int64_t totals_size = 0;
+    int64_t block_num = 0;
+    for (auto i : size) {
+        totals_size += i;
     }
+    block_num = totals_size/block_size + 1;
+    std::cout << block_num;
+
     return 1;
 }
 
