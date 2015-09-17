@@ -256,6 +256,7 @@ int64_t find_hdfs_file(std::vector<std::string>& files,
         for (int i = 0; i < numbers; ++i) {
             if (check_dir->mKind == tObjectKind::kObjectKindFile) {
                 files.push_back(check_dir->mName);
+                sizes.push_back(check_dir->mSize);
             } else if (check_dir->mKind == tObjectKind::kObjectKindDirectory) {
                 find_hdfs_file(files, sizes, check_dir->mName, fs);
             }
