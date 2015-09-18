@@ -142,7 +142,6 @@ int64_t load_file_regular(const std::vector<std::string>& path,
     std::vector<std::pair<std::string, int64_t>> new_node;
 
     for (uint64_t i = 0; i < path.size(); ++i) {
-        //std::cout << path[i] << "\n";
         chunck_num = ceil(size[i]/float(block_size));
         for (int64_t j = 0; j < (chunck_num - 1); ++j) {
             new_node.clear();
@@ -162,7 +161,6 @@ int64_t load_file_regular(const std::vector<std::string>& path,
     std::vector<uint64_t> merged_id;
     std::vector<std::pair<std::string, int64_t>> new_chunck;
     while(free_chuncks.size() > 0) {
-       //std::cout << free_chuncks.size() << "\n";
         merged_id.clear();
         new_chunck.clear();
         int64_t first_ck_size = std::get<2>(free_chuncks[0]);
@@ -203,14 +201,14 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
     std::vector<std::vector<std::pair<std::string, int64_t>>> chuncks;
 
     load_file_regular(path, size, table_name, cf_name, block_size, chuncks);
-
+/*
     for (auto i : chuncks) {
         for (auto j : i) {
             std::cout << j.first << "->" << j.second << "\n";
         }
         std::cout << "\n";
     }
-
+*/
     int64_t total_file_size = 0;
 
     for (auto i : path) {
@@ -244,11 +242,14 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
             column.push_back(std::to_string(i.second));
             data.seekg(block_size * i.second);
 
-            std::cout << data.eofbit << "\n";
-
             int64_t read_size = 0;
 
-            while(!data.eof()) {
+            while (!data.eof()) {
+                if (i.second != 0) {
+                    std::string old_line;
+                    std::getline(data, old_line, '\n');
+                }
+
                 if ((read_size + buffer_size) >= block_size) {
                     data.read(buffer, block_size - read_size);
                     single_value.append(std::string(buffer, data.gcount()));
@@ -258,6 +259,12 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
                 data.read(buffer, buffer_size);
                 single_value.append(std::string(buffer, data.gcount()));
                 read_size += data.gcount();
+            }
+
+            if (!data.eof()) {
+                std::string new_line;
+                std::getline(data, new_line, '\n');
+                single_value.append(new_line);
             }
             value.push_back(single_value);
             data.close();
@@ -376,14 +383,14 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
     std::vector<std::vector<std::pair<std::string, int64_t>>> full_chuncks;
 
     load_file_regular(path, size, table_name, cf_name, block_size, full_chuncks);
-    std::cout << full_chuncks.size() << "###\n";
+    /*
     for (auto i : full_chuncks) {
         for (auto j : i) {
             std::cout << j.first << "->" << j.second << "\n";
         }
         std::cout << "\n";
     }
-
+    */
     return 1;
 }
 
