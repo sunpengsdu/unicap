@@ -26,12 +26,12 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._hdfs_namenode = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
-    load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
+    //load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
 
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
 
-
+    load_local_file("./data", "s", "p");
 
     KeyPartition rrr;
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
    // stage_2->set_dst("a", "a");
     Scheduler::singleton().push_back(stage_1);
 */
-/*
+
     std::vector<std::string> row;
     std::vector<std::string> column;
     std::vector<std::string> value;
@@ -75,7 +75,8 @@ int main(int argc, char **argv) {
                   << return_value2[1][j] << "->"
                   << return_value2[2][j] << "\n";
     }
-*/
+
+
 // create_cf("a", "b", StorageType::CommonKeyValue);
 
 

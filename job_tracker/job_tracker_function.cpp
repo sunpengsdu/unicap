@@ -59,7 +59,7 @@ int64_t create_table(const std::string& table_name,
 
 int64_t create_table(const std::string& table_name,
                      const int64_t shard_num,
-                     const KeyPartition partition) {
+                     const KeyPartition& partition) {
 
     Table new_table(table_name, shard_num, partition);
     new_table.allocate_shard();
@@ -77,7 +77,7 @@ int64_t create_table(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(2) << "CREATE TABLE " << table_name;
+    DLOG(INFO) << "CREATE TABLE " << table_name;
     return 1;
 }
 
@@ -99,12 +99,12 @@ int64_t create_table(const std::string& table_name,
         i.second->close_transport();
     }
 
-    VLOG(2) << "CREATE TABLE " << table_name;
+    DLOG(INFO) << "CREATE TABLE " << table_name;
     return 1;
 }
 
 int64_t create_cf(const std::string& table_name,
-                  const std::string cf_name,
+                  const std::string& cf_name,
                   const StorageType::type cf_type) {
 
     ColumnFamily new_cf(cf_name, cf_type);
@@ -117,20 +117,99 @@ int64_t create_cf(const std::string& table_name,
 
     StorageInfo::singleton()._cf_info[table_name][cf_name] = new_cf;
 
+    //for (auto i : NodeInfo)
+
     for (auto i : NodeInfo::singleton()._client_task_tracker) {
         i.second->open_transport();
         i.second->method()->create_cf(table_name, new_cf._cf_property);
         i.second->close_transport();
     }
 
-    VLOG(2) << "CREATE CF " << cf_name << " FOR TABLE " << table_name;
+    DLOG(INFO) << "CREATE CF " << cf_name << " FOR TABLE " << table_name;
     return 1;
 }
 
-int64_t load_local_file_regular(const std::vector<std::string> path,
-                    const std::string table_name,
-                    const std::string cf_name,
+int64_t load_file_regular(const std::vector<std::string>& path,
+                            const std::vector<int64_t>& size,
+                            const std::string& table_name,
+                            const std::string& cf_name,
+                            const int64_t block_size,
+                            std::vector<std::vector<std::pair<std::string, int64_t>>>& full_chuncks) {
+    std::vector<std::tuple<std::string, int64_t, int64_t>> free_chuncks;
+    CHECK_EQ(path.size(), size.size());
+    int64_t chunck_num = 0;
+    int64_t last_chunck_size = 0;
+    std::vector<std::pair<std::string, int64_t>> new_node;
+
+    for (uint64_t i = 0; i < path.size(); ++i) {
+        //std::cout << path[i] << "\n";
+        chunck_num = ceil(size[i]/float(block_size));
+        for (int64_t j = 0; j < (chunck_num - 1); ++j) {
+            new_node.clear();
+            new_node.push_back(std::make_pair(path[i], j));
+            full_chuncks.push_back(new_node);
+        }
+        last_chunck_size = size[i] - block_size * (chunck_num - 1);
+        if ((float(last_chunck_size) / block_size) > 0.7) {
+            new_node.clear();
+            new_node.push_back(std::make_pair(path[i], chunck_num - 1));
+            full_chuncks.push_back(new_node);
+        } else {
+            free_chuncks.push_back(std::make_tuple(path[i], chunck_num - 1, last_chunck_size));
+        }
+    }
+
+    std::vector<uint64_t> merged_id;
+    std::vector<std::pair<std::string, int64_t>> new_chunck;
+    while(free_chuncks.size() > 0) {
+       //std::cout << free_chuncks.size() << "\n";
+        merged_id.clear();
+        new_chunck.clear();
+        int64_t first_ck_size = std::get<2>(free_chuncks[0]);
+        int64_t target_ck_size = 0;
+
+        for (uint64_t i = 1; i < free_chuncks.size(); ++i) {
+            target_ck_size = std::get<2>(free_chuncks[i]);
+            if ((first_ck_size + target_ck_size) < (1.2 * block_size)) {
+                merged_id.push_back(i);
+                first_ck_size += target_ck_size;
+            }
+            if (i > 50) {
+                break;
+            }
+        }
+
+        new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[0]),
+                                        std::get<1>(free_chuncks[0])));
+
+        for (auto i = int64_t(merged_id.size()) - 1; i >= 0; --i) {
+            new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[merged_id[i]]),
+                                                    std::get<1>(free_chuncks[merged_id[i]])));
+            free_chuncks.erase(free_chuncks.begin() + merged_id[i]);
+        }
+        free_chuncks.erase(free_chuncks.begin());
+
+        full_chuncks.push_back(new_chunck);
+    }
+    return 1;
+}
+
+int64_t load_local_file_regular(const std::vector<std::string>& path,
+                    const std::vector<int64_t>& size,
+                    const std::string& table_name,
+                    const std::string& cf_name,
                     const int64_t block_size) {
+
+    std::vector<std::vector<std::pair<std::string, int64_t>>> chuncks;
+
+    load_file_regular(path, size, table_name, cf_name, block_size, chuncks);
+
+    for (auto i : chuncks) {
+        for (auto j : i) {
+            std::cout << j.first << "->" << j.second << "\n";
+        }
+        std::cout << "\n";
+    }
 
     int64_t total_file_size = 0;
 
@@ -142,47 +221,57 @@ int64_t load_local_file_regular(const std::vector<std::string> path,
         total_file_size += boost::filesystem::file_size(check_file);
     }
 
-
-    int64_t shard_num = ceil(total_file_size/block_size);
-    create_table(table_name, shard_num);
+    create_table(table_name, chuncks.size());
     create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
-
-    std::string line;
-    int64_t line_id = 1;
-    int64_t c_size = 0;
-    int64_t shard_id = 0;
     std::vector<std::string> row;
     std::vector<std::string> column;
+    int64_t buffer_size = 100;
+    char buffer[buffer_size];
+    std::string single_value;
     std::vector<std::string> value;
 
-    for (auto i : path) {
-        std::ifstream data(i);
-        std::string row_key(i);
-        row_key.append("#");
 
-        while (std::getline(data, line)) {
-            row.push_back(row_key.append(std::to_string(line_id)));
-            column.push_back("");
-            value.push_back(line);
-            c_size = c_size + line.size();
-            if (c_size >= block_size) {
-                Storage::vector_put(table_name, cf_name, shard_id, row, column, value);
-                c_size = 0;
-                row.clear();
-                column.clear();
-                value.clear();
-                if (shard_id < (shard_num - 1)) {
-                    ++shard_id;
+    for (uint64_t shard_id = 0; shard_id < chuncks.size(); ++shard_id) {
+        row.clear();
+        column.clear();
+        value.clear();
+        for (auto i : chuncks[shard_id]) {
+            memset(buffer, 0, buffer_size);
+            single_value.clear();
+            std::ifstream data(i.first);
+
+            row.push_back(i.first);
+            column.push_back(std::to_string(i.second));
+            data.seekg(block_size * i.second);
+
+            std::cout << data.eofbit << "\n";
+
+            int64_t read_size = 0;
+
+            while(!data.eof()) {
+                if ((read_size + buffer_size) >= block_size) {
+                    data.read(buffer, block_size - read_size);
+                    single_value.append(std::string(buffer, data.gcount()));
+                    read_size += data.gcount();
+                    break;
                 }
+                data.read(buffer, buffer_size);
+                single_value.append(std::string(buffer, data.gcount()));
+                read_size += data.gcount();
             }
-            line_id++;
+            value.push_back(single_value);
+            data.close();
         }
+
+        Storage::vector_put(table_name, cf_name, shard_id, row, column, value);
     }
-    Storage::vector_put(table_name, cf_name, shard_id, row, column, value);
+
     return 1;
 }
 
-int64_t find_local_file(const std::string path, std::vector<std::string>& result) {
+int64_t find_local_file(std::vector<std::string>& files,
+                        std::vector<int64_t>& sizes,
+                        const std::string& path) {
 
     boost::filesystem::path dir_path(path);
     if (!boost::filesystem::exists( dir_path)){
@@ -195,51 +284,53 @@ int64_t find_local_file(const std::string path, std::vector<std::string>& result
     }
 
     boost::filesystem::directory_iterator end_itr;
+
     for (boost::filesystem::directory_iterator itr(dir_path); itr != end_itr; ++itr) {
+
         if (boost::filesystem::is_directory(itr->status())) {
-            find_local_file(itr->path().string(), result);
+            find_local_file(files, sizes, itr->path().string());
         } else if (boost::filesystem::is_regular(itr->status())) {
-            result.push_back(itr->path().string());
-           //std::cout << *itr << std::endl;
+            files.push_back(itr->path().string());
+            sizes.push_back(boost::filesystem::file_size(itr->path()));
         }
     }
-
     return 1;
 }
 
-int64_t load_local_file_dir(const std::string path,
-                        const std::string table_name,
-                        const std::string cf_name,
+int64_t load_local_file_dir(const std::string& path,
+                        const std::string& table_name,
+                        const std::string& cf_name,
                         const int64_t block_size) {
 
     std::vector<std::string> txt_files;
-    find_local_file(path, txt_files);
-    for(auto i : txt_files) {
-        std::cout << i << "\n";
-    }
-    load_local_file_regular(txt_files, table_name, cf_name, block_size);
+    std::vector<int64_t> txt_sizes;
+    find_local_file(txt_files, txt_sizes, path);
+
+    load_local_file_regular(txt_files, txt_sizes, table_name, cf_name, block_size);
 
     return 1;
 }
 
-int64_t load_local_file(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name) {
+int64_t load_local_file(const std::string& path,
+                    const std::string& table_name,
+                    const std::string& cf_name) {
     load_local_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 
-int64_t load_local_file(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name,
+int64_t load_local_file(const std::string& path,
+                    const std::string& table_name,
+                    const std::string& cf_name,
                     const int64_t block_size) {
     boost::filesystem::path check_path(path);
     if(boost::filesystem::is_directory(check_path)) {
         load_local_file_dir(path, table_name, cf_name, block_size);
     } else if (boost::filesystem::is_regular(check_path)) {
         std::vector<std::string> _path;
+        std::vector<int64_t> _size;
         _path.push_back(path);
-        load_local_file_regular(_path, table_name, cf_name, block_size);
+        _size.push_back(boost::filesystem::file_size(check_path));
+        load_local_file_regular(_path, _size, table_name, cf_name, block_size);
     } else {
         LOG(FATAL) << path << "IS NOT A DIR OR A REGULAR FILE";
     }
@@ -249,7 +340,7 @@ int64_t load_local_file(const std::string path,
 
 int64_t find_hdfs_file(std::vector<std::string>& files,
                     std::vector<int64_t>& sizes,
-                    const std::string path,
+                    const std::string& path,
                     hdfsFS fs) {
     hdfsFileInfo *check_path;
     check_path = hdfsGetPathInfo(fs, path.c_str());
@@ -276,50 +367,30 @@ int64_t find_hdfs_file(std::vector<std::string>& files,
     return 1;
 }
 
-int64_t load_hdfs_file_regular(const std::vector<std::string> path,
-                            const std::vector<int64_t> size,
-                            const std::string table_name,
-                            const std::string cf_name,
+int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
+                            const std::vector<int64_t>& size,
+                            const std::string& table_name,
+                            const std::string& cf_name,
                             const int64_t block_size,
                             hdfsFS fs) {
-    int64_t totals_size = 0;
-    int64_t block_num = 0;
     std::vector<std::vector<std::pair<std::string, int64_t>>> full_chuncks;
-    std::vector<std::tuple<std::string, int64_t, int64_t>> free_chuncks;
-    CHECK_EQ(path.size(), size.size());
-    int64_t chunck_num = 0;
-    int64_t last_chunck_size = 0;
-    std::vector<std::pair<std::string, int64_t>> new_node;
 
-    for (uint64_t i = 0; i < path.size(); ++i) {
-        std::cout << path[i] << "\n";
-        chunck_num = ceil(size[i]/float(block_size));
-        for (int64_t j = 0; j < (chunck_num - 1); ++j) {
-            new_node.clear();
-            new_node.push_back(std::make_pair(path[i], j));
-            full_chuncks.push_back(new_node);
+    load_file_regular(path, size, table_name, cf_name, block_size, full_chuncks);
+    std::cout << full_chuncks.size() << "###\n";
+    for (auto i : full_chuncks) {
+        for (auto j : i) {
+            std::cout << j.first << "->" << j.second << "\n";
         }
-        last_chunck_size = size[i] - block_size * (chunck_num - 1);
-        if ((float(last_chunck_size) / block_size) > 0.7) {       
-            new_node.clear();
-            new_node.push_back(std::make_pair(path[i], chunck_num - 1));
-            full_chuncks.push_back(new_node);
-        } else {       
-            free_chuncks.push_back(std::make_tuple(path[i], chunck_num - 1, last_chunck_size));
-        }
-    }
-
-    for (auto i : free_chuncks) {
-        std::cout << std::get<0>(i) << ":" << std::get<1>(i) << "->" << std::get<2>(i) << "\n";   
+        std::cout << "\n";
     }
 
     return 1;
 }
 
 
-int64_t load_hdfs_file_dir(const std::string path,
-                            const std::string table_name,
-                            const std::string cf_name,
+int64_t load_hdfs_file_dir(const std::string& path,
+                            const std::string& table_name,
+                            const std::string& cf_name,
                             const int64_t block_size,
                             hdfsFS fs) {
     std::vector<std::string> files;
@@ -329,9 +400,9 @@ int64_t load_hdfs_file_dir(const std::string path,
     return 1;
 }
 
-int64_t load_hdfs_file(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name,
+int64_t load_hdfs_file(const std::string& path,
+                    const std::string& table_name,
+                    const std::string& cf_name,
                     const int64_t block_size) {
 
     struct hdfsBuilder *builder = hdfsNewBuilder();
@@ -363,9 +434,9 @@ int64_t load_hdfs_file(const std::string path,
     return 1;
 }
 
-int64_t load_hdfs_file(const std::string path,
-                    const std::string table_name,
-                    const std::string cf_name) {
+int64_t load_hdfs_file(const std::string& path,
+                    const std::string& table_name,
+                    const std::string& cf_name) {
     load_hdfs_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }

@@ -78,20 +78,30 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
     switch (cf_property.storage_type) {
     case StorageType::type::InMemoryKeyValue: {
         //table_name -> shard_id -> cf_name -> ptr
-        for (int64_t i : StorageInfo::singleton()._table_info[table_name].
-                _table_property.node_info[node_id]) {
-            StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                = std::make_shared<InMemoryKeyValue>(table_name, i, cf_property.cf_name);
+        if (StorageInfo::singleton()._table_info[table_name].
+                _table_property.node_info.find(node_id) !=
+            StorageInfo::singleton()._table_info[table_name].
+                            _table_property.node_info.end()) {
+            for (int64_t i : StorageInfo::singleton()._table_info[table_name].
+                    _table_property.node_info[node_id]) {
+                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                    = std::make_shared<InMemoryKeyValue>(table_name, i, cf_property.cf_name);
+            }
         }
         break;
     }
 
     case StorageType::type::LSMKeyValue: {
         //table_name -> shard_id -> cf_name -> ptr
-        for (int64_t i : StorageInfo::singleton()._table_info[table_name].
-                _table_property.node_info[node_id]) {
-            StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                = std::make_shared<LSMKeyValue>(table_name, i, cf_property.cf_name);
+        if (StorageInfo::singleton()._table_info[table_name].
+                        _table_property.node_info.find(node_id) !=
+            StorageInfo::singleton()._table_info[table_name].
+                            _table_property.node_info.end()) {
+            for (int64_t i : StorageInfo::singleton()._table_info[table_name].
+                    _table_property.node_info[node_id]) {
+                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                    = std::make_shared<LSMKeyValue>(table_name, i, cf_property.cf_name);
+            }
         }
         break;
     }
