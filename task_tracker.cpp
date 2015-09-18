@@ -43,8 +43,10 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
 
-    NodeInfo::singleton()._master_host_name = "localhost";
-    NodeInfo::singleton()._master_port      = 34000;
+    NodeInfo::singleton()._master_host_name   = "localhost";
+    NodeInfo::singleton()._master_port        = 34000;
+    NodeInfo::singleton()._hdfs_namenode      = "BDP-00";
+    NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
     int64_t cpu_network_threads = 10;
     int64_t cpu_worker_num = 2;

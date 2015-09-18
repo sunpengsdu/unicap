@@ -36,14 +36,88 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
     hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
     hdfsFS fs = hdfsBuilderConnect(builder);
 
-    std::vector<std::vector<std::string>> value;
+    std::vector<std::vector<std::string>> hdfs_property;
 
     StorageInfo::singleton()._cf_ptr[new_task.src_table_name]
                                  [new_task.src_shard_id]
                                  [new_task.src_cf_name] ->
-                                 scan_all(value);
-    std::cout << value[0][0] << "->" << value[0][1] << "\n";
+                                 scan_all(hdfs_property);
+    std::cout << hdfs_property[0][0] << "->" << hdfs_property[1][0] << "\n";
 
+    uint64_t entries_num = hdfs_property[0].size();
+    int64_t buffer_size = 1024;
+    char buffer[buffer_size];
+    std::vector<std::string> row;
+    std::vector<std::string> column;
+    std::vector<std::string> value;
+    std::string single_value;
+
+
+    for (uint64_t i = 0; i < entries_num; ++i) {
+        memset(buffer, 0, buffer_size);
+        std::string path = hdfs_property[0][i];
+        int shard_id = std::stoi (hdfs_property[1][i], nullptr, 10);
+        int block_size = std::stoi (hdfs_property[2][i],nullptr, 10);
+
+        row.push_back(path);
+        column.push_back(hdfs_property[1][i]);
+        single_value.clear();
+
+        hdfsFile file = hdfsOpenFile(fs, path.c_str(), O_RDONLY, 0, 0, 0);
+        hdfsSeek(fs, file, block_size * shard_id);
+
+        if (shard_id != 0) {
+            while (hdfsRead(fs, file, buffer, 1)) {
+                if (buffer[0] == '\n') {
+                    break;
+                }
+            }
+        }
+
+        int64_t total_read_size = 0;
+        int64_t each_read_size = 0;
+        bool    eof = false;
+        while(!eof) {
+            memset(buffer, 0, buffer_size);
+            if ((total_read_size + buffer_size) >= block_size) {
+                each_read_size = hdfsRead(fs, file, buffer, buffer_size);
+                single_value.append(std::string(buffer, each_read_size));
+                total_read_size += each_read_size;
+                break;
+            }
+            each_read_size = hdfsRead(fs, file, buffer, buffer_size);
+            if (each_read_size == 0) {
+                eof = true;
+                break;
+            }
+            single_value.append(std::string(buffer, each_read_size));
+            total_read_size += each_read_size;
+        }
+
+        while (!eof) {
+            memset(buffer, 0, buffer_size);
+            each_read_size = hdfsRead(fs, file, buffer, buffer_size);
+            if (each_read_size == 0) {
+                 eof = true;
+                 break;
+             }
+            std::string check_buffer(buffer, each_read_size);
+            std::size_t found = check_buffer.find("\n");
+            if (found == std::string::npos) {
+                single_value.append(std::string(buffer, each_read_size));
+            } else {
+                single_value.append(std::string(buffer, found));
+                break;
+            }
+        }
+        value.push_back(single_value);
+        hdfsCloseFile(fs, file);
+    }
+
+    StorageInfo::singleton()._cf_ptr[new_task.dst_table_name]
+                                     [new_task.src_shard_id]
+                                     [new_task.dst_cf_name] ->
+                                     vector_put(row, column, value);
     hdfsDisconnect(fs);
     return 1;
 }

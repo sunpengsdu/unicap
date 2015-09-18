@@ -244,12 +244,13 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
 
             int64_t read_size = 0;
 
-            while (!data.eof()) {
-                if (i.second != 0) {
-                    std::string old_line;
-                    std::getline(data, old_line, '\n');
-                }
+            if (i.second != 0) {
+                std::string old_line;
+                std::getline(data, old_line, '\n');
+            }
 
+            while (!data.eof()) {
+                memset(buffer, 0, buffer_size);
                 if ((read_size + buffer_size) >= block_size) {
                     data.read(buffer, block_size - read_size);
                     single_value.append(std::string(buffer, data.gcount()));
@@ -406,13 +407,16 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
         for (auto i : chuncks[shard_id]) {
             row.push_back(i.first);
             column.push_back(std::to_string(i.second));
-            value.push_back("");
+            value.push_back(std::to_string(block_size));
         }
         Storage::vector_put(table_name, "hdfs_property", shard_id, row, column, value);
     }
 
     std::shared_ptr<Stage>stage_load_hdfs = std::shared_ptr<Stage>(new Stage());
-    stage_load_hdfs->set_function_name("hdfs_property");
+    stage_load_hdfs->set_function_name("load_hdfs");
+    std::vector<std::string> src_cf;
+    src_cf.push_back("hdfs_property");
+    stage_load_hdfs->set_src(table_name, src_cf);
     stage_load_hdfs->set_dst(table_name, cf_name);
     int64_t stage_id = Scheduler::singleton().push_back(stage_load_hdfs);
 
@@ -420,7 +424,7 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
-    std::cout << "load data @!@!@!@!\n";
+    //std::cout << "load data complete\n";
     return 1;
 }
 
