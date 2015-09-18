@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._hdfs_namenode = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
-    //load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
+    load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
 
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);

@@ -143,7 +143,7 @@ int64_t load_local_file_regular(const std::vector<std::string> path,
     }
 
 
-    int64_t shard_num = total_file_size/block_size + 1;
+    int64_t shard_num = ceil(total_file_size/block_size);
     create_table(table_name, shard_num);
     create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
 
@@ -225,7 +225,7 @@ int64_t load_local_file_dir(const std::string path,
 int64_t load_local_file(const std::string path,
                     const std::string table_name,
                     const std::string cf_name) {
-    load_local_file(path, table_name, cf_name, 1024*1024*16);
+    load_local_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 
@@ -284,12 +284,34 @@ int64_t load_hdfs_file_regular(const std::vector<std::string> path,
                             hdfsFS fs) {
     int64_t totals_size = 0;
     int64_t block_num = 0;
+    std::vector<std::vector<std::pair<std::string, int64_t>>> full_chuncks;
+    std::vector<std::tuple<std::string, int64_t, int64_t>> free_chuncks;
     CHECK_EQ(path.size(), size.size());
+    int64_t chunck_num = 0;
+    int64_t last_chunck_size = 0;
+    std::vector<std::pair<std::string, int64_t>> new_node;
+
     for (uint64_t i = 0; i < path.size(); ++i) {
-        totals_size += size[i];
+        std::cout << path[i] << "\n";
+        chunck_num = ceil(size[i]/float(block_size));
+        for (int64_t j = 0; j < (chunck_num - 1); ++j) {
+            new_node.clear();
+            new_node.push_back(std::make_pair(path[i], j));
+            full_chuncks.push_back(new_node);
+        }
+        last_chunck_size = size[i] - block_size * (chunck_num - 1);
+        if ((float(last_chunck_size) / block_size) > 0.7) {       
+            new_node.clear();
+            new_node.push_back(std::make_pair(path[i], chunck_num - 1));
+            full_chuncks.push_back(new_node);
+        } else {       
+            free_chuncks.push_back(std::make_tuple(path[i], chunck_num - 1, last_chunck_size));
+        }
     }
-    block_num = totals_size/block_size + 1;
-    std::cout << block_num;
+
+    for (auto i : free_chuncks) {
+        std::cout << std::get<0>(i) << ":" << std::get<1>(i) << "->" << std::get<2>(i) << "\n";   
+    }
 
     return 1;
 }
@@ -344,7 +366,7 @@ int64_t load_hdfs_file(const std::string path,
 int64_t load_hdfs_file(const std::string path,
                     const std::string table_name,
                     const std::string cf_name) {
-    load_hdfs_file(path, table_name, cf_name, 1024*1024*16);
+    load_hdfs_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 

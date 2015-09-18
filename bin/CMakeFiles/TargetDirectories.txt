@@ -1,0 +1,8 @@
+/home/mapred/unicap/bin/CMakeFiles/uniCAPMaster.dir
+/home/mapred/unicap/bin/gen/CMakeFiles/Gen.dir
+/home/mapred/unicap/bin/common/CMakeFiles/Common.dir
+/home/mapred/unicap/bin/computing/CMakeFiles/Computing.dir
+/home/mapred/unicap/bin/task_tracker/CMakeFiles/TaskTracker.dir
+/home/mapred/unicap/bin/CMakeFiles/uniCAPSlave.dir
+/home/mapred/unicap/bin/storage/CMakeFiles/Storage.dir
+/home/mapred/unicap/bin/job_tracker/CMakeFiles/JobTracker.dir

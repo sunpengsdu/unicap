@@ -14,7 +14,7 @@
 */
 #ifndef NTU_CAP_UNICAP_JOB_TRACKER_JOB_TRACKER_FUNCTION_H_
 #define NTU_CAP_UNICAP_JOB_TRACKER_JOB_TRACKER_FUNCTION_H_
-
+#include <math.h>
 #include <iostream>
 #include <chrono>
 #include <thread>
