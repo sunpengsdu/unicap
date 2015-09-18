@@ -1,2 +1,0 @@
-/usr/bin/ar cq libCommon.a  CMakeFiles/Common.dir/storage_info.cpp.o CMakeFiles/Common.dir/node_info.cpp.o CMakeFiles/Common.dir/table.cpp.o CMakeFiles/Common.dir/storage.cpp.o CMakeFiles/Common.dir/column_family.cpp.o
-/usr/bin/ranlib libCommon.a

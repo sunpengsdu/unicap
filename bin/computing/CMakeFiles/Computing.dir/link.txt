@@ -1,2 +1,0 @@
-/usr/bin/ar cq libComputing.a  CMakeFiles/Computing.dir/cpu_functions.cpp.o
-/usr/bin/ranlib libComputing.a

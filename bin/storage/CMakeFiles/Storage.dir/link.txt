@@ -1,2 +1,0 @@
-/usr/bin/ar cq libStorage.a  CMakeFiles/Storage.dir/lsm_key_value.cpp.o CMakeFiles/Storage.dir/in_memory_key_value.cpp.o
-/usr/bin/ranlib libStorage.a

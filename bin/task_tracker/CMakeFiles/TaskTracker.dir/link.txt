@@ -1,2 +1,0 @@
-/usr/bin/ar cq libTaskTracker.a  CMakeFiles/TaskTracker.dir/task_tracker_server.cpp.o CMakeFiles/TaskTracker.dir/task_tracker_handler.cpp.o CMakeFiles/TaskTracker.dir/cpu_worker.cpp.o
-/usr/bin/ranlib libTaskTracker.a

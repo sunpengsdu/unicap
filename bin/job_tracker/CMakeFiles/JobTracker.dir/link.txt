@@ -1,2 +1,0 @@
-/usr/bin/ar cq libJobTracker.a  CMakeFiles/JobTracker.dir/stage.cpp.o CMakeFiles/JobTracker.dir/job_tracker_function.cpp.o CMakeFiles/JobTracker.dir/job_tracker_handler.cpp.o CMakeFiles/JobTracker.dir/job_tracker_server.cpp.o
-/usr/bin/ranlib libJobTracker.a
