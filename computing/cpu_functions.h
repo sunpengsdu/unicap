@@ -25,6 +25,7 @@
 #include "../gen/TaskTracker.h"
 #include "../common/storage_info.h"
 #include "../task_tracker/cpu_networks.h"
+#include "../tools/include/hdfs/hdfs.h"
 
 namespace ntu {
 namespace cap {
@@ -42,6 +43,8 @@ public:
     CPUFunctions();
 
     static int64_t test (TaskNode new_task);
+
+    static int64_t load_hdfs (TaskNode new_task);
 
     std::map<std::string, cpu_function_p> _cpu_functions_p;
 };

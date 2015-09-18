@@ -25,6 +25,7 @@
 #include <boost/filesystem.hpp>
 
 #include "job_tracker_server.h"
+#include "scheduler.h"
 #include "../common/storage.h"
 #include "../common/table.h"
 #include "../common/column_family.h"

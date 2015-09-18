@@ -13,7 +13,6 @@
  *limitations under the License.
 */
 #include "job_tracker/job_tracker_function.h"
-#include "job_tracker/scheduler.h"
 
 using namespace  ::ntu::cap;
 
@@ -26,12 +25,11 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._hdfs_namenode = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
 
-    //load_hdfs_file("/dataset/wikipedia_300GB", "s", "p");
-
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
 
-    load_local_file("./data", "s", "p");
+    //load_local_file("./data", "s", "p");
+    load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
 
     KeyPartition rrr;
 
@@ -68,6 +66,7 @@ int main(int argc, char **argv) {
     }
     std::vector<std::vector<std::string> > return_value2;
 
+    /*
     Storage::scan_all("s", "p", 1, return_value2);
     std::cout << return_value2[2][0].size() << "\n";
 
@@ -77,7 +76,7 @@ int main(int argc, char **argv) {
                  // << return_value2[2][j] << "\n";
     }
 
-
+*/
 // create_cf("a", "b", StorageType::CommonKeyValue);
 
 

@@ -36,7 +36,7 @@ public:
         new_stage->_stage_id = id;
         _stage_pool.push_back(new_stage);
         _stage_num = _stage_pool.size();
-        return 1;
+        return id;
     }
 
     int64_t fetch_cpu_task(TaskNode& _return, const int64_t task_tracker_id) {
@@ -47,6 +47,14 @@ public:
             }
         }
         return 1;
+    }
+
+    bool check_status(int64_t id) {
+        if (_stage_pool[id]->_complete_task.size() != _stage_pool[id]->size()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //stage_id stage

@@ -223,7 +223,7 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
     create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
     std::vector<std::string> row;
     std::vector<std::string> column;
-    int64_t buffer_size = 100;
+    int64_t buffer_size = 1024;
     char buffer[buffer_size];
     std::string single_value;
     std::vector<std::string> value;
@@ -320,13 +320,6 @@ int64_t load_local_file_dir(const std::string& path,
 
 int64_t load_local_file(const std::string& path,
                     const std::string& table_name,
-                    const std::string& cf_name) {
-    load_local_file(path, table_name, cf_name, 1024*1024*64);
-    return 1;
-}
-
-int64_t load_local_file(const std::string& path,
-                    const std::string& table_name,
                     const std::string& cf_name,
                     const int64_t block_size) {
     boost::filesystem::path check_path(path);
@@ -342,6 +335,13 @@ int64_t load_local_file(const std::string& path,
         LOG(FATAL) << path << "IS NOT A DIR OR A REGULAR FILE";
     }
 
+    return 1;
+}
+
+int64_t load_local_file(const std::string& path,
+                    const std::string& table_name,
+                    const std::string& cf_name) {
+    load_local_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 
@@ -380,17 +380,47 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
                             const std::string& cf_name,
                             const int64_t block_size,
                             hdfsFS fs) {
-    std::vector<std::vector<std::pair<std::string, int64_t>>> full_chuncks;
+    std::vector<std::vector<std::pair<std::string, int64_t>>> chuncks;
 
-    load_file_regular(path, size, table_name, cf_name, block_size, full_chuncks);
+    load_file_regular(path, size, table_name, cf_name, block_size, chuncks);
     /*
-    for (auto i : full_chuncks) {
+    for (auto i : chuncks) {
         for (auto j : i) {
             std::cout << j.first << "->" << j.second << "\n";
         }
         std::cout << "\n";
     }
     */
+    create_table(table_name, chuncks.size());
+    create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
+    create_cf(table_name, "hdfs_property", StorageType::type::InMemoryKeyValue);
+
+    std::vector<std::string> row;
+    std::vector<std::string> column;
+    std::vector<std::string> value;
+
+    for (uint64_t shard_id = 0; shard_id < chuncks.size(); ++shard_id) {
+        row.clear();
+        column.clear();
+        value.clear();
+        for (auto i : chuncks[shard_id]) {
+            row.push_back(i.first);
+            column.push_back(std::to_string(i.second));
+            value.push_back("");
+        }
+        Storage::vector_put(table_name, "hdfs_property", shard_id, row, column, value);
+    }
+
+    std::shared_ptr<Stage>stage_load_hdfs = std::shared_ptr<Stage>(new Stage());
+    stage_load_hdfs->set_function_name("hdfs_property");
+    stage_load_hdfs->set_dst(table_name, cf_name);
+    int64_t stage_id = Scheduler::singleton().push_back(stage_load_hdfs);
+
+    while(!Scheduler::singleton().check_status(stage_id)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    std::cout << "load data @!@!@!@!\n";
     return 1;
 }
 
