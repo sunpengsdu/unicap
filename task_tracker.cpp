@@ -30,7 +30,7 @@ std::thread task_tracker_initial(int64_t thread_num) {
     MPI_Barrier(MPI_COMM_WORLD);
 
     TaskTrackerServer::singleton().fetch_node_info();
-//    TaskTrackerServer::singleton().create_task_tracker_client();
+    TaskTrackerServer::singleton().create_task_tracker_client();
 //    TaskTrackerServer::singleton().check_client_task_tracker();
     MPI_Barrier(MPI_COMM_WORLD);
 

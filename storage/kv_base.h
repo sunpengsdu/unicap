@@ -28,9 +28,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
-
-
 #include <glog/logging.h>
+
+#include "../common/node_info.h"
 
 typedef boost::shared_mutex rwmutex;
 typedef boost::shared_lock<rwmutex> read_lock;

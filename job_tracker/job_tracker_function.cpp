@@ -182,7 +182,7 @@ int64_t load_file_regular(const std::vector<std::string>& path,
 
         for (auto i = int64_t(merged_id.size()) - 1; i >= 0; --i) {
             new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[merged_id[i]]),
-                                                    std::get<1>(free_chuncks[merged_id[i]])));
+                                                std::get<1>(free_chuncks[merged_id[i]])));
             free_chuncks.erase(free_chuncks.begin() + merged_id[i]);
         }
         free_chuncks.erase(free_chuncks.begin());
@@ -393,8 +393,11 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
     }
     */
     create_table(table_name, chuncks.size());
-    create_cf(table_name, cf_name, storage_type);
-    create_cf(table_name, "hdfs_property", StorageType::type::InMemoryKeyValue);
+    std::string cf_property;
+    cf_property.append(cf_name);
+    cf_property.append("_hdfs_property");
+
+    create_cf(table_name, cf_property, StorageType::type::InMemoryKeyValue);
 
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -409,13 +412,19 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
             column.push_back(std::to_string(i.second));
             value.push_back(std::to_string(block_size));
         }
-        Storage::vector_put(table_name, "hdfs_property", shard_id, row, column, value);
+        Storage::vector_put(table_name, cf_property, shard_id, row, column, value);
+    }
+
+    create_cf(table_name, cf_name, storage_type);
+
+    if (storage_type == StorageType::type::HdfsKeyValue) {
+        return 1;
     }
 
     std::shared_ptr<Stage>stage_load_hdfs = std::shared_ptr<Stage>(new Stage());
     stage_load_hdfs->set_function_name("load_hdfs");
     std::vector<std::string> src_cf;
-    src_cf.push_back("hdfs_property");
+    src_cf.push_back(cf_property);
     stage_load_hdfs->set_src(table_name, src_cf);
     stage_load_hdfs->set_dst(table_name, cf_name);
     int64_t stage_id = Scheduler::singleton().push_back(stage_load_hdfs);
