@@ -196,7 +196,8 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
                     const std::vector<int64_t>& size,
                     const std::string& table_name,
                     const std::string& cf_name,
-                    const int64_t block_size) {
+                    const int64_t block_size,
+                    StorageType::type storage_type) {
 
     std::vector<std::vector<std::pair<std::string, int64_t>>> chuncks;
 
@@ -220,7 +221,7 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
     }
 
     create_table(table_name, chuncks.size());
-    create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
+    create_cf(table_name, cf_name, storage_type);
     std::vector<std::string> row;
     std::vector<std::string> column;
     int64_t buffer_size = 1024;
@@ -308,13 +309,14 @@ int64_t find_local_file(std::vector<std::string>& files,
 int64_t load_local_file_dir(const std::string& path,
                         const std::string& table_name,
                         const std::string& cf_name,
-                        const int64_t block_size) {
+                        const int64_t block_size,
+                        StorageType::type storage_type) {
 
     std::vector<std::string> txt_files;
     std::vector<int64_t> txt_sizes;
     find_local_file(txt_files, txt_sizes, path);
 
-    load_local_file_regular(txt_files, txt_sizes, table_name, cf_name, block_size);
+    load_local_file_regular(txt_files, txt_sizes, table_name, cf_name, block_size, storage_type);
 
     return 1;
 }
@@ -322,27 +324,24 @@ int64_t load_local_file_dir(const std::string& path,
 int64_t load_local_file(const std::string& path,
                     const std::string& table_name,
                     const std::string& cf_name,
-                    const int64_t block_size) {
+                    const int64_t block_size,
+                    StorageType::type storage_type) {
+
+
+
     boost::filesystem::path check_path(path);
     if(boost::filesystem::is_directory(check_path)) {
-        load_local_file_dir(path, table_name, cf_name, block_size);
+        load_local_file_dir(path, table_name, cf_name, block_size, storage_type);
     } else if (boost::filesystem::is_regular(check_path)) {
         std::vector<std::string> _path;
         std::vector<int64_t> _size;
         _path.push_back(path);
         _size.push_back(boost::filesystem::file_size(check_path));
-        load_local_file_regular(_path, _size, table_name, cf_name, block_size);
+        load_local_file_regular(_path, _size, table_name, cf_name, block_size, storage_type);
     } else {
         LOG(FATAL) << path << "IS NOT A DIR OR A REGULAR FILE";
     }
 
-    return 1;
-}
-
-int64_t load_local_file(const std::string& path,
-                    const std::string& table_name,
-                    const std::string& cf_name) {
-    load_local_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 
@@ -380,6 +379,7 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
                             const std::string& table_name,
                             const std::string& cf_name,
                             const int64_t block_size,
+                            StorageType::type storage_type,
                             hdfsFS fs) {
     std::vector<std::vector<std::pair<std::string, int64_t>>> chuncks;
 
@@ -393,7 +393,7 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
     }
     */
     create_table(table_name, chuncks.size());
-    create_cf(table_name, cf_name, StorageType::type::InMemoryKeyValue);
+    create_cf(table_name, cf_name, storage_type);
     create_cf(table_name, "hdfs_property", StorageType::type::InMemoryKeyValue);
 
     std::vector<std::string> row;
@@ -433,18 +433,20 @@ int64_t load_hdfs_file_dir(const std::string& path,
                             const std::string& table_name,
                             const std::string& cf_name,
                             const int64_t block_size,
+                            StorageType::type storage_type,
                             hdfsFS fs) {
     std::vector<std::string> files;
     std::vector<int64_t> sizes;
     find_hdfs_file(files, sizes, path, fs);
-    load_hdfs_file_regular(files, sizes, table_name, cf_name, block_size, fs);
+    load_hdfs_file_regular(files, sizes, table_name, cf_name, block_size, storage_type, fs);
     return 1;
 }
 
 int64_t load_hdfs_file(const std::string& path,
                     const std::string& table_name,
                     const std::string& cf_name,
-                    const int64_t block_size) {
+                    const int64_t block_size,
+                    StorageType::type storage_type) {
 
     struct hdfsBuilder *builder = hdfsNewBuilder();
     hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
@@ -463,22 +465,21 @@ int64_t load_hdfs_file(const std::string& path,
         std::vector<int64_t> regular_size;
          regular_path.push_back(path);
          regular_size.push_back(check_path->mSize);
-         load_hdfs_file_regular(regular_path, regular_size, table_name, cf_name, block_size, fs);
+         load_hdfs_file_regular(regular_path,
+                             regular_size,
+                             table_name,
+                             cf_name,
+                             block_size,
+                             storage_type,
+                             fs);
     } else if (check_path->mKind == tObjectKind::kObjectKindDirectory) {
-        load_hdfs_file_dir(path, table_name, cf_name, block_size, fs);
+        load_hdfs_file_dir(path, table_name, cf_name, block_size, storage_type, fs);
     } else {
         LOG(FATAL) << "CANNOT DETECT HDFS FILE TYPE";
     }
 
     hdfsDisconnect(fs);
 
-    return 1;
-}
-
-int64_t load_hdfs_file(const std::string& path,
-                    const std::string& table_name,
-                    const std::string& cf_name) {
-    load_hdfs_file(path, table_name, cf_name, 1024*1024*64);
     return 1;
 }
 

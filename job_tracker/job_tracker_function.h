@@ -53,21 +53,15 @@ int64_t create_cf(const std::string& table_name,
 
 int64_t load_local_file(const std::string& path,
                     const std::string& table_name,
-                    const std::string& cf_name);
-
-int64_t load_local_file(const std::string& path,
-                    const std::string& table_name,
                     const std::string& cf_name,
-                    const int64_t block_size);
-
-int64_t load_hdfs_file(const std::string& path,
-                    const std::string& table_name,
-                    const std::string& cf_name);
+                    const int64_t block_size = 1024*1024*64,
+                    StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
 
 int64_t load_hdfs_file(const std::string& path,
                     const std::string& table_name,
                     const std::string& cf_name,
-                    const int64_t block_size);
+                    const int64_t block_size = 1024*1024*64,
+                    StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
 }
 }
 
