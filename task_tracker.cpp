@@ -47,6 +47,8 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._master_port        = 34000;
     NodeInfo::singleton()._hdfs_namenode      = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
+    NodeInfo::singleton()._root_dir           = "/unicap/";
+    NodeInfo::singleton()._app_name           = "test";
 
     int64_t cpu_network_threads = 10;
     int64_t cpu_worker_num = 2;

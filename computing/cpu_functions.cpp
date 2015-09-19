@@ -21,6 +21,7 @@ namespace cap {
 CPUFunctions::CPUFunctions() {
     _cpu_functions_p["test"] = test;
     _cpu_functions_p["load_hdfs"] = load_hdfs;
+    _cpu_functions_p["save_hdfs"] = save_hdfs;
 }
 
 int64_t CPUFunctions::test (TaskNode new_task) {
@@ -121,6 +122,54 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
     return 1;
 }
 
+int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
+    struct hdfsBuilder *builder = hdfsNewBuilder();
+    hdfsBuilderSetForceNewInstance(builder);
+    hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
+    hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
+    hdfsFS fs = hdfsBuilderConnect(builder);
+
+    std::string target_dir;
+    target_dir.append(NodeInfo::singleton()._root_dir);
+    if (target_dir.back() != '/') {
+        target_dir.append("/");
+    }
+    target_dir.append(NodeInfo::singleton()._app_name);
+    target_dir.append("/");
+    target_dir.append(new_task.src_table_name);
+    target_dir.append("/");
+    target_dir.append(new_task.src_cf_name);
+
+    if (hdfsExists(fs, target_dir.c_str()) == -1) {
+        hdfsCreateDirectory(fs, target_dir.c_str());
+    }
+
+    std::string target_path;
+    target_path.append(target_dir);
+    target_path.append("/");
+    target_path.append(std::to_string(new_task.src_shard_id));
+
+    if (hdfsExists(fs, target_dir.c_str()) == 0) {
+        hdfsDelete(fs, target_path.c_str(), 0);
+    }
+
+    hdfsFile file = hdfsOpenFile(fs, target_path.c_str(), O_WRONLY, 0, 0, 0);
+
+    std::vector<std::vector<std::string>> data_to_hdfs;
+
+    StorageInfo::singleton()._cf_ptr[new_task.src_table_name]
+                                 [new_task.src_shard_id]
+                                 [new_task.src_cf_name] ->
+                                 scan_all(data_to_hdfs);
+
+    for (uint64_t i = 0; i < data_to_hdfs[0].size(); ++i) {
+        hdfsWrite(fs, file, data_to_hdfs[0][i].c_str(), data_to_hdfs[0][i].size());
+    }
+
+    hdfsCloseFile(fs, file);
+    hdfsDisconnect(fs);
+    return 1;
+}
 
 }
 }

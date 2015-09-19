@@ -23,6 +23,8 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._master_port = 34000;
     NodeInfo::singleton()._hdfs_namenode = "BDP-00";
     NodeInfo::singleton()._hdfs_namenode_port = 9000;
+    NodeInfo::singleton()._root_dir = "/unicap/";
+    NodeInfo::singleton()._app_name = "test";
 
     std::thread server_side_thread;
     server_side_thread = start_job_tracker(10);
