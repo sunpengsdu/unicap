@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
 
     //load_local_file("./data", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
-    load_hdfs_file("/dataset/wikipedia_300GB", "s", "p", 1024*1024*64, StorageType::type::HdfsKeyValue);
+    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32, StorageType::type::HdfsKeyValue);
+    load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
 
     KeyPartition rrr;
 
@@ -44,6 +45,15 @@ int main(int argc, char **argv) {
    // stage_2->set_dst("a", "a");
     Scheduler::singleton().push_back(stage_1);
 */
+
+
+    std::shared_ptr<Stage>stage_2 = std::shared_ptr<Stage>(new Stage());
+    stage_2->set_function_name("save_hdfs");
+    std::vector<std::string> stage_2_src_cf;
+    stage_2_src_cf.push_back("p");
+    stage_2->set_src("s", stage_2_src_cf);
+    stage_2->set_dst("", "");
+    Scheduler::singleton().push_back(stage_2);
 
     std::vector<std::string> row;
     std::vector<std::string> column;
