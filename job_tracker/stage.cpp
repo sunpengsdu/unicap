@@ -46,7 +46,7 @@ int64_t Stage::set_src(std::string src_table, std::vector<std::string> src_cf) {
     }
     for (auto i : src_cf) {
         if (StorageInfo::singleton()._cf_info[src_table].find(i)
-                == StorageInfo::singleton()._cf_info[src_table].end()) {
+            == StorageInfo::singleton()._cf_info[src_table].end()) {
             LOG(FATAL) << "CANNOT FIND CF "
                        << i;
         }

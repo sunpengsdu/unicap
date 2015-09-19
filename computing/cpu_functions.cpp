@@ -164,6 +164,10 @@ int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
 
     for (uint64_t i = 0; i < data_to_hdfs[0].size(); ++i) {
         hdfsWrite(fs, file, data_to_hdfs[0][i].c_str(), data_to_hdfs[0][i].size());
+        hdfsWrite(fs, file, "\n", 1);
+        hdfsWrite(fs, file, data_to_hdfs[1][i].c_str(), data_to_hdfs[1][i].size());
+        hdfsWrite(fs, file, "\n", 1);
+        hdfsWrite(fs, file, data_to_hdfs[2][i].c_str(), data_to_hdfs[2][i].size());
     }
 
     hdfsCloseFile(fs, file);

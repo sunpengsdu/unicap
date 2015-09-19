@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
     //load_local_file("./data", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32, StorageType::type::HdfsKeyValue);
+    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
     load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
 
     KeyPartition rrr;
@@ -48,13 +49,11 @@ int main(int argc, char **argv) {
     Scheduler::singleton().push_back(stage_1);
 */
 
-
     std::shared_ptr<Stage>stage_2 = std::shared_ptr<Stage>(new Stage());
     stage_2->set_function_name("save_hdfs");
     std::vector<std::string> stage_2_src_cf;
     stage_2_src_cf.push_back("p");
     stage_2->set_src("s", stage_2_src_cf);
-    stage_2->set_dst("", "");
     Scheduler::singleton().push_back(stage_2);
 
     std::vector<std::string> row;
@@ -80,7 +79,7 @@ int main(int argc, char **argv) {
 
 //    std::cout << StorageInfo::singleton()._table_info["s"]._table_property.shard_num << "\n"; 
 
-    Storage::scan_all("s", "p_hdfs_property", 4464, return_value2);
+    Storage::scan_all("s", "p_hdfs_property", 0, return_value2);
  //   std::cout << return_value2[2][0].size() << "\n";
 
     std::cout << "\n";
