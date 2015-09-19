@@ -105,7 +105,7 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
             }
         }
         break;
-
+    }
     case StorageType::type::HdfsKeyValue: {
         //table_name -> shard_id -> cf_name -> ptr
         if (StorageInfo::singleton()._table_info[table_name].

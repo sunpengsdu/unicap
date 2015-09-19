@@ -28,7 +28,8 @@ int main(int argc, char **argv) {
     server_side_thread = start_job_tracker(10);
 
     //load_local_file("./data", "s", "p");
-    load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
+    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
+    load_hdfs_file("/dataset/wikipedia_300GB", "s", "p", 1024*1024*64, StorageType::type::HdfsKeyValue);
 
     KeyPartition rrr;
 
@@ -65,10 +66,12 @@ int main(int argc, char **argv) {
     }
     std::vector<std::vector<std::string> > return_value2;
 
+//    std::cout << StorageInfo::singleton()._table_info["s"]._table_property.shard_num << "\n"; 
 
-    Storage::scan_all("s", "p", 1, return_value2);
-    std::cout << return_value2[2][0].size() << "\n";
+    Storage::scan_all("s", "p_hdfs_property", 4464, return_value2);
+ //   std::cout << return_value2[2][0].size() << "\n";
 
+    std::cout << "\n";
     for (uint64_t j=0; j<return_value2[0].size(); ++j) {
         std::cout << return_value2[0][j] << ":"
                   << return_value2[1][j] << "\n";
