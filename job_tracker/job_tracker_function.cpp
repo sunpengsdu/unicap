@@ -492,6 +492,19 @@ int64_t load_hdfs_file(const std::string& path,
     return 1;
 }
 
+int64_t save_to_hdfs(const std::string& table_name,
+                    const std::string& cf_name) {
+
+    std::shared_ptr<Stage>stage = std::shared_ptr<Stage>(new Stage());
+    stage->set_function_name("save_hdfs");
+    std::vector<std::string> stage_src_cf;
+    stage_src_cf.push_back(cf_name);
+    stage->set_src(table_name, stage_src_cf);
+    Scheduler::singleton().push_back(stage);
+
+    return 1;
+}
+
 }
 }
 

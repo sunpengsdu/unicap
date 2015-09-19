@@ -62,6 +62,10 @@ int64_t load_hdfs_file(const std::string& path,
                     const std::string& cf_name,
                     const int64_t block_size = 1024*1024*64,
                     StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
+
+int64_t save_to_hdfs(const std::string& table_name,
+                    const std::string& cf_name);
+
 }
 }
 

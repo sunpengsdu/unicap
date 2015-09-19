@@ -49,12 +49,7 @@ int main(int argc, char **argv) {
     Scheduler::singleton().push_back(stage_1);
 */
 
-    std::shared_ptr<Stage>stage_2 = std::shared_ptr<Stage>(new Stage());
-    stage_2->set_function_name("save_hdfs");
-    std::vector<std::string> stage_2_src_cf;
-    stage_2_src_cf.push_back("p");
-    stage_2->set_src("s", stage_2_src_cf);
-    Scheduler::singleton().push_back(stage_2);
+    save_to_hdfs("s", "p");
 
     std::vector<std::string> row;
     std::vector<std::string> column;
