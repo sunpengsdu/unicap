@@ -16,7 +16,6 @@
 
 using namespace  ::ntu::cap;
 
-
 int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
@@ -74,7 +73,7 @@ int main(int argc, char **argv) {
         std::cout << return_value2[0][j] << ":"
                   << return_value2[1][j] << "\n";
                  // << return_value2[2][j] << "\n";
-
+    }
 
 // create_cf("a", "b", StorageType::CommonKeyValue);
 

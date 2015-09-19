@@ -32,6 +32,7 @@ int64_t CPUFunctions::test (TaskNode new_task) {
 int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
 
     struct hdfsBuilder *builder = hdfsNewBuilder();
+    hdfsBuilderSetForceNewInstance(builder);
     hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
     hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
     hdfsFS fs = hdfsBuilderConnect(builder);
@@ -42,7 +43,6 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
                                  [new_task.src_shard_id]
                                  [new_task.src_cf_name] ->
                                  scan_all(hdfs_property);
-    std::cout << hdfs_property[0][0] << "->" << hdfs_property[1][0] << "\n";
 
     uint64_t entries_num = hdfs_property[0].size();
     int64_t buffer_size = 1024;
@@ -93,7 +93,6 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
             single_value.append(std::string(buffer, each_read_size));
             total_read_size += each_read_size;
         }
-
         while (!eof) {
             memset(buffer, 0, buffer_size);
             each_read_size = hdfsRead(fs, file, buffer, buffer_size);
@@ -103,6 +102,7 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
              }
             std::string check_buffer(buffer, each_read_size);
             std::size_t found = check_buffer.find("\n");
+
             if (found == std::string::npos) {
                 single_value.append(std::string(buffer, each_read_size));
             } else {
@@ -113,7 +113,6 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
         value.push_back(single_value);
         hdfsCloseFile(fs, file);
     }
-
     StorageInfo::singleton()._cf_ptr[new_task.dst_table_name]
                                      [new_task.src_shard_id]
                                      [new_task.dst_cf_name] ->
