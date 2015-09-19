@@ -25,6 +25,16 @@ NodeInfo::NodeInfo() {
     _port = 0;
     _storage_weight = 1;
     _master_port = 9000;
+
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,80,"%d%m%Y%I%M%S", timeinfo);
+    _app_name = std::string(buffer);
+    _root_dir = "/unicap/";
 }
 
 NodeInfo& NodeInfo::singleton() {
