@@ -17,6 +17,7 @@
 #define NTU_CAP_UNICAP_STORAGE_COMMON_KEY_VALUE_H_
 
 #include <unordered_map>
+#include <map>
 #include "./kv_base.h"
 
 namespace ntu {
@@ -51,9 +52,9 @@ public:
 
     void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
 
-    std::unordered_map<std::string,
-                    std::unordered_map<std::string,
-                    std::string> > _storage_container;
+    std::map<std::string, std::string>* storage_ptr();
+
+    std::map<std::string, std::string> _storage_container;
     //std::map<int64_t, std::string> _history_data;
 };
 

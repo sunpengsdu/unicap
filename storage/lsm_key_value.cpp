@@ -125,6 +125,10 @@ void LSMKeyValue::scan_by_time(int64_t time_stamp, std::vector<std::vector<std::
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 }
 
+leveldb::DB* LSMKeyValue::storage_ptr(){
+    return _db;
+}
+
 }
 }
 

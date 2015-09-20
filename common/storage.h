@@ -60,7 +60,11 @@ public:
                         int64_t time_stamp,
                         std::vector<std::vector<std::string>>& value);
 
+    static int64_t get_shard_num(const std::string table);
 
+    static KeyPartition get_table_partition(const std::string table);
+
+    static std::shared_ptr<KVStorage> storage(std::string table, std::string cf, int64_t shard_id);
 };
 
 

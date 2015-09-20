@@ -12,7 +12,7 @@
  *See the License for the specific language governing permissions and
  *limitations under the License.
 */
-#include "job_tracker/job_tracker_function.h"
+#include "job_tracker/DAG.h"
 
 using namespace  ::ntu::cap;
 
@@ -27,19 +27,19 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._app_name = "test";
 
     std::thread server_side_thread;
-    server_side_thread = start_job_tracker(10);
+    server_side_thread = DAG::start_job_tracker(10);
 
     //load_local_file("./data", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32, StorageType::type::HdfsKeyValue);
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
-    load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
+    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
 
     KeyPartition rrr;
 
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
-    create_table("a", 10, rrr);
-    create_cf("a", "a", StorageType::InMemoryKeyValue);
+    DAG::create_table("a", 10, rrr);
+    DAG::create_cf("a", "a", StorageType::InMemoryKeyValue);
 
 /*
     std::shared_ptr<Stage>stage_1 = std::shared_ptr<Stage>(new Stage());
@@ -49,7 +49,11 @@ int main(int argc, char **argv) {
     Scheduler::singleton().push_back(stage_1);
 */
 
-    save_to_hdfs("s", "p");
+    DAG::save_to_hdfs("s", "p");
+
+    std::cout << Storage::get_shard_num("s") << "\n";
+    KeyPartition test_key_par = Storage::get_table_partition("s");
+    std::cout << test_key_par.partition_algo << "\n";
 
     std::vector<std::string> row;
     std::vector<std::string> column;

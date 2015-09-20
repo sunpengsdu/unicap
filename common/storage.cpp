@@ -103,6 +103,19 @@ void Storage::scan_by_time(const std::string table,
     i->close_transport();
 }
 
+int64_t Storage::get_shard_num(const std::string table) {
+    return StorageInfo::singleton()._table_info[table]._table_property.shard_num;
+}
+
+KeyPartition Storage::get_table_partition(const std::string table) {
+    return StorageInfo::singleton()._table_info[table]._table_property.key_partition;
+}
+
+std::shared_ptr<KVStorage> Storage::storage(std::string table, std::string cf, int64_t shard_id) {
+    return StorageInfo::singleton()._cf_ptr[table][shard_id][cf];
+}
+
+
 }
 }
 

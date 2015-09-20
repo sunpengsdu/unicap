@@ -24,6 +24,7 @@
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
 #include "../common/storage_info.h"
+#include "../common/storage.h"
 #include "../task_tracker/cpu_networks.h"
 #include "../tools/include/hdfs/hdfs.h"
 

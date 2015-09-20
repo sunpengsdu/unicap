@@ -50,6 +50,9 @@ public:
     void scan_all(std::vector<std::vector<std::string>>& value);
 
     void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+
+    leveldb::DB* storage_ptr();
+
     std::string _path;
     leveldb::DB* _db;
     leveldb::Options _options;

@@ -40,22 +40,23 @@ public:
     std::map<int64_t, TaskTrackerInfo> _task_tracker_info;
     //number of task trackers in each physical node
     std::map<std::string, int64_t> _physical_node_info;
+
     int64_t _task_tracker_number;
     int64_t _ready_task_tracker_number;
-
-    std::vector<int64_t> _storage_weight_pool;
-
-    int _node_id, _node_num, _name_length, _port, _storage_weight;
+    int     _node_id;
+    int     _node_num;
+    int     _name_length;
+    int64_t _port;
+    int64_t _storage_weight;
     char _processor_name[256];
     std::string _host_name;
-
-    std::string _master_host_name;
-    int         _master_port;
-    std::string _hdfs_namenode;
-    int _hdfs_namenode_port;
-
     std::string _app_name;
     std::string _root_dir;
+    std::string _master_host_name;
+    std::string _hdfs_namenode;
+    int64_t     _master_port;
+    int64_t     _hdfs_namenode_port;
+    std::vector<int64_t> _storage_weight_pool;
 
     boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
     std::unordered_map<int64_t,

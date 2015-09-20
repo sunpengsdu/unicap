@@ -172,6 +172,13 @@ int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
 
     hdfsCloseFile(fs, file);
     hdfsDisconnect(fs);
+
+
+
+    auto s_ptr = Storage::storage("s", "p_hdfs_property", new_task.src_shard_id);
+    auto ppp = std::dynamic_pointer_cast<InMemoryKeyValue>(s_ptr)->storage_ptr();
+    std::cout << ppp->begin()->first << "#####\n";
+
     return 1;
 }
 

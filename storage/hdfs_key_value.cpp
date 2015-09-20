@@ -154,6 +154,9 @@ namespace cap {
        LOG(FATAL) << "NOT IMPLEMENTED \n";
    }
 
+   struct hdfsBuilder* HdfsKeyValue::storage_ptr() {
+       return _builder;
+   }
 
 }
 }

@@ -34,8 +34,14 @@ int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
+
+    std::string single_key;
     for (uint64_t i = 0; i < row_key.size(); ++i) {
-        _storage_container[row_key[i]][column_key[i]] = value[i];
+        single_key.clear();
+        single_key.append(row_key[i]);
+        single_key.append("!");
+        single_key.append(column_key[i]);
+        _storage_container[single_key] = value[i];
     }
     return 1;
 }
@@ -57,15 +63,23 @@ void InMemoryKeyValue::vector_get(std::vector<std::string> row_key,
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
 
+    std::string single_key;
+    std::string single_value;
+
     read_lock _lock(KVStorage::_rwmutex);
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
-        if (_storage_container.find(row_key[i]) == _storage_container.end()
-                || _storage_container[row_key[i]].find(column_key[i])
-                == _storage_container[row_key[i]].end() ) {
+        single_key.clear();
+        single_value.clear();
+        single_key.append(row_key[i]);
+        single_key.append("!");
+        single_key.append(column_key[i]);
+
+        auto result = _storage_container.find(single_key);
+        if ( result == _storage_container.end()) {
             value.push_back("NULL");
         } else {
-            value.push_back(_storage_container[row_key[i]][column_key[i]]);
+            value.push_back(result->second);
         }
     }
 }
@@ -74,12 +88,20 @@ void InMemoryKeyValue::scan_all(std::vector<std::vector<std::string>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     value.resize(3);
-    for (auto& row_key : _storage_container) {
-        for (auto& column_key : row_key.second) {
-            value[0].push_back(row_key.first);
-            value[1].push_back(column_key.first);
-            value[2].push_back(column_key.second);
-        }
+    std::vector<std::string> tokens;
+    std::string single_key;
+    std::string single_value;
+
+    for (auto& key : _storage_container) {
+        tokens.clear();
+        single_key = key.first;
+        single_value = key.second;
+
+        boost::split(tokens, single_key, boost::algorithm::is_any_of("!"));
+
+        value[0].push_back(tokens[0]);
+        value[1].push_back(tokens[1]);
+        value[2].push_back(single_value);
     }
 }
 
@@ -87,8 +109,13 @@ void InMemoryKeyValue::scan_by_time(int64_t time_stamp, std::vector<std::vector<
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     LOG(FATAL) << "NOT IMPLEMENTED \n";
+
 }
 
+std::map<std::string, std::string>* InMemoryKeyValue::storage_ptr(){
+
+    return &_storage_container;
+}
 
 }
 }

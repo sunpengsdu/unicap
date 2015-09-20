@@ -52,6 +52,8 @@ public:
 
     void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
 
+    struct hdfsBuilder* storage_ptr();
+
     hdfsFS _fs;
     struct hdfsBuilder *_builder;
     std::vector<std::vector<std::string>> _property;
