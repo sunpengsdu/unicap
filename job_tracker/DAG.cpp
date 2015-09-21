@@ -129,6 +129,48 @@ int64_t DAG::create_cf(const std::string& table_name,
     return 1;
 }
 
+int64_t DAG::create_distributed_cache(const std::string& table_name,
+                                    const std::string& cf_name,
+                                    const std::string& cached_table_name,
+                                    const std::string& cached_cf_name,
+                                    const StorageType::type cf_type) {
+
+    Table new_table(table_name, NodeInfo::singleton()._task_tracker_number);
+    new_table.replicate_shard();
+
+    if (StorageInfo::singleton()._table_info.find(table_name)
+            != StorageInfo::singleton()._table_info.end()) {
+        LOG(FATAL) << "TABLE ALREADY EXISTS !";
+    }
+
+    StorageInfo::singleton()._table_info[table_name] = new_table;
+
+    for (auto i : NodeInfo::singleton()._client_task_tracker) {
+        i.second->open_transport();
+        i.second->method()->create_table(new_table._table_property);
+        i.second->close_transport();
+    }
+
+    DLOG(INFO) << "CREATE TABLE " << table_name;
+
+    create_cf(table_name, cf_name, cf_type);
+
+    std::shared_ptr<Stage>load_distributed_cache = std::shared_ptr<Stage>(new Stage());
+    load_distributed_cache->set_function_name("load_distributed_cache");
+    std::vector<std::string> src_cf;
+    src_cf.push_back(cf_name);
+    load_distributed_cache->set_src(table_name, src_cf);
+    load_distributed_cache->set_dst(cached_table_name, cached_cf_name);
+
+    int64_t stage_id = Scheduler::singleton().push_back(load_distributed_cache);
+
+    while(!Scheduler::singleton().check_status(stage_id)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    return 1;
+}
+
 int64_t load_file_regular(const std::vector<std::string>& path,
                             const std::vector<int64_t>& size,
                             const std::string& table_name,

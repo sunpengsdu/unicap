@@ -54,6 +54,12 @@ public:
                           const std::string& cf_name,
                           const StorageType::type cf_type);
 
+    static int64_t create_distributed_cache(const std::string& table_name,
+                                    const std::string& cf_name,
+                                    const std::string& cached_table_name,
+                                    const std::string& cached_cf_name,
+                                    StorageType::type cf_type = StorageType::type::InMemoryKeyValue);
+
     static int64_t load_local_file(const std::string& path,
                                 const std::string& table_name,
                                 const std::string& cf_name,

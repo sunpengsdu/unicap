@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <map>
 #include <string>
+#include <glog/logging.h>
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
 #include "./node_info.h"
@@ -43,6 +44,8 @@ public:
     int64_t set_shard_num(const int64_t shard_num);
 
     int64_t allocate_shard();
+
+    int64_t replicate_shard();
 
     TableProperty _table_property;
 //   std::string _table_name;

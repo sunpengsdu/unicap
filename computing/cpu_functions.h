@@ -49,6 +49,8 @@ public:
 
     static int64_t save_hdfs (TaskNode new_task);
 
+    static int64_t load_distributed_cache (TaskNode new_task);
+
     std::map<std::string, cpu_function_p> _cpu_functions_p;
 };
 

@@ -71,6 +71,19 @@ int64_t Table::allocate_shard() {
     return 1;
 }
 
+int64_t Table::replicate_shard() {
+    int64_t node_number = NodeInfo::singleton()._task_tracker_number;
+    int64_t shard_num = _table_property.shard_num;
+    CHECK_EQ(node_number, shard_num);
+
+    for (int i = 0; i < shard_num; ++i) {
+       _table_property.shard_location[i] = i;
+       _table_property.node_info[i].push_back(i);
+    }
+    return 1;
+}
+
+
 }
 }
 

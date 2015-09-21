@@ -22,6 +22,7 @@ CPUFunctions::CPUFunctions() {
     _cpu_functions_p["test"] = test;
     _cpu_functions_p["load_hdfs"] = load_hdfs;
     _cpu_functions_p["save_hdfs"] = save_hdfs;
+    _cpu_functions_p["load_distributed_cache"] = load_distributed_cache;
 }
 
 int64_t CPUFunctions::test (TaskNode new_task) {
@@ -122,6 +123,30 @@ int64_t CPUFunctions::load_hdfs (TaskNode new_task) {
     return 1;
 }
 
+int64_t CPUFunctions::load_distributed_cache (TaskNode new_task) {
+    std::string cached_table = new_task.dst_table_name;
+    std::string cached_cf    = new_task.dst_cf_name;
+
+    std::string table        = new_task.src_table_name;
+    std::string cf           = new_task.src_cf_name;
+    int64_t shard_id         = new_task.src_shard_id;
+
+    int64_t cached_shard_num = Storage::get_shard_num(cached_table);
+
+    for (int64_t i = 0; i < cached_shard_num; ++i) {
+        std::vector<std::vector<std::string>> value;
+        Storage::scan_all(cached_table, cached_cf, i, value);
+        for (uint64_t j = 0; j < value[0].size(); ++j) {
+            std::cout << value[0][j] << "->" << value[1][j] << "->" << value[2][j].size() << "\n";
+        }
+        if (value[0].size() > 0) {
+            Storage::vector_put(table, cf, shard_id, value[0], value[1], value[2]);
+        }
+    }
+
+    return 1;
+}
+
 int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
     struct hdfsBuilder *builder = hdfsNewBuilder();
     hdfsBuilderSetForceNewInstance(builder);
@@ -172,12 +197,6 @@ int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
 
     hdfsCloseFile(fs, file);
     hdfsDisconnect(fs);
-
-
-
-    auto s_ptr = Storage::storage("s", "p_hdfs_property", new_task.src_shard_id);
-    auto ppp = std::dynamic_pointer_cast<InMemoryKeyValue>(s_ptr)->storage_ptr();
-    std::cout << ppp->begin()->first << "#####\n";
 
     return 1;
 }

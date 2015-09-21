@@ -51,6 +51,8 @@ int main(int argc, char **argv) {
 
     DAG::save_to_hdfs("s", "p");
 
+    DAG::create_distributed_cache("sc", "pc", "s", "p");
+
     std::cout << Storage::get_shard_num("s") << "\n";
     KeyPartition test_key_par = Storage::get_table_partition("s");
     std::cout << test_key_par.partition_algo << "\n";
