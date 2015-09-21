@@ -35,25 +35,11 @@ std::thread DAG::start_job_tracker(int64_t thread_num) {
 }
 
 int64_t DAG::create_table(const std::string& table_name,
-                     const int64_t shard_num) {
+                         const int64_t shard_num) {
 
-    Table new_table(table_name, shard_num);
-    new_table.allocate_shard();
-
-    if (StorageInfo::singleton()._table_info.find(table_name)
-            != StorageInfo::singleton()._table_info.end()) {
-        LOG(FATAL) << "TABLE ALREADY EXISTS !";
-    }
-
-    StorageInfo::singleton()._table_info[table_name] = new_table;
-
-    for (auto i : NodeInfo::singleton()._client_task_tracker) {
-        i.second->open_transport();
-        i.second->method()->create_table(new_table._table_property);
-        i.second->close_transport();
-    }
-
-    DLOG(INFO) << "CREATE TABLE " << table_name;
+    KeyPartition table_partition;
+    table_partition.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
+    create_table(table_name, shard_num, table_partition);
     return 1;
 }
 
@@ -135,7 +121,11 @@ int64_t DAG::create_distributed_cache(const std::string& table_name,
                                     const std::string& cached_cf_name,
                                     const StorageType::type cf_type) {
 
-    Table new_table(table_name, NodeInfo::singleton()._task_tracker_number);
+    KeyPartition distributed_cache_partition;
+    distributed_cache_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
+    Table new_table(table_name,
+                    NodeInfo::singleton()._task_tracker_number,
+                    distributed_cache_partition);
     new_table.replicate_shard();
 
     if (StorageInfo::singleton()._table_info.find(table_name)
@@ -261,8 +251,9 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
         }
         total_file_size += boost::filesystem::file_size(check_file);
     }
-
-    DAG::create_table(table_name, chuncks.size());
+    KeyPartition local_file_partition;
+    local_file_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
+    DAG::create_table(table_name, chuncks.size(), local_file_partition);
     DAG::create_cf(table_name, cf_name, storage_type);
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -434,7 +425,9 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
         std::cout << "\n";
     }
     */
-    DAG::create_table(table_name, chuncks.size());
+    KeyPartition hdfs_table_partition;
+    hdfs_table_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
+    DAG::create_table(table_name, chuncks.size(), hdfs_table_partition);
     std::string cf_property;
     cf_property.append(cf_name);
     cf_property.append("_hdfs_property");

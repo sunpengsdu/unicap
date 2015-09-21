@@ -18,8 +18,8 @@
 
 #include <map>
 #include <string>
-#include "./table.h"
-#include "./column_family.h"
+#include "table.h"
+#include "column_family.h"
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
 #include "../storage/storage_systems.h"

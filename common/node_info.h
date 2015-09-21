@@ -25,7 +25,7 @@
 #include <ctime>
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
-#include "./unicap_client.h"
+#include "unicap_client.h"
 
 namespace ntu {
 namespace cap {

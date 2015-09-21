@@ -21,7 +21,7 @@
 #include <glog/logging.h>
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
-#include "./node_info.h"
+#include "node_info.h"
 
 namespace ntu {
 namespace cap {
@@ -34,8 +34,6 @@ public:
     Table(const std::string& table_name, const Table &base_table);
 
     Table(const TableProperty& table_property);
-
-    Table(const std::string& table_name, const int64_t shard_num);
 
     Table(const std::string& table_name, const int64_t shard_num, const KeyPartition partition);
 

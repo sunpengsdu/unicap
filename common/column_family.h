@@ -20,8 +20,8 @@
 #include <string>
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
-#include "./node_info.h"
-#include "./table.h"
+#include "node_info.h"
+#include "table.h"
 
 namespace ntu {
 namespace cap {

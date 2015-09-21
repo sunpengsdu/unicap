@@ -14,6 +14,8 @@
 */
 #include "job_tracker/DAG.h"
 
+#include "common/intermediate_result.h"
+
 using namespace  ::ntu::cap;
 
 int main(int argc, char **argv) {
@@ -33,7 +35,7 @@ int main(int argc, char **argv) {
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32, StorageType::type::HdfsKeyValue);
     //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
-    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
+//    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
 
     KeyPartition rrr;
 
@@ -41,21 +43,18 @@ int main(int argc, char **argv) {
     DAG::create_table("a", 10, rrr);
     DAG::create_cf("a", "a", StorageType::InMemoryKeyValue);
 
-/*
-    std::shared_ptr<Stage>stage_1 = std::shared_ptr<Stage>(new Stage());
-    stage_1->set_function_name("hello_world");
-    stage_1->non_src(100);
-   // stage_2->set_dst("a", "a");
-    Scheduler::singleton().push_back(stage_1);
-*/
+    IntermediateResult<int, int, std::string> inter_store("a");
+    inter_store.push_back(1, 2, "sd");
+    inter_store.push_back(1, 2, "a");
+    inter_store.push_back(1, 1, "3");
+    inter_store.push_back(2, 1, "s");
+    inter_store.merge_data();
 
-    DAG::save_to_hdfs("s", "p");
-
-    DAG::create_distributed_cache("sc", "pc", "s", "p");
-
-    std::cout << Storage::get_shard_num("s") << "\n";
-    KeyPartition test_key_par = Storage::get_table_partition("s");
-    std::cout << test_key_par.partition_algo << "\n";
+    for (auto& i : inter_store._merged_result_container) {
+        for (auto& j : i.second) {
+            std::cout << i.first << "->" << j.first << "->" << j.second << "\n";
+        }
+    }
 
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -77,28 +76,6 @@ int main(int argc, char **argv) {
         std::cout << return_value1[j] << "\n";
     }
     std::vector<std::vector<std::string> > return_value2;
-
-//    std::cout << StorageInfo::singleton()._table_info["s"]._table_property.shard_num << "\n"; 
-
-    Storage::scan_all("s", "p_hdfs_property", 0, return_value2);
- //   std::cout << return_value2[2][0].size() << "\n";
-
-    std::cout << "\n";
-    for (uint64_t j=0; j<return_value2[0].size(); ++j) {
-        std::cout << return_value2[0][j] << ":"
-                  << return_value2[1][j] << "\n";
-                 // << return_value2[2][j] << "\n";
-    }
-
-// create_cf("a", "b", StorageType::CommonKeyValue);
-
-
-// create_task()
-
-
-// foo.compare_exchange_weak(&i, j, std::memory_order_release, std::memory_order_release);
-
-// std::atomic::compare_exchange_weak(std::ref(0), 1, std::memory_order_release, std::memory_order_release);
 
     server_side_thread.join();
     return 0;
