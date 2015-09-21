@@ -52,7 +52,7 @@ public:
 
 private:
     std::mutex _register_lock;
-    int64_t _base_port = 34100;
+    int64_t _base_port = NodeInfo::singleton()._master_port + 100;
 };
 
 }

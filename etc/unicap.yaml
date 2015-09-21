@@ -1,0 +1,6 @@
+application_name: test
+jobtracker_host: localhost
+jobtracker_port: 34000
+hdfs_namenode_host: BDP-00
+hdfs_namenode_port: 9000
+hdfs_output_dir: /unicap/

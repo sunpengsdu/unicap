@@ -24,7 +24,7 @@ NodeInfo::NodeInfo() {
     _name_length = 0;
     _port = 0;
     _storage_weight = 1;
-    _master_port = 9000;
+    _master_port = 9010;
 
     time_t rawtime;
     struct tm * timeinfo;

@@ -24,6 +24,7 @@
 #include <glog/logging.h>
 #include <boost/filesystem.hpp>
 
+#include "../tools/include/yaml-cpp/yaml.h"
 #include "job_tracker_server.h"
 #include "scheduler.h"
 #include "../common/storage.h"

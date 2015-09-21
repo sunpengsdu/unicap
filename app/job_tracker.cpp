@@ -26,6 +26,9 @@ int main(int argc, char **argv) {
     NodeInfo::singleton()._root_dir = "/unicap/";
     NodeInfo::singleton()._app_name = "test";
 
+    YAML::Node config = YAML::LoadFile("../etc/unicap.yaml");
+    const std::string application_name = config["application_name"].as<std::string>();
+
     std::thread server_side_thread;
     server_side_thread = DAG::start_job_tracker(10);
 
