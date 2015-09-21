@@ -20,23 +20,32 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
 
-    NodeInfo::singleton()._master_port = 34000;
-    NodeInfo::singleton()._hdfs_namenode = "BDP-00";
-    NodeInfo::singleton()._hdfs_namenode_port = 9000;
-    NodeInfo::singleton()._root_dir = "/unicap/";
-    NodeInfo::singleton()._app_name = "test";
-
     YAML::Node config = YAML::LoadFile("../etc/unicap.yaml");
     const std::string application_name = config["application_name"].as<std::string>();
+    const std::string jobtracker_host = config["jobtracker_host"].as<std::string>();
+    const int64_t jobtracker_port = config["jobtracker_port"].as<int64_t>();
+    const std::string hdfs_namenode_host = config["hdfs_namenode_host"].as<std::string>();
+    const int64_t hdfs_namenode_port = config["hdfs_namenode_port"].as<int64_t>();
+    const std::string hdfs_output_dir = config["hdfs_output_dir"].as<std::string>();
+    const int64_t jobtracker_threads = config["jobtracker_threads"].as<int64_t>();
+
+    NodeInfo::singleton()._app_name = application_name;
+    NodeInfo::singleton()._master_host_name = jobtracker_host;
+    NodeInfo::singleton()._master_port = jobtracker_port;
+    NodeInfo::singleton()._hdfs_namenode = hdfs_namenode_host;
+    NodeInfo::singleton()._hdfs_namenode_port = hdfs_namenode_port;
+    NodeInfo::singleton()._root_dir = hdfs_output_dir;
+
+    LOG(INFO) << "APPLICATION NAME: "       << application_name;
+    LOG(INFO) << "JOBTRACKER HOSTNAME: "    << jobtracker_host;
+    LOG(INFO) << "JOBTRACKER PORT: "        << jobtracker_port;
+    LOG(INFO) << "HDFS NAMENODE HOSTNAME: " << hdfs_namenode_host;
+    LOG(INFO) << "HDFS NAMENODE PORT: "     << hdfs_namenode_port;
+    LOG(INFO) << "HDFS OUTPUT DIR: "        << hdfs_output_dir;
+    LOG(INFO) << "JOBTRACKER THREADS: "     << jobtracker_threads;
 
     std::thread server_side_thread;
-    server_side_thread = DAG::start_job_tracker(10);
-
-    //load_local_file("./data", "s", "p");
-    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p");
-    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32, StorageType::type::HdfsKeyValue);
-    //load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
-//    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file100005", "s", "p", 1024*1024*32);
+    server_side_thread = DAG::start_job_tracker(jobtracker_threads);
 
     KeyPartition rrr;
 

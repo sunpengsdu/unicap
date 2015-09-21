@@ -17,6 +17,7 @@
 #include <glog/logging.h>
 #include "cpu_worker.h"
 #include "task_tracker_server.h"
+#include "../tools/include/yaml-cpp/yaml.h"
 
 using namespace ntu;
 using namespace cap;
@@ -43,21 +44,38 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
 
-    NodeInfo::singleton()._master_host_name   = "localhost";
-    NodeInfo::singleton()._master_port        = 34000;
-    NodeInfo::singleton()._hdfs_namenode      = "BDP-00";
-    NodeInfo::singleton()._hdfs_namenode_port = 9000;
-    NodeInfo::singleton()._root_dir           = "/unicap/";
-    NodeInfo::singleton()._app_name           = "test";
 
-    int64_t cpu_network_threads = 10;
-    int64_t cpu_worker_num = 2;
+    YAML::Node config = YAML::LoadFile("../etc/unicap.yaml");
+    const std::string application_name = config["application_name"].as<std::string>();
+    const std::string jobtracker_host = config["jobtracker_host"].as<std::string>();
+    const int64_t jobtracker_port = config["jobtracker_port"].as<int64_t>();
+    const std::string hdfs_namenode_host = config["hdfs_namenode_host"].as<std::string>();
+    const int64_t hdfs_namenode_port = config["hdfs_namenode_port"].as<int64_t>();
+    const std::string hdfs_output_dir = config["hdfs_output_dir"].as<std::string>();
+    const int64_t tasktracker_worker_threads = config["tasktracker_worker_threads"].as<int64_t>();
+    const int64_t tasktracker_network_threads = config["tasktracker_network_threads"].as<int64_t>();
+
+    NodeInfo::singleton()._app_name = application_name;
+    NodeInfo::singleton()._master_host_name = jobtracker_host;
+    NodeInfo::singleton()._master_port = jobtracker_port;
+    NodeInfo::singleton()._hdfs_namenode = hdfs_namenode_host;
+    NodeInfo::singleton()._hdfs_namenode_port = hdfs_namenode_port;
+    NodeInfo::singleton()._root_dir = hdfs_output_dir;
+
+    LOG(INFO) << "APPLICATION NAME: "            << application_name;
+    LOG(INFO) << "JOBTRACKER HOSTNAME: "         << jobtracker_host;
+    LOG(INFO) << "JOBTRACKER PORT: "             << jobtracker_port;
+    LOG(INFO) << "HDFS NAMENODE HOSTNAME: "      << hdfs_namenode_host;
+    LOG(INFO) << "HDFS NAMENODE PORT: "          << hdfs_namenode_port;
+    LOG(INFO) << "HDFS OUTPUT DIR: "             << hdfs_output_dir;
+    LOG(INFO) << "TASKTRACKER WORKER THREADS: "  << tasktracker_worker_threads;
+    LOG(INFO) << "TASKTRACKER NETWORK THREADS: " << tasktracker_network_threads;
 
     MPI_Init(&argc, &argv);
-    auto server_thread = task_tracker_initial(cpu_network_threads);
+    auto server_thread = task_tracker_initial(tasktracker_network_threads);
 
-    CPUWorker client(cpu_worker_num);
-    auto work_cpu_thread   = client.cpu_worker_start();
+    CPUWorker client(tasktracker_worker_threads);
+    auto work_cpu_thread = client.cpu_worker_start();
 
     server_thread.join();
     work_cpu_thread.join();

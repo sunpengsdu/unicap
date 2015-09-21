@@ -23,6 +23,12 @@ set(LINK_DIR /lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/src/tools/lib)
 set(CMAKE_CXX_COMPILER "g++")
 INCLUDE_DIRECTORIES(/usr/local/include)
 
+FIND_LIBRARY(libyaml-cpp NAMES "yaml-cpp" PATHS ${LINK_DIR})
+IF(NOT libyaml-cpp)
+MESSAGE(FATAL_ERROR “libyaml-cpp not found”)
+ENDIF(NOT libyaml-cpp)
+MESSAGE(--${libyaml-cpp})
+
 FIND_LIBRARY(libhdfs NAMES "hdfs" PATHS ${LINK_DIR})
 IF(NOT libhdfs)
 MESSAGE(FATAL_ERROR “libhdfs not found”)
