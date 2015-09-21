@@ -16,7 +16,7 @@
 #ifndef NTU_CAP_UNICAP_COMPUTING_USER_CPU_FUNCTIONS_H_
 #define NTU_CAP_UNICAP_COMPUTING_USER_CPU_FUNCTIONS_H_
 
-#include "computing/cpu_functions.h"
+#include "../src/computing/cpu_functions.h"
 
 namespace ntu {
 namespace cap {

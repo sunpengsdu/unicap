@@ -15,8 +15,8 @@
 #include <iostream>
 #include <mpi.h>
 #include <glog/logging.h>
-#include "task_tracker/cpu_worker.h"
-#include "task_tracker/task_tracker_server.h"
+#include "cpu_worker.h"
+#include "task_tracker_server.h"
 
 using namespace ntu;
 using namespace cap;

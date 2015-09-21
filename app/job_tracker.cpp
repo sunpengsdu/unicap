@@ -12,9 +12,7 @@
  *See the License for the specific language governing permissions and
  *limitations under the License.
 */
-#include "job_tracker/DAG.h"
-
-#include "common/intermediate_result.h"
+#include "../src/job_tracker/DAG.h"
 
 using namespace  ::ntu::cap;
 

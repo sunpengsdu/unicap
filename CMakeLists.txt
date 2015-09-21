@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.8.12)
 project (UniCAP)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 set(CMAKE_BUILD_TYPE "Debug")
 #set(CMAKE_BUILD_TYPE "Release")
@@ -17,7 +18,7 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11")
 
-set(LINK_DIR /lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/tools/lib)
+set(LINK_DIR /lib /usr/lib /usr/local/lib ${CMAKE_SOURCE_DIR}/src/tools/lib)
 
 set(CMAKE_CXX_COMPILER "g++")
 INCLUDE_DIRECTORIES(/usr/local/include)
@@ -61,17 +62,14 @@ MESSAGE(--${libmpi})
 FIND_PACKAGE( Boost 1.5 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
-add_subdirectory(common)
-add_subdirectory(storage)
-add_subdirectory(gen)
-add_subdirectory(job_tracker)
-add_subdirectory(computing)
-
-add_executable(uniCAPMaster job_tracker.cpp)
-target_link_libraries(uniCAPMaster JobTracker Computing Common Storage Gen ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
+add_subdirectory(src/common)
+add_subdirectory(src/storage)
+add_subdirectory(src/gen)
+add_subdirectory(src/job_tracker)
+add_subdirectory(src/computing)
+add_subdirectory(app)
 
 
 set(CMAKE_CXX_COMPILER "mpic++")
-add_subdirectory(task_tracker)
-add_executable(uniCAPSlave task_tracker.cpp)
-target_link_libraries(uniCAPSlave TaskTracker Computing Common Storage Gen  ${libthrift} ${libglog} ${libleveldb} ${libsnappy} ${libhdfs} ${Boost_LIBRARIES})
+add_subdirectory(src/task_tracker)
+

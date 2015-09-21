@@ -18,12 +18,6 @@
 
 #include "storage.h"
 
-namespace std {
-    static string to_string(string _val) {
-        return _val;
-    }
-}
-
 namespace ntu {
 namespace cap {
 
@@ -48,6 +42,46 @@ public:
                     T_VALUE value) {
         _intermediate_result_container[row_key][column_key].push_back(value);
         return 1;
+    }
+
+    std::string to_string(int value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(long value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(long long value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(unsigned value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(unsigned long value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(unsigned long long value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(float value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(double value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(long double value) {
+        return std::to_string(value);
+    }
+
+    std::string to_string(std::string value) {
+        return value;
     }
 
     void set_zero(int* value) {
@@ -107,7 +141,7 @@ public:
                 for (auto& inter_result : column_data.second) {
                     merged_value += inter_result;
                 }
-                value_string = std::to_string(merged_value);
+                value_string = to_string(merged_value);
 
                 if (_partition.partition_algo ==
                         KeyPartitionAlgo::HashingPartition) {

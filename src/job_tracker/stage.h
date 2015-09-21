@@ -25,7 +25,7 @@
 #include "../common/table.h"
 #include "../common/column_family.h"
 #include "../common/storage_info.h"
-#include "../user_cpu_functions.h"
+#include "../../app/user_cpu_functions.h"
 
 namespace ntu {
 namespace cap {

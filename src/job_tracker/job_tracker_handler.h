@@ -25,7 +25,7 @@
 #include "../common/node_info.h"
 #include "../common/storage_info.h"
 #include "../computing/cpu_functions.h"
-#include "../user_cpu_functions.h"
+#include "../../app/user_cpu_functions.h"
 #include "scheduler.h"
 
 namespace ntu {

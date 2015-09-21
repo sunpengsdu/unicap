@@ -21,7 +21,7 @@
 #include "../common/storage_info.h"
 #include "../tools/include/boost/threadpool.hpp"
 #include "../computing/cpu_functions.h"
-#include "../user_cpu_functions.h"
+#include "../../app/user_cpu_functions.h"
 #include "cpu_networks.h"
 
 namespace ntu {
