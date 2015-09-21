@@ -38,8 +38,9 @@ public:
             LOG(FATAL) << "CANNOT FIND TABLE " << table_name;
         }
 
-        int64_t shard_num = Storage::get_shard_num(table_name);
-        KeyPartition partition = Storage::get_table_partition(table_name);
+        _shard_num = Storage::get_shard_num(table_name);
+        _partition = Storage::get_table_partition(table_name);
+        _sharded_result_container.resize(_shard_num);
     }
 
     int64_t push_back(T_KEY row_key,
@@ -91,27 +92,63 @@ public:
 
     int64_t merge_data() {
         T_VALUE merged_value;
+        std::string row_string;
+        std::string column_string;
+        std::string value_string;
+        int64_t target_shard = 0;
 
         for (auto& row_data : _intermediate_result_container) {
             for (auto& column_data : row_data.second) {
 
                 set_zero(&merged_value);
+                row_string = std::to_string(row_data.first);
+                column_string = std::to_string(column_data.first);
 
                 for (auto& inter_result : column_data.second) {
                     merged_value += inter_result;
                 }
+                value_string = std::to_string(merged_value);
 
-                _merged_result_container[std::to_string(row_data.first)]
-                                     [std::to_string(column_data.first)]
-                                     = std::to_string(merged_value);
+                if (_partition.partition_algo ==
+                        KeyPartitionAlgo::HashingPartition) {
+
+                    target_shard = _hash_fn(row_string) % _shard_num;
+                    _sharded_result_container[target_shard][row_string][column_string] = value_string;
+
+                } else if (_partition.partition_algo ==
+                        KeyPartitionAlgo::NoneAlgo) {
+
+                    LOG(ERROR) << "NON KEY PARTITION ALGO IN THIS TABLE";
+
+                } else if (_partition.partition_algo ==
+                        KeyPartitionAlgo::RangePartition) {
+
+                    auto it = _partition.key_to_shard.lower_bound(row_string);
+                    target_shard = it->second;
+                    _sharded_result_container[target_shard][row_string][column_string] = value_string;
+                }
+
+                //_merged_result_container[row_string][column_string] = value_string;
                 column_data.second.clear();
             }
         }
         return 1;
     }
+    typedef std::vector<T_VALUE> ValueData;
+    typedef std::unordered_map<T_COLUMN, ValueData> ColumnData;
+    typedef std::unordered_map<T_KEY, ColumnData> RowData;
+    typedef std::unordered_map<std::string, std::string> MergedColumnData;
+    typedef std::unordered_map<std::string, MergedColumnData> MergedRowData;
+    typedef std::vector<MergedRowData> ShardedRowData;
 
-    std::unordered_map<T_KEY, std::unordered_map<T_COLUMN, std::vector<T_VALUE>>> _intermediate_result_container;
-    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _merged_result_container;
+    RowData _intermediate_result_container;
+    MergedRowData _merged_result_container;
+    ShardedRowData _sharded_result_container;
+
+    int64_t _shard_num;
+    KeyPartition _partition;
+
+    std::hash<std::string> _hash_fn;
 };
 
 }

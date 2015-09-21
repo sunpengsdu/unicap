@@ -61,8 +61,8 @@ typedef struct _KeyPartition__isset {
 class KeyPartition {
 public:
 
-    static const char* ascii_fingerprint; // = "652978FE52A8D7F6DACE48CF7F5C13D0";
-    static const uint8_t binary_fingerprint[16]; // = {0x65,0x29,0x78,0xFE,0x52,0xA8,0xD7,0xF6,0xDA,0xCE,0x48,0xCF,0x7F,0x5C,0x13,0xD0};
+    static const char* ascii_fingerprint; // = "8784C999254F8BB696EB735A27E287C7";
+    static const uint8_t binary_fingerprint[16]; // = {0x87,0x84,0xC9,0x99,0x25,0x4F,0x8B,0xB6,0x96,0xEB,0x73,0x5A,0x27,0xE2,0x87,0xC7};
 
     KeyPartition(const KeyPartition&);
     KeyPartition& operator=(const KeyPartition&);
@@ -71,13 +71,13 @@ public:
 
     virtual ~KeyPartition() throw();
     KeyPartitionAlgo::type partition_algo;
-    std::map<int64_t, int64_t>  key_to_shard;
+    std::map<std::string, int64_t>  key_to_shard;
 
     _KeyPartition__isset __isset;
 
     void __set_partition_algo(const KeyPartitionAlgo::type val);
 
-    void __set_key_to_shard(const std::map<int64_t, int64_t> & val);
+    void __set_key_to_shard(const std::map<std::string, int64_t> & val);
 
     bool operator == (const KeyPartition & rhs) const {
         if (!(partition_algo == rhs.partition_algo))
@@ -147,8 +147,8 @@ void swap(TaskTrackerInfo &a, TaskTrackerInfo &b);
 class TableProperty {
 public:
 
-    static const char* ascii_fingerprint; // = "80BC59A6952293A425D72E21CBD8CE25";
-    static const uint8_t binary_fingerprint[16]; // = {0x80,0xBC,0x59,0xA6,0x95,0x22,0x93,0xA4,0x25,0xD7,0x2E,0x21,0xCB,0xD8,0xCE,0x25};
+    static const char* ascii_fingerprint; // = "8779CA596893F4FBCFE4B27D10184031";
+    static const uint8_t binary_fingerprint[16]; // = {0x87,0x79,0xCA,0x59,0x68,0x93,0xF4,0xFB,0xCF,0xE4,0xB2,0x7D,0x10,0x18,0x40,0x31};
 
     TableProperty(const TableProperty&);
     TableProperty& operator=(const TableProperty&);

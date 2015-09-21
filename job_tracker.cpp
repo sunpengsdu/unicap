@@ -50,10 +50,13 @@ int main(int argc, char **argv) {
     inter_store.push_back(2, 1, "s");
     inter_store.merge_data();
 
-    for (auto& i : inter_store._merged_result_container) {
-        for (auto& j : i.second) {
-            std::cout << i.first << "->" << j.first << "->" << j.second << "\n";
+    int ccc = 0;
+    for (auto& i : inter_store._sharded_result_container) {
+        for (auto& j : i) {
+            for (auto& k : j.second)
+                std::cout << ccc << ":"<< j.first << "->" << k.first << "->" << k.second << "\n";
         }
+        ++ccc;
     }
 
     std::vector<std::string> row;

@@ -58,10 +58,11 @@ public:
     int64_t     _hdfs_namenode_port;
     std::vector<int64_t> _storage_weight_pool;
 
-    boost::shared_ptr<UnicapClient<JobTrackerClient>> _client_job_tracker;
-    std::unordered_map<int64_t,
-                boost::shared_ptr<UnicapClient<TaskTrackerClient>> >
-                _client_task_tracker;
+    typedef boost::shared_ptr<UnicapClient<JobTrackerClient>> ClientToJobPtr;
+    ClientToJobPtr _client_job_tracker;
+
+    typedef  boost::shared_ptr<UnicapClient<TaskTrackerClient>> ClientToTaskPtr;
+    std::unordered_map<int64_t, ClientToTaskPtr> _client_task_tracker;
 };
 
 }

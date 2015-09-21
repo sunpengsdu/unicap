@@ -17,7 +17,7 @@ RangePartition   = 3,
 
 struct KeyPartition {
 1:  required KeyPartitionAlgo partition_algo,
-2:  optional map<i64, i64>    key_to_shard,
+2:  optional map<string, i64> key_to_shard,
 }
 
 struct TaskTrackerInfo {

@@ -197,8 +197,8 @@ typedef struct _TaskTracker_create_table_args__isset {
 class TaskTracker_create_table_args {
 public:
 
-    static const char* ascii_fingerprint; // = "A994C462A9885EC03D28E5F7CD843CFB";
-    static const uint8_t binary_fingerprint[16]; // = {0xA9,0x94,0xC4,0x62,0xA9,0x88,0x5E,0xC0,0x3D,0x28,0xE5,0xF7,0xCD,0x84,0x3C,0xFB};
+    static const char* ascii_fingerprint; // = "0B27F6332DBDB0C319C718FE429EFBF5";
+    static const uint8_t binary_fingerprint[16]; // = {0x0B,0x27,0xF6,0x33,0x2D,0xBD,0xB0,0xC3,0x19,0xC7,0x18,0xFE,0x42,0x9E,0xFB,0xF5};
 
     TaskTracker_create_table_args(const TaskTracker_create_table_args&);
     TaskTracker_create_table_args& operator=(const TaskTracker_create_table_args&);
@@ -233,8 +233,8 @@ public:
 class TaskTracker_create_table_pargs {
 public:
 
-    static const char* ascii_fingerprint; // = "A994C462A9885EC03D28E5F7CD843CFB";
-    static const uint8_t binary_fingerprint[16]; // = {0xA9,0x94,0xC4,0x62,0xA9,0x88,0x5E,0xC0,0x3D,0x28,0xE5,0xF7,0xCD,0x84,0x3C,0xFB};
+    static const char* ascii_fingerprint; // = "0B27F6332DBDB0C319C718FE429EFBF5";
+    static const uint8_t binary_fingerprint[16]; // = {0x0B,0x27,0xF6,0x33,0x2D,0xBD,0xB0,0xC3,0x19,0xC7,0x18,0xFE,0x42,0x9E,0xFB,0xF5};
 
 
     virtual ~TaskTracker_create_table_pargs() throw();

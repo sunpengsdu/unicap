@@ -53,13 +53,13 @@ void KeyPartition::__set_partition_algo(const KeyPartitionAlgo::type val) {
     this->partition_algo = val;
 }
 
-void KeyPartition::__set_key_to_shard(const std::map<int64_t, int64_t> & val) {
+void KeyPartition::__set_key_to_shard(const std::map<std::string, int64_t> & val) {
     this->key_to_shard = val;
     __isset.key_to_shard = true;
 }
 
-const char* KeyPartition::ascii_fingerprint = "652978FE52A8D7F6DACE48CF7F5C13D0";
-const uint8_t KeyPartition::binary_fingerprint[16] = {0x65,0x29,0x78,0xFE,0x52,0xA8,0xD7,0xF6,0xDA,0xCE,0x48,0xCF,0x7F,0x5C,0x13,0xD0};
+const char* KeyPartition::ascii_fingerprint = "8784C999254F8BB696EB735A27E287C7";
+const uint8_t KeyPartition::binary_fingerprint[16] = {0x87,0x84,0xC9,0x99,0x25,0x4F,0x8B,0xB6,0x96,0xEB,0x73,0x5A,0x27,0xE2,0x87,0xC7};
 
 uint32_t KeyPartition::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -100,8 +100,8 @@ uint32_t KeyPartition::read(::apache::thrift::protocol::TProtocol* iprot) {
                     xfer += iprot->readMapBegin(_ktype2, _vtype3, _size1);
                     uint32_t _i5;
                     for (_i5 = 0; _i5 < _size1; ++_i5) {
-                        int64_t _key6;
-                        xfer += iprot->readI64(_key6);
+                        std::string _key6;
+                        xfer += iprot->readString(_key6);
                         int64_t& _val7 = this->key_to_shard[_key6];
                         xfer += iprot->readI64(_val7);
                     }
@@ -138,10 +138,10 @@ uint32_t KeyPartition::write(::apache::thrift::protocol::TProtocol* oprot) const
     if (this->__isset.key_to_shard) {
         xfer += oprot->writeFieldBegin("key_to_shard", ::apache::thrift::protocol::T_MAP, 2);
         {
-            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->key_to_shard.size()));
-            std::map<int64_t, int64_t> ::const_iterator _iter8;
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->key_to_shard.size()));
+            std::map<std::string, int64_t> ::const_iterator _iter8;
             for (_iter8 = this->key_to_shard.begin(); _iter8 != this->key_to_shard.end(); ++_iter8) {
-                xfer += oprot->writeI64(_iter8->first);
+                xfer += oprot->writeString(_iter8->first);
                 xfer += oprot->writeI64(_iter8->second);
             }
             xfer += oprot->writeMapEnd();
@@ -318,8 +318,8 @@ void TableProperty::__set_key_partition(const KeyPartition& val) {
     this->key_partition = val;
 }
 
-const char* TableProperty::ascii_fingerprint = "80BC59A6952293A425D72E21CBD8CE25";
-const uint8_t TableProperty::binary_fingerprint[16] = {0x80,0xBC,0x59,0xA6,0x95,0x22,0x93,0xA4,0x25,0xD7,0x2E,0x21,0xCB,0xD8,0xCE,0x25};
+const char* TableProperty::ascii_fingerprint = "8779CA596893F4FBCFE4B27D10184031";
+const uint8_t TableProperty::binary_fingerprint[16] = {0x87,0x79,0xCA,0x59,0x68,0x93,0xF4,0xFB,0xCF,0xE4,0xB2,0x7D,0x10,0x18,0x40,0x31};
 
 uint32_t TableProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
