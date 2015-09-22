@@ -25,7 +25,40 @@
 namespace ntu {
 namespace cap {
 
+class SparseMatrix : public KVStorage {
 
+public:
+
+    SparseMatrix();
+
+    SparseMatrix(const std::string table_name,
+                    const int64_t shard_id,
+                    const std::string cf_name,
+                    std::pair<int64_t, int64_t> size);
+
+    ~SparseMatrix();
+
+    int64_t vector_put(std::vector<std::string> row_key,
+                       std::vector<std::string> column_key,
+                       std::vector<std::string> value);
+
+    int64_t timely_vector_put(std::vector<std::string> row_key,
+                              std::vector<std::string> column_key,
+                              int64_t time_stamp,
+                              std::vector<std::string> value);
+
+    void vector_get(std::vector<std::string> row_key,
+                    std::vector<std::string> column_key,
+                    std::vector<std::string>& value);
+
+    void scan_all(std::vector<std::vector<std::string>>& value);
+
+    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+
+    Eigen::SparseMatrix<double>* storage_ptr();
+
+    Eigen::SparseMatrix<double> _storage_container;
+};
 
 }
 }
