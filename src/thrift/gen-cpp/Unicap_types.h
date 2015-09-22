@@ -199,12 +199,16 @@ public:
 
 void swap(TableProperty &a, TableProperty &b);
 
+typedef struct _ColumnFamilyProperty__isset {
+    _ColumnFamilyProperty__isset() : block_size(false) {}
+    bool block_size :1;
+} _ColumnFamilyProperty__isset;
 
 class ColumnFamilyProperty {
 public:
 
-    static const char* ascii_fingerprint; // = "D6FD826D949221396F4FFC3ECCD3D192";
-    static const uint8_t binary_fingerprint[16]; // = {0xD6,0xFD,0x82,0x6D,0x94,0x92,0x21,0x39,0x6F,0x4F,0xFC,0x3E,0xCC,0xD3,0xD1,0x92};
+    static const char* ascii_fingerprint; // = "CB65B9981B6C6DCDA9DFE884D274DF0C";
+    static const uint8_t binary_fingerprint[16]; // = {0xCB,0x65,0xB9,0x98,0x1B,0x6C,0x6D,0xCD,0xA9,0xDF,0xE8,0x84,0xD2,0x74,0xDF,0x0C};
 
     ColumnFamilyProperty(const ColumnFamilyProperty&);
     ColumnFamilyProperty& operator=(const ColumnFamilyProperty&);
@@ -214,15 +218,24 @@ public:
     virtual ~ColumnFamilyProperty() throw();
     std::string cf_name;
     StorageType::type storage_type;
+    std::vector<int64_t>  block_size;
+
+    _ColumnFamilyProperty__isset __isset;
 
     void __set_cf_name(const std::string& val);
 
     void __set_storage_type(const StorageType::type val);
 
+    void __set_block_size(const std::vector<int64_t> & val);
+
     bool operator == (const ColumnFamilyProperty & rhs) const {
         if (!(cf_name == rhs.cf_name))
             return false;
         if (!(storage_type == rhs.storage_type))
+            return false;
+        if (__isset.block_size != rhs.__isset.block_size)
+            return false;
+        else if (__isset.block_size && !(block_size == rhs.block_size))
             return false;
         return true;
     }

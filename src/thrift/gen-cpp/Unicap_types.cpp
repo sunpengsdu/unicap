@@ -548,8 +548,13 @@ void ColumnFamilyProperty::__set_storage_type(const StorageType::type val) {
     this->storage_type = val;
 }
 
-const char* ColumnFamilyProperty::ascii_fingerprint = "D6FD826D949221396F4FFC3ECCD3D192";
-const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0xD6,0xFD,0x82,0x6D,0x94,0x92,0x21,0x39,0x6F,0x4F,0xFC,0x3E,0xCC,0xD3,0xD1,0x92};
+void ColumnFamilyProperty::__set_block_size(const std::vector<int64_t> & val) {
+    this->block_size = val;
+    __isset.block_size = true;
+}
+
+const char* ColumnFamilyProperty::ascii_fingerprint = "CB65B9981B6C6DCDA9DFE884D274DF0C";
+const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0xCB,0x65,0xB9,0x98,0x1B,0x6C,0x6D,0xCD,0xA9,0xDF,0xE8,0x84,0xD2,0x74,0xDF,0x0C};
 
 uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -589,6 +594,25 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
                 xfer += iprot->skip(ftype);
             }
             break;
+        case 3:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->block_size.clear();
+                    uint32_t _size38;
+                    ::apache::thrift::protocol::TType _etype41;
+                    xfer += iprot->readListBegin(_etype41, _size38);
+                    this->block_size.resize(_size38);
+                    uint32_t _i42;
+                    for (_i42 = 0; _i42 < _size38; ++_i42) {
+                        xfer += iprot->readI64(this->block_size[_i42]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.block_size = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
         default:
             xfer += iprot->skip(ftype);
             break;
@@ -618,6 +642,18 @@ uint32_t ColumnFamilyProperty::write(::apache::thrift::protocol::TProtocol* opro
     xfer += oprot->writeI32((int32_t)this->storage_type);
     xfer += oprot->writeFieldEnd();
 
+    if (this->__isset.block_size) {
+        xfer += oprot->writeFieldBegin("block_size", ::apache::thrift::protocol::T_LIST, 3);
+        {
+            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->block_size.size()));
+            std::vector<int64_t> ::const_iterator _iter43;
+            for (_iter43 = this->block_size.begin(); _iter43 != this->block_size.end(); ++_iter43) {
+                xfer += oprot->writeI64((*_iter43));
+            }
+            xfer += oprot->writeListEnd();
+        }
+        xfer += oprot->writeFieldEnd();
+    }
     xfer += oprot->writeFieldStop();
     xfer += oprot->writeStructEnd();
     oprot->decrementRecursionDepth();
@@ -628,15 +664,21 @@ void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b) {
     using ::std::swap;
     swap(a.cf_name, b.cf_name);
     swap(a.storage_type, b.storage_type);
+    swap(a.block_size, b.block_size);
+    swap(a.__isset, b.__isset);
 }
 
-ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other38) {
-    cf_name = other38.cf_name;
-    storage_type = other38.storage_type;
+ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other44) {
+    cf_name = other44.cf_name;
+    storage_type = other44.storage_type;
+    block_size = other44.block_size;
+    __isset = other44.__isset;
 }
-ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other39) {
-    cf_name = other39.cf_name;
-    storage_type = other39.storage_type;
+ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other45) {
+    cf_name = other45.cf_name;
+    storage_type = other45.storage_type;
+    block_size = other45.block_size;
+    __isset = other45.__isset;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
@@ -644,6 +686,8 @@ std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
     out << "ColumnFamilyProperty(";
     out << "cf_name=" << to_string(obj.cf_name);
     out << ", " << "storage_type=" << to_string(obj.storage_type);
+    out << ", " << "block_size=";
+    (obj.__isset.block_size ? (out << to_string(obj.block_size)) : (out << "<null>"));
     out << ")";
     return out;
 }
@@ -893,31 +937,31 @@ void swap(TaskNode &a, TaskNode &b) {
     swap(a.__isset, b.__isset);
 }
 
-TaskNode::TaskNode(const TaskNode& other40) {
-    status = other40.status;
-    stage_id = other40.stage_id;
-    task_id = other40.task_id;
-    function_name = other40.function_name;
-    src_table_name = other40.src_table_name;
-    src_shard_id = other40.src_shard_id;
-    src_cf_name = other40.src_cf_name;
-    dst_table_name = other40.dst_table_name;
-    dst_cf_name = other40.dst_cf_name;
-    dst_shard_id = other40.dst_shard_id;
-    __isset = other40.__isset;
+TaskNode::TaskNode(const TaskNode& other46) {
+    status = other46.status;
+    stage_id = other46.stage_id;
+    task_id = other46.task_id;
+    function_name = other46.function_name;
+    src_table_name = other46.src_table_name;
+    src_shard_id = other46.src_shard_id;
+    src_cf_name = other46.src_cf_name;
+    dst_table_name = other46.dst_table_name;
+    dst_cf_name = other46.dst_cf_name;
+    dst_shard_id = other46.dst_shard_id;
+    __isset = other46.__isset;
 }
-TaskNode& TaskNode::operator=(const TaskNode& other41) {
-    status = other41.status;
-    stage_id = other41.stage_id;
-    task_id = other41.task_id;
-    function_name = other41.function_name;
-    src_table_name = other41.src_table_name;
-    src_shard_id = other41.src_shard_id;
-    src_cf_name = other41.src_cf_name;
-    dst_table_name = other41.dst_table_name;
-    dst_cf_name = other41.dst_cf_name;
-    dst_shard_id = other41.dst_shard_id;
-    __isset = other41.__isset;
+TaskNode& TaskNode::operator=(const TaskNode& other47) {
+    status = other47.status;
+    stage_id = other47.stage_id;
+    task_id = other47.task_id;
+    function_name = other47.function_name;
+    src_table_name = other47.src_table_name;
+    src_shard_id = other47.src_shard_id;
+    src_cf_name = other47.src_cf_name;
+    dst_table_name = other47.dst_table_name;
+    dst_cf_name = other47.dst_cf_name;
+    dst_shard_id = other47.dst_shard_id;
+    __isset = other47.__isset;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const TaskNode& obj) {

@@ -36,6 +36,7 @@ struct TableProperty {
 struct ColumnFamilyProperty {
 1:  required string      cf_name,
 2:  required StorageType storage_type,
+3:  optional list<i64>   block_size,
 }
 
 struct TaskNode {

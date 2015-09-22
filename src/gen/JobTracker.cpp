@@ -306,16 +306,16 @@ uint32_t JobTracker_get_all_task_tracker_info_result::read(::apache::thrift::pro
             if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size42;
-                    ::apache::thrift::protocol::TType _ktype43;
-                    ::apache::thrift::protocol::TType _vtype44;
-                    xfer += iprot->readMapBegin(_ktype43, _vtype44, _size42);
-                    uint32_t _i46;
-                    for (_i46 = 0; _i46 < _size42; ++_i46) {
-                        int64_t _key47;
-                        xfer += iprot->readI64(_key47);
-                        TaskTrackerInfo& _val48 = this->success[_key47];
-                        xfer += _val48.read(iprot);
+                    uint32_t _size48;
+                    ::apache::thrift::protocol::TType _ktype49;
+                    ::apache::thrift::protocol::TType _vtype50;
+                    xfer += iprot->readMapBegin(_ktype49, _vtype50, _size48);
+                    uint32_t _i52;
+                    for (_i52 = 0; _i52 < _size48; ++_i52) {
+                        int64_t _key53;
+                        xfer += iprot->readI64(_key53);
+                        TaskTrackerInfo& _val54 = this->success[_key53];
+                        xfer += _val54.read(iprot);
                     }
                     xfer += iprot->readMapEnd();
                 }
@@ -346,10 +346,10 @@ uint32_t JobTracker_get_all_task_tracker_info_result::write(::apache::thrift::pr
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
             xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_I64, ::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-            std::map<int64_t, TaskTrackerInfo> ::const_iterator _iter49;
-            for (_iter49 = this->success.begin(); _iter49 != this->success.end(); ++_iter49) {
-                xfer += oprot->writeI64(_iter49->first);
-                xfer += _iter49->second.write(oprot);
+            std::map<int64_t, TaskTrackerInfo> ::const_iterator _iter55;
+            for (_iter55 = this->success.begin(); _iter55 != this->success.end(); ++_iter55) {
+                xfer += oprot->writeI64(_iter55->first);
+                xfer += _iter55->second.write(oprot);
             }
             xfer += oprot->writeMapEnd();
         }
@@ -387,16 +387,16 @@ uint32_t JobTracker_get_all_task_tracker_info_presult::read(::apache::thrift::pr
             if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size50;
-                    ::apache::thrift::protocol::TType _ktype51;
-                    ::apache::thrift::protocol::TType _vtype52;
-                    xfer += iprot->readMapBegin(_ktype51, _vtype52, _size50);
-                    uint32_t _i54;
-                    for (_i54 = 0; _i54 < _size50; ++_i54) {
-                        int64_t _key55;
-                        xfer += iprot->readI64(_key55);
-                        TaskTrackerInfo& _val56 = (*(this->success))[_key55];
-                        xfer += _val56.read(iprot);
+                    uint32_t _size56;
+                    ::apache::thrift::protocol::TType _ktype57;
+                    ::apache::thrift::protocol::TType _vtype58;
+                    xfer += iprot->readMapBegin(_ktype57, _vtype58, _size56);
+                    uint32_t _i60;
+                    for (_i60 = 0; _i60 < _size56; ++_i60) {
+                        int64_t _key61;
+                        xfer += iprot->readI64(_key61);
+                        TaskTrackerInfo& _val62 = (*(this->success))[_key61];
+                        xfer += _val62.read(iprot);
                     }
                     xfer += iprot->readMapEnd();
                 }
