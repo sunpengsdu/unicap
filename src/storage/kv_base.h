@@ -44,7 +44,10 @@ public:
     KVStorage() {
     }
 
-    KVStorage(const std::string table_name, const int64_t shard_id, const std::string cf_name) {
+    KVStorage(const std::string table_name,
+            const int64_t shard_id,
+            const std::string cf_name,
+            std::pair<int64_t, int64_t> size = std::make_pair(1, 1)) {
         _table_name = table_name;
         _cf_name = cf_name;
         _shard_id = shard_id;

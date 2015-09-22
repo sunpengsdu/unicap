@@ -119,9 +119,13 @@ int64_t DAG::create_table(const std::string& table_name,
 
 int64_t DAG::create_cf(const std::string& table_name,
                   const std::string& cf_name,
-                  const StorageType::type cf_type) {
+                  const StorageType::type cf_type,
+                  const std::pair<int64_t, int64_t> size) {
 
     ColumnFamily new_cf(cf_name, cf_type);
+    new_cf._cf_property.block_size.resize(2);
+    new_cf._cf_property.block_size[0] = size.first;
+    new_cf._cf_property.block_size[1] = size.second;
 
     for (auto& exist_cf : StorageInfo::singleton()._cf_info[table_name]) {
         if (exist_cf.first == cf_name) {
@@ -130,8 +134,6 @@ int64_t DAG::create_cf(const std::string& table_name,
     }
 
     StorageInfo::singleton()._cf_info[table_name][cf_name] = new_cf;
-
-    //for (auto i : NodeInfo)
 
     for (auto i : NodeInfo::singleton()._client_task_tracker) {
         i.second->open_transport();

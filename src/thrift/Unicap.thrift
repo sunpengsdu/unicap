@@ -5,8 +5,9 @@ InMemoryKeyValue = 1,
 LSMKeyValue = 2,
 OnDiskKeyValue = 3,
 InMemoryImage = 4,
-InMemoryMatrix = 5,
-HdfsKeyValue = 6,
+DenseMatrix = 5,
+SparseMatrix = 6,
+HdfsKeyValue = 7,
 }
 
 enum KeyPartitionAlgo {
@@ -36,7 +37,7 @@ struct TableProperty {
 struct ColumnFamilyProperty {
 1:  required string      cf_name,
 2:  required StorageType storage_type,
-3:  optional list<i64>   block_size,
+3:  required list<i64>   block_size,
 }
 
 struct TaskNode {

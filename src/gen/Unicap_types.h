@@ -26,8 +26,9 @@ struct StorageType {
         LSMKeyValue = 2,
         OnDiskKeyValue = 3,
         InMemoryImage = 4,
-        InMemoryMatrix = 5,
-        HdfsKeyValue = 6
+        DenseMatrix = 5,
+        SparseMatrix = 6,
+        HdfsKeyValue = 7
     };
 };
 
@@ -199,16 +200,12 @@ public:
 
 void swap(TableProperty &a, TableProperty &b);
 
-typedef struct _ColumnFamilyProperty__isset {
-    _ColumnFamilyProperty__isset() : block_size(false) {}
-    bool block_size :1;
-} _ColumnFamilyProperty__isset;
 
 class ColumnFamilyProperty {
 public:
 
-    static const char* ascii_fingerprint; // = "CB65B9981B6C6DCDA9DFE884D274DF0C";
-    static const uint8_t binary_fingerprint[16]; // = {0xCB,0x65,0xB9,0x98,0x1B,0x6C,0x6D,0xCD,0xA9,0xDF,0xE8,0x84,0xD2,0x74,0xDF,0x0C};
+    static const char* ascii_fingerprint; // = "4CA06419F0B7D20D15BF1012BB23D92D";
+    static const uint8_t binary_fingerprint[16]; // = {0x4C,0xA0,0x64,0x19,0xF0,0xB7,0xD2,0x0D,0x15,0xBF,0x10,0x12,0xBB,0x23,0xD9,0x2D};
 
     ColumnFamilyProperty(const ColumnFamilyProperty&);
     ColumnFamilyProperty& operator=(const ColumnFamilyProperty&);
@@ -219,8 +216,6 @@ public:
     std::string cf_name;
     StorageType::type storage_type;
     std::vector<int64_t>  block_size;
-
-    _ColumnFamilyProperty__isset __isset;
 
     void __set_cf_name(const std::string& val);
 
@@ -233,9 +228,7 @@ public:
             return false;
         if (!(storage_type == rhs.storage_type))
             return false;
-        if (__isset.block_size != rhs.__isset.block_size)
-            return false;
-        else if (__isset.block_size && !(block_size == rhs.block_size))
+        if (!(block_size == rhs.block_size))
             return false;
         return true;
     }

@@ -12,31 +12,23 @@
  *See the License for the specific language governing permissions and
  *limitations under the License.
 */
-#include "column_family.h"
+
+
+#ifndef UNICAP_SRC_STORAGE_SPARSE_MATRIX_H_
+#define UNICAP_SRC_STORAGE_SPARSE_MATRIX_H_
+
+#include <unordered_map>
+#include <map>
+#include "./kv_base.h"
+#include "../tools/include/Eigen/Sparse"
 
 namespace ntu {
 namespace cap {
 
-ColumnFamily::ColumnFamily() {
-}
 
-ColumnFamily::ColumnFamily(const ColumnFamilyProperty& cf_property) {
-    _cf_property = cf_property;
-}
-
-ColumnFamily::ColumnFamily(const std::string& cf_name,
-                 const StorageType::type storage_type) {
-    _cf_property.cf_name = cf_name;
-    _cf_property.storage_type = storage_type;
-    _cf_property.block_size.clear();
-}
-
-int64_t ColumnFamily::set_storage_type(const StorageType::type storage_type) {
-    _cf_property.storage_type = storage_type;
-    return 1;
-}
 
 }
 }
 
 
+#endif /* UNICAP_SRC_STORAGE_SPARSE_MATRIX_H_ */

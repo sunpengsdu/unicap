@@ -21,6 +21,23 @@ int main(int argc, char **argv) {
     google::LogToStderr();
     std::thread jobtracker = DAG::initial();
 
+    DAG::create_table("test_dense_matrix", 10);
+    DAG::create_cf("test_dense_matrix",
+                "test_dense_matrix",
+                StorageType::DenseMatrix,
+                std::make_pair(100, 100));
+
+    std::vector<std::vector<std::string>> dense_result;
+
+    Storage::scan_all("test_dense_matrix", "test_dense_matrix", 0, dense_result);
+    for (int i = 0; i < 100; ++i) {
+        for (int j = 0; j < 100; ++j) {
+            std::cout << dense_result[0][100*i+j] << " ";
+        }
+        std::cout << "\n";
+    }
+
+
     DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt");
 
     KeyPartition rrr;

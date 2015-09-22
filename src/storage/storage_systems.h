@@ -21,5 +21,7 @@
 #include "./lsm_key_value.h"
 #include "./hdfs_key_value.h"
 #include "./image_key_value.h"
+#include "./dense_matrix.h"
+#include "./sparse_matrix.h"
 
 #endif /* UNICAP_STORAGE_STORAGE_SYSTEMS_H_ */

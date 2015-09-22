@@ -51,11 +51,12 @@ public:
                              const KeyPartition& partition);
 
     static int64_t create_table(const std::string& table_name,
-                             const Table& base_table) ;
+                             const Table& base_table);
 
     static int64_t create_cf(const std::string& table_name,
                           const std::string& cf_name,
-                          const StorageType::type cf_type);
+                          const StorageType::type cf_type,
+                          const std::pair<int64_t, int64_t> size = std::make_pair(1, 1));
 
     static int64_t create_distributed_cache(const std::string& table_name,
                                     const std::string& cf_name,

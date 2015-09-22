@@ -19,7 +19,8 @@ int _kStorageTypeValues[] = {
     StorageType::LSMKeyValue,
     StorageType::OnDiskKeyValue,
     StorageType::InMemoryImage,
-    StorageType::InMemoryMatrix,
+    StorageType::DenseMatrix,
+    StorageType::SparseMatrix,
     StorageType::HdfsKeyValue
 };
 const char* _kStorageTypeNames[] = {
@@ -27,10 +28,11 @@ const char* _kStorageTypeNames[] = {
     "LSMKeyValue",
     "OnDiskKeyValue",
     "InMemoryImage",
-    "InMemoryMatrix",
+    "DenseMatrix",
+    "SparseMatrix",
     "HdfsKeyValue"
 };
-const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(6, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(7, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 int _kKeyPartitionAlgoValues[] = {
     KeyPartitionAlgo::NoneAlgo,
@@ -550,11 +552,10 @@ void ColumnFamilyProperty::__set_storage_type(const StorageType::type val) {
 
 void ColumnFamilyProperty::__set_block_size(const std::vector<int64_t> & val) {
     this->block_size = val;
-    __isset.block_size = true;
 }
 
-const char* ColumnFamilyProperty::ascii_fingerprint = "CB65B9981B6C6DCDA9DFE884D274DF0C";
-const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0xCB,0x65,0xB9,0x98,0x1B,0x6C,0x6D,0xCD,0xA9,0xDF,0xE8,0x84,0xD2,0x74,0xDF,0x0C};
+const char* ColumnFamilyProperty::ascii_fingerprint = "4CA06419F0B7D20D15BF1012BB23D92D";
+const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0x4C,0xA0,0x64,0x19,0xF0,0xB7,0xD2,0x0D,0x15,0xBF,0x10,0x12,0xBB,0x23,0xD9,0x2D};
 
 uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -569,6 +570,7 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
 
     bool isset_cf_name = false;
     bool isset_storage_type = false;
+    bool isset_block_size = false;
 
     while (true) {
         xfer += iprot->readFieldBegin(fname, ftype, fid);
@@ -608,7 +610,7 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
                     }
                     xfer += iprot->readListEnd();
                 }
-                this->__isset.block_size = true;
+                isset_block_size = true;
             } else {
                 xfer += iprot->skip(ftype);
             }
@@ -626,6 +628,8 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
         throw TProtocolException(TProtocolException::INVALID_DATA);
     if (!isset_storage_type)
         throw TProtocolException(TProtocolException::INVALID_DATA);
+    if (!isset_block_size)
+        throw TProtocolException(TProtocolException::INVALID_DATA);
     return xfer;
 }
 
@@ -642,18 +646,17 @@ uint32_t ColumnFamilyProperty::write(::apache::thrift::protocol::TProtocol* opro
     xfer += oprot->writeI32((int32_t)this->storage_type);
     xfer += oprot->writeFieldEnd();
 
-    if (this->__isset.block_size) {
-        xfer += oprot->writeFieldBegin("block_size", ::apache::thrift::protocol::T_LIST, 3);
-        {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->block_size.size()));
-            std::vector<int64_t> ::const_iterator _iter43;
-            for (_iter43 = this->block_size.begin(); _iter43 != this->block_size.end(); ++_iter43) {
-                xfer += oprot->writeI64((*_iter43));
-            }
-            xfer += oprot->writeListEnd();
+    xfer += oprot->writeFieldBegin("block_size", ::apache::thrift::protocol::T_LIST, 3);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->block_size.size()));
+        std::vector<int64_t> ::const_iterator _iter43;
+        for (_iter43 = this->block_size.begin(); _iter43 != this->block_size.end(); ++_iter43) {
+            xfer += oprot->writeI64((*_iter43));
         }
-        xfer += oprot->writeFieldEnd();
+        xfer += oprot->writeListEnd();
     }
+    xfer += oprot->writeFieldEnd();
+
     xfer += oprot->writeFieldStop();
     xfer += oprot->writeStructEnd();
     oprot->decrementRecursionDepth();
@@ -665,20 +668,17 @@ void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b) {
     swap(a.cf_name, b.cf_name);
     swap(a.storage_type, b.storage_type);
     swap(a.block_size, b.block_size);
-    swap(a.__isset, b.__isset);
 }
 
 ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other44) {
     cf_name = other44.cf_name;
     storage_type = other44.storage_type;
     block_size = other44.block_size;
-    __isset = other44.__isset;
 }
 ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other45) {
     cf_name = other45.cf_name;
     storage_type = other45.storage_type;
     block_size = other45.block_size;
-    __isset = other45.__isset;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
@@ -686,8 +686,7 @@ std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
     out << "ColumnFamilyProperty(";
     out << "cf_name=" << to_string(obj.cf_name);
     out << ", " << "storage_type=" << to_string(obj.storage_type);
-    out << ", " << "block_size=";
-    (obj.__isset.block_size ? (out << to_string(obj.block_size)) : (out << "<null>"));
+    out << ", " << "block_size=" << to_string(obj.block_size);
     out << ")";
     return out;
 }
