@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     }
 
 
-    DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt");
+    DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt", 16*1024*1024);
 
     KeyPartition rrr;
 
@@ -65,18 +65,18 @@ int main(int argc, char **argv) {
     std::vector<std::string> row;
     std::vector<std::string> column;
     std::vector<std::string> value;
-    row.push_back("a");
-    row.push_back("b");
+    row.push_back("0");
+    row.push_back("1");
+    column.push_back("0");
     column.push_back("1");
-    column.push_back("2");
-    value.push_back("a1");
-    value.push_back("b2");
-    Storage::vector_put("a", "a", 0, row, column, value);
+    value.push_back(std::to_string(1.11));
+    value.push_back(std::to_string(2.22));
+    Storage::vector_put("test_dense_matrix", "test_dense_matrix", 0, row, column, value);
 
 
     std::vector<std::string> return_value1;
 
-    Storage::vector_get("a","a", 0, row, column, return_value1);
+    Storage::vector_get("test_dense_matrix","test_dense_matrix", 0, row, column, return_value1);
 
     for (uint64_t j=0; j<return_value1.size(); ++j) {
         std::cout << return_value1[j] << "\n";
