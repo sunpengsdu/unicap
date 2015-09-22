@@ -39,6 +39,8 @@ namespace cap {
 class DAG {
 
 public:
+    static std::thread initial();
+
     static std::thread start_job_tracker(int64_t thread_num = 10);
 
     static int64_t create_table(const std::string& table_name,
@@ -67,11 +69,22 @@ public:
                                 const int64_t block_size = 1024*1024*64,
                                 StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
 
+    static int64_t load_local_img(const std::string& path,
+                        const std::string& table_name,
+                        const std::string& cf_name,
+                        const int64_t block_size = 1024*1024*64);
+
+
     static int64_t load_hdfs_file(const std::string& path,
                                 const std::string& table_name,
                                 const std::string& cf_name,
                                 const int64_t block_size = 1024*1024*64,
                                 StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
+
+    static int64_t load_hdfs_img(const std::string& path,
+                            const std::string& table_name,
+                            const std::string& cf_name,
+                            const int64_t block_size = 1024*1024*64);
 
     static int64_t save_to_hdfs(const std::string& table_name,
                                 const std::string& cf_name);

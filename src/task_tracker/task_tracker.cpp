@@ -22,29 +22,7 @@
 using namespace ntu;
 using namespace cap;
 
-std::thread task_tracker_initial(int64_t thread_num) {
-    TaskTrackerServer::singleton().regeister();
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    TaskTrackerServer::singleton().set_thread_num(thread_num);
-    auto server_thread = TaskTrackerServer::singleton().start();
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    TaskTrackerServer::singleton().fetch_node_info();
-    TaskTrackerServer::singleton().create_task_tracker_client();
-//    TaskTrackerServer::singleton().check_client_task_tracker();
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    return server_thread;
-}
-
-
-int main(int argc, char **argv) {
-
-    google::InitGoogleLogging(argv[0]);
-    google::LogToStderr();
-
-
+int64_t task_tracker_initial(std::vector<std::thread>& thread_pool) {
     YAML::Node config = YAML::LoadFile("../etc/unicap.yaml");
     const std::string application_name = config["application_name"].as<std::string>();
     const std::string jobtracker_host = config["jobtracker_host"].as<std::string>();
@@ -71,14 +49,39 @@ int main(int argc, char **argv) {
     LOG(INFO) << "TASKTRACKER WORKER THREADS: "  << tasktracker_worker_threads;
     LOG(INFO) << "TASKTRACKER NETWORK THREADS: " << tasktracker_network_threads;
 
-    MPI_Init(&argc, &argv);
-    auto server_thread = task_tracker_initial(tasktracker_network_threads);
+    TaskTrackerServer::singleton().regeister();
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    TaskTrackerServer::singleton().set_thread_num(tasktracker_network_threads);
+    thread_pool.push_back(TaskTrackerServer::singleton().start());
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    TaskTrackerServer::singleton().fetch_node_info();
+    TaskTrackerServer::singleton().create_task_tracker_client();
+
+    MPI_Barrier(MPI_COMM_WORLD);
 
     CPUWorker client(tasktracker_worker_threads);
-    auto work_cpu_thread = client.cpu_worker_start();
+    thread_pool.push_back(client.cpu_worker_start());
 
-    server_thread.join();
-    work_cpu_thread.join();
+    return 1;
+}
+
+
+int main(int argc, char **argv) {
+
+    google::InitGoogleLogging(argv[0]);
+    google::LogToStderr();
+    MPI_Init(&argc, &argv);
+
+    std::vector<std::thread> tasktracker;
+    task_tracker_initial(tasktracker);
+
+    for (auto& thread : tasktracker) {
+        thread.join();
+    }
+
     MPI_Finalize();
     return 0;
 }

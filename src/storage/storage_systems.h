@@ -20,5 +20,6 @@
 #include "./in_memory_key_value.h"
 #include "./lsm_key_value.h"
 #include "./hdfs_key_value.h"
+#include "./image_key_value.h"
 
 #endif /* UNICAP_STORAGE_STORAGE_SYSTEMS_H_ */

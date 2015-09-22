@@ -68,6 +68,8 @@ MESSAGE(--${libmpi})
 FIND_PACKAGE( Boost 1.5 COMPONENTS system filesystem thread REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
+FIND_PACKAGE( OpenCV REQUIRED)
+
 add_subdirectory(src/common)
 add_subdirectory(src/storage)
 add_subdirectory(src/gen)

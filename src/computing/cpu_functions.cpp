@@ -23,6 +23,7 @@ CPUFunctions::CPUFunctions() {
     _cpu_functions_p["load_hdfs"] = load_hdfs;
     _cpu_functions_p["save_hdfs"] = save_hdfs;
     _cpu_functions_p["load_distributed_cache"] = load_distributed_cache;
+    _cpu_functions_p["load_hdfs_image"] = load_hdfs_image;
 }
 
 int64_t CPUFunctions::test (TaskNode new_task) {
@@ -198,6 +199,64 @@ int64_t CPUFunctions::save_hdfs (TaskNode new_task) {
     hdfsCloseFile(fs, file);
     hdfsDisconnect(fs);
 
+    return 1;
+}
+
+int64_t CPUFunctions::load_hdfs_image(TaskNode new_task) {
+
+    struct hdfsBuilder *builder = hdfsNewBuilder();
+    hdfsBuilderSetForceNewInstance(builder);
+    hdfsBuilderSetNameNode(builder, NodeInfo::singleton()._hdfs_namenode.c_str());
+    hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
+    hdfsFS fs = hdfsBuilderConnect(builder);
+
+    std::vector<std::vector<std::string>> hdfs_property;
+
+    StorageInfo::singleton()._cf_ptr[new_task.src_table_name]
+                                 [new_task.src_shard_id]
+                                 [new_task.src_cf_name] ->
+                                 scan_all(hdfs_property);
+
+    uint64_t entries_num = hdfs_property[0].size();
+    int64_t buffer_size = 1024;
+    char buffer[buffer_size];
+    std::vector<std::string> row;
+    std::vector<std::string> column;
+    std::vector<std::string> value;
+    std::string single_value;
+    int64_t total_size = 0;
+
+    for (uint64_t i = 0; i < entries_num; ++i) {
+        memset(buffer, 0, buffer_size);
+        std::string path = hdfs_property[0][i];
+
+        row.push_back(path);
+        column.push_back(hdfs_property[1][i]);
+        single_value.clear();
+
+        hdfsFile file = hdfsOpenFile(fs, path.c_str(), O_RDONLY, 0, 0, 0);
+
+        bool    eof = false;
+        int64_t read_size = 0;
+        while(!eof) {
+            memset(buffer, 0, buffer_size);
+            read_size = hdfsRead(fs, file, buffer, buffer_size);
+            if (read_size == 0) {
+                eof = true;
+                break;
+            }
+            single_value.append(buffer, read_size);
+        }
+        value.push_back(single_value);
+        hdfsCloseFile(fs, file);
+        total_size += single_value.size();
+    }
+
+    StorageInfo::singleton()._cf_ptr[new_task.dst_table_name]
+                                     [new_task.src_shard_id]
+                                     [new_task.dst_cf_name] ->
+                                     vector_put(row, column, value);
+    hdfsDisconnect(fs);
     return 1;
 }
 

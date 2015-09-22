@@ -36,6 +36,7 @@ int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
     write_lock _lock(KVStorage::_rwmutex);
 
     std::string single_key;
+
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         single_key.clear();
         single_key.append(row_key[i]);

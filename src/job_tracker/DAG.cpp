@@ -17,6 +17,34 @@
 namespace ntu {
 namespace cap {
 
+std::thread DAG::initial() {
+    YAML::Node config = YAML::LoadFile("../etc/unicap.yaml");
+    const std::string application_name = config["application_name"].as<std::string>();
+    const std::string jobtracker_host = config["jobtracker_host"].as<std::string>();
+    const int64_t jobtracker_port = config["jobtracker_port"].as<int64_t>();
+    const std::string hdfs_namenode_host = config["hdfs_namenode_host"].as<std::string>();
+    const int64_t hdfs_namenode_port = config["hdfs_namenode_port"].as<int64_t>();
+    const std::string hdfs_output_dir = config["hdfs_output_dir"].as<std::string>();
+    const int64_t jobtracker_threads = config["jobtracker_threads"].as<int64_t>();
+
+    NodeInfo::singleton()._app_name = application_name;
+    NodeInfo::singleton()._master_host_name = jobtracker_host;
+    NodeInfo::singleton()._master_port = jobtracker_port;
+    NodeInfo::singleton()._hdfs_namenode = hdfs_namenode_host;
+    NodeInfo::singleton()._hdfs_namenode_port = hdfs_namenode_port;
+    NodeInfo::singleton()._root_dir = hdfs_output_dir;
+
+    LOG(INFO) << "APPLICATION NAME: "       << application_name;
+    LOG(INFO) << "JOBTRACKER HOSTNAME: "    << jobtracker_host;
+    LOG(INFO) << "JOBTRACKER PORT: "        << jobtracker_port;
+    LOG(INFO) << "HDFS NAMENODE HOSTNAME: " << hdfs_namenode_host;
+    LOG(INFO) << "HDFS NAMENODE PORT: "     << hdfs_namenode_port;
+    LOG(INFO) << "HDFS OUTPUT DIR: "        << hdfs_output_dir;
+    LOG(INFO) << "JOBTRACKER THREADS: "     << jobtracker_threads;
+
+    return (DAG::start_job_tracker(jobtracker_threads));
+}
+
 std::thread DAG::start_job_tracker(int64_t thread_num) {
 
     JobTrackerServer::singleton().set_port(NodeInfo::singleton()._master_port);
@@ -181,7 +209,7 @@ int64_t load_file_regular(const std::vector<std::string>& path,
             full_chuncks.push_back(new_node);
         }
         last_chunck_size = size[i] - block_size * (chunck_num - 1);
-        if ((float(last_chunck_size) / block_size) > 0.7) {
+        if ((float(last_chunck_size) / block_size) > 0.5) {
             new_node.clear();
             new_node.push_back(std::make_pair(path[i], chunck_num - 1));
             full_chuncks.push_back(new_node);
@@ -197,27 +225,22 @@ int64_t load_file_regular(const std::vector<std::string>& path,
         new_chunck.clear();
         int64_t first_ck_size = std::get<2>(free_chuncks[0]);
         int64_t target_ck_size = 0;
-
+        merged_id.push_back(0);
         for (uint64_t i = 1; i < free_chuncks.size(); ++i) {
             target_ck_size = std::get<2>(free_chuncks[i]);
-            if ((first_ck_size + target_ck_size) < (1.2 * block_size)) {
+            if ((first_ck_size + target_ck_size) < (1.5 * block_size)) {
                 merged_id.push_back(i);
                 first_ck_size += target_ck_size;
-            }
-            if (i > 50) {
+            } else {
                 break;
             }
         }
 
-        new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[0]),
-                                        std::get<1>(free_chuncks[0])));
-
-        for (auto i = int64_t(merged_id.size()) - 1; i >= 0; --i) {
-            new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[merged_id[i]]),
-                                                std::get<1>(free_chuncks[merged_id[i]])));
-            free_chuncks.erase(free_chuncks.begin() + merged_id[i]);
+        for (uint64_t i = 0; i < merged_id.size(); ++i) {
+            new_chunck.push_back(std::make_pair(std::get<0>(free_chuncks[i]),
+                                                std::get<1>(free_chuncks[i])));
         }
-        free_chuncks.erase(free_chuncks.begin());
+        free_chuncks.erase(free_chuncks.begin(), free_chuncks.begin() + merged_id.size());
 
         full_chuncks.push_back(new_chunck);
     }
