@@ -75,8 +75,6 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
 
     int64_t node_id = NodeInfo::singleton()._node_id;
 
-    std::cout << "##### " << cf_property.block_size.size() << "\n";
-
     switch (cf_property.storage_type) {
 
     case StorageType::type::InMemoryKeyValue: {
@@ -147,11 +145,26 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
                 StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<DenseMatrix>(table_name,
-                                                    i,
-                                                    cf_property.cf_name,
+                    = std::make_shared<DenseMatrix>(table_name, i, cf_property.cf_name,
                                                     std::make_pair(cf_property.block_size[0],
-                                                            cf_property.block_size[1]));
+                                                    cf_property.block_size[1]));
+            }
+        }
+        break;
+    }
+
+    case StorageType::type::SparseMatrix: {
+        //table_name -> shard_id -> cf_name -> ptr
+        if (StorageInfo::singleton()._table_info[table_name].
+                        _table_property.node_info.find(node_id) !=
+            StorageInfo::singleton()._table_info[table_name].
+                            _table_property.node_info.end()) {
+            for (int64_t i : StorageInfo::singleton()._table_info[table_name].
+                    _table_property.node_info[node_id]) {
+                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                    = std::make_shared<SparseMatrix>(table_name, i, cf_property.cf_name,
+                                                    std::make_pair(cf_property.block_size[0],
+                                                    cf_property.block_size[1]));
             }
         }
         break;

@@ -275,11 +275,6 @@ int64_t load_hdfs_img_regular(std::vector<std::string>& path,
 
     load_img_regular(path, size, table_name, cf_name, block_size, chuncks);
 
-    std::cout << chuncks.size() << "\n";
-    for (auto i : chuncks) {
-        std::cout << i.size() << "###\n";
-    }
-
     KeyPartition hdfs_table_partition;
     hdfs_table_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
     DAG::create_table(table_name, chuncks.size(), hdfs_table_partition);

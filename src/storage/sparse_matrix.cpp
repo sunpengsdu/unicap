@@ -44,7 +44,7 @@ int64_t SparseMatrix::vector_put(std::vector<std::string> row_key,
 
     typedef Eigen::Triplet<double> T;
 	std::vector<T> tripletList;
-	tripletList.reserve(estimation_of_entries);
+	tripletList.reserve(row_key.size());
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
@@ -87,7 +87,7 @@ void SparseMatrix::vector_get(std::vector<std::string> row_key,
                 column >= _storage_container.cols()) {
             LOG(ERROR) << "DENSE MATRIX INDEX ERROR";
         }
-        result = _storage_container(row, column);
+        result = _storage_container.coeffRef(row, column);
         value.push_back(std::to_string(result));
     }
 }
@@ -97,15 +97,11 @@ void SparseMatrix::scan_all(std::vector<std::vector<std::string>>& value) {
     value.clear();
     value.resize(3);
 
-    int64_t row = _storage_container.rows();
-    int64_t column = _storage_container.cols();
-    double result;
-
     for (int k = 0; k < _storage_container.outerSize(); ++k) {
-		for (SparseMatrix<double>::InnerIterator it(_storage_container, k); it; ++it) {
-			value[2].push_back(std::to_string(it.value());
-            value[0].push_back(std::to_string(it.row());
-            value[1].push_back(std::to_string(it.col());
+		for (Eigen::SparseMatrix<double>::InnerIterator it(_storage_container, k); it; ++it) {
+			value[2].push_back(std::to_string(it.value()));
+            value[0].push_back(std::to_string(it.row()));
+            value[1].push_back(std::to_string(it.col()));
    		}
 	}
 }
