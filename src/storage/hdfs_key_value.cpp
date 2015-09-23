@@ -54,6 +54,16 @@ namespace cap {
        return 1;
    }
 
+   int64_t HdfsKeyValue::vector_merge(std::vector<std::string> row_key,
+                         std::vector<std::string> column_key,
+                         std::vector<std::string> value) {
+          CHECK_EQ(row_key.size(), column_key.size());
+          CHECK_EQ(row_key.size(), value.size());
+          write_lock _lock(KVStorage::_rwmutex);
+          LOG(FATAL) << "NOT IMPLEMENTED \n";
+          return 1;
+      }
+
    int64_t HdfsKeyValue::timely_vector_put(std::vector<std::string> row_key,
                              std::vector<std::string> column_key,
                              int64_t time_stamp,
@@ -83,6 +93,9 @@ namespace cap {
         _fs = hdfsBuilderConnect(_builder);
 
         std::string single_value;
+        value[0].reserve(num_entries);
+        value[1].reserve(num_entries);
+        value[2].reserve(num_entries);
 
         for (uint64_t i = 0; i < num_entries; ++i) {
             int64_t buffer_size = 1024;

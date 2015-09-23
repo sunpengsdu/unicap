@@ -54,6 +54,16 @@ int64_t InMemoryImage::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
+int64_t InMemoryImage::vector_merge(std::vector<std::string> row_key,
+                   std::vector<std::string> column_key,
+                   std::vector<std::string> value) {
+    CHECK_EQ(row_key.size(), column_key.size());
+    CHECK_EQ(row_key.size(), value.size());
+    write_lock _lock(KVStorage::_rwmutex);
+    LOG(FATAL) << "NOT IMPLEMENTED \n";
+    return 1;
+}
+
 int64_t InMemoryImage::timely_vector_put(std::vector<std::string> row_key,
                           std::vector<std::string> column_key,
                           int64_t time_stamp,

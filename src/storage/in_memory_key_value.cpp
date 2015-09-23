@@ -47,6 +47,33 @@ int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
+int64_t InMemoryKeyValue::vector_merge(std::vector<std::string> row_key,
+                   std::vector<std::string> column_key,
+                   std::vector<std::string> value) {
+    CHECK_EQ(row_key.size(), column_key.size());
+    CHECK_EQ(row_key.size(), value.size());
+    write_lock _lock(KVStorage::_rwmutex);
+
+    std::string single_key;
+    std::string merged_value;
+    std::vector<std::string> tokens;
+
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        tokens.clear();
+        merged_value.clear();
+        boost::split(tokens, column_key[i], boost::algorithm::is_any_of("@"));
+
+        single_key.clear();
+        single_key.append(row_key[i]);
+        single_key.append("!");
+        single_key.append(tokens[0]);
+        merged_value.append("\n");
+        merged_value.append(value[i]);
+        _storage_container[single_key].append(merged_value);
+    }
+    return 1;
+}
+
 int64_t InMemoryKeyValue::timely_vector_put(std::vector<std::string> row_key,
                           std::vector<std::string> column_key,
                           int64_t time_stamp,

@@ -137,6 +137,8 @@ public:
                 set_zero(&merged_value);
                 row_string = std::to_string(row_data.first);
                 column_string = std::to_string(column_data.first);
+                column_string.append("@");
+                column_string.append(std::to_string(NodeInfo::singleton()._node_id));
 
                 for (auto& inter_result : column_data.second) {
                     merged_value += inter_result;

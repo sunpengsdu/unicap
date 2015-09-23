@@ -53,6 +53,26 @@ int64_t DenseMatrix::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
+int64_t DenseMatrix::vector_merge(std::vector<std::string> row_key,
+                       std::vector<std::string> column_key,
+                       std::vector<std::string> value) {
+
+    CHECK_EQ(row_key.size(), column_key.size());
+    CHECK_EQ(row_key.size(), value.size());
+    write_lock _lock(KVStorage::_rwmutex);
+    int64_t row = 0;
+    int64_t column = 0;
+    double matrix_value = 0.0;
+
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        row = std::stol(row_key[i]);
+        column = std::stol(column_key[i]);
+        matrix_value = std::stod(value[i]);
+        _storage_container(row, column) += matrix_value;
+    }
+    return 1;
+}
+
 int64_t DenseMatrix::timely_vector_put(std::vector<std::string> row_key,
                           std::vector<std::string> column_key,
                           int64_t time_stamp,
@@ -74,6 +94,7 @@ void DenseMatrix::vector_get(std::vector<std::string> row_key,
     int64_t column = 0;
     double result;
     read_lock _lock(KVStorage::_rwmutex);
+    value.reserve(row_key.size());
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
@@ -96,6 +117,8 @@ void DenseMatrix::scan_all(std::vector<std::vector<std::string>>& value) {
     int64_t row = _storage_container.rows();
     int64_t column = _storage_container.cols();
     double result;
+
+    value[0].reserve(row * column);
 
     for (int64_t i = 0; i < row; ++i) {
         for (int64_t j = 0; j < column; ++j) {

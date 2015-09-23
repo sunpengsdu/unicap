@@ -60,6 +60,24 @@ int64_t LSMKeyValue::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
+int64_t LSMKeyValue::vector_merge(std::vector<std::string> row_key,
+                               std::vector<std::string> column_key,
+                               std::vector<std::string> value) {
+
+    CHECK_EQ(row_key.size(), column_key.size());
+    CHECK_EQ(row_key.size(), value.size());
+
+    std::string single_key;
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        single_key.clear();
+        single_key.append(row_key[i]);
+        single_key.append("!");
+        single_key.append(column_key[i]);
+        _db->Put(leveldb::WriteOptions(), single_key, value[i]);
+    }
+    return 1;
+}
+
 int64_t LSMKeyValue::timely_vector_put(std::vector<std::string> row_key,
                                     std::vector<std::string> column_key,
                                     int64_t time_stamp,
@@ -105,6 +123,10 @@ void LSMKeyValue::scan_all(std::vector<std::vector<std::string>>& value) {
     std::vector<std::string> tokens;
     std::string single_key;
     std::string single_value;
+
+    value[0].reserve(1000);
+    value[1].reserve(1000);
+    value[2].reserve(1000);
 
     leveldb::Iterator* it = _db->NewIterator(leveldb::ReadOptions());
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
