@@ -34,6 +34,16 @@ struct StorageType {
 
 extern const std::map<int, const char*> _StorageType_VALUES_TO_NAMES;
 
+struct ValueType {
+    enum type {
+        Int64 = 1,
+        Double = 2,
+        String = 3
+    };
+};
+
+extern const std::map<int, const char*> _ValueType_VALUES_TO_NAMES;
+
 struct KeyPartitionAlgo {
     enum type {
         NoneAlgo = 1,
@@ -204,22 +214,25 @@ void swap(TableProperty &a, TableProperty &b);
 class ColumnFamilyProperty {
 public:
 
-    static const char* ascii_fingerprint; // = "4CA06419F0B7D20D15BF1012BB23D92D";
-    static const uint8_t binary_fingerprint[16]; // = {0x4C,0xA0,0x64,0x19,0xF0,0xB7,0xD2,0x0D,0x15,0xBF,0x10,0x12,0xBB,0x23,0xD9,0x2D};
+    static const char* ascii_fingerprint; // = "E05D11A065D289293DBEC51207844A07";
+    static const uint8_t binary_fingerprint[16]; // = {0xE0,0x5D,0x11,0xA0,0x65,0xD2,0x89,0x29,0x3D,0xBE,0xC5,0x12,0x07,0x84,0x4A,0x07};
 
     ColumnFamilyProperty(const ColumnFamilyProperty&);
     ColumnFamilyProperty& operator=(const ColumnFamilyProperty&);
-    ColumnFamilyProperty() : cf_name(), storage_type((StorageType::type)0) {
+    ColumnFamilyProperty() : cf_name(), storage_type((StorageType::type)0), value_type((ValueType::type)0) {
     }
 
     virtual ~ColumnFamilyProperty() throw();
     std::string cf_name;
     StorageType::type storage_type;
+    ValueType::type value_type;
     std::vector<int64_t>  block_size;
 
     void __set_cf_name(const std::string& val);
 
     void __set_storage_type(const StorageType::type val);
+
+    void __set_value_type(const ValueType::type val);
 
     void __set_block_size(const std::vector<int64_t> & val);
 
@@ -227,6 +240,8 @@ public:
         if (!(cf_name == rhs.cf_name))
             return false;
         if (!(storage_type == rhs.storage_type))
+            return false;
+        if (!(value_type == rhs.value_type))
             return false;
         if (!(block_size == rhs.block_size))
             return false;

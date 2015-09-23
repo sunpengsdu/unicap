@@ -19,11 +19,23 @@ public:
     virtual void ping(std::string& _return) = 0;
     virtual int64_t create_table(const TableProperty& table_property) = 0;
     virtual int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property) = 0;
-    virtual int64_t vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) = 0;
-    virtual int64_t timely_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) = 0;
-    virtual void vector_get(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) = 0;
+    virtual int64_t vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value) = 0;
+    virtual int64_t vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value) = 0;
+    virtual int64_t vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) = 0;
+    virtual int64_t timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) = 0;
+    virtual int64_t timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) = 0;
+    virtual int64_t timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) = 0;
+    virtual void vector_get_int(std::vector<int64_t> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) = 0;
+    virtual void vector_get_double(std::vector<double> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) = 0;
+    virtual void vector_get_string(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) = 0;
     virtual void scan_all(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) = 0;
+    virtual void scan_all_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) = 0;
+    virtual void scan_all_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) = 0;
+    virtual void scan_all_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) = 0;
     virtual void scan_by_time(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) = 0;
+    virtual void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) = 0;
+    virtual void scan_by_time_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) = 0;
+    virtual void scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) = 0;
 };
 
 class TaskTrackerIfFactory {
@@ -64,21 +76,61 @@ public:
         int64_t _return = 0;
         return _return;
     }
-    int64_t vector_put(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const std::vector<std::string> & /* value */) {
+    int64_t vector_put_int(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const std::vector<int64_t> & /* value */) {
         int64_t _return = 0;
         return _return;
     }
-    int64_t timely_vector_put(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const int64_t /* time_stampe */, const std::vector<std::string> & /* value */) {
+    int64_t vector_put_double(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const std::vector<double> & /* value */) {
         int64_t _return = 0;
         return _return;
     }
-    void vector_get(std::vector<std::string> & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */) {
+    int64_t vector_put_string(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const std::vector<std::string> & /* value */) {
+        int64_t _return = 0;
+        return _return;
+    }
+    int64_t timely_vector_put_int(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const int64_t /* time_stampe */, const std::vector<int64_t> & /* value */) {
+        int64_t _return = 0;
+        return _return;
+    }
+    int64_t timely_vector_put_double(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const int64_t /* time_stampe */, const std::vector<double> & /* value */) {
+        int64_t _return = 0;
+        return _return;
+    }
+    int64_t timely_vector_put_string(const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */, const int64_t /* time_stampe */, const std::vector<std::string> & /* value */) {
+        int64_t _return = 0;
+        return _return;
+    }
+    void vector_get_int(std::vector<int64_t> & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */) {
+        return;
+    }
+    void vector_get_double(std::vector<double> & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */) {
+        return;
+    }
+    void vector_get_string(std::vector<std::string> & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const std::vector<std::string> & /* row_key */, const std::vector<std::string> & /* column_key */) {
         return;
     }
     void scan_all(std::vector<std::vector<std::string> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */) {
         return;
     }
+    void scan_all_int(std::vector<std::map<std::string, int64_t> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */) {
+        return;
+    }
+    void scan_all_double(std::vector<std::map<std::string, double> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */) {
+        return;
+    }
+    void scan_all_string(std::vector<std::map<std::string, std::string> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */) {
+        return;
+    }
     void scan_by_time(std::vector<std::vector<std::string> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const int64_t /* time_stamp */) {
+        return;
+    }
+    void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const int64_t /* time_stamp */) {
+        return;
+    }
+    void scan_by_time_double(std::vector<std::map<std::string, double> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const int64_t /* time_stamp */) {
+        return;
+    }
+    void scan_by_time_string(std::vector<std::map<std::string, std::string> > & /* _return */, const std::string& /* table_name */, const int64_t /* shard_id */, const std::string& /* cf_name */, const int64_t /* time_stamp */) {
         return;
     }
 };
@@ -316,8 +368,8 @@ typedef struct _TaskTracker_create_cf_args__isset {
 class TaskTracker_create_cf_args {
 public:
 
-    static const char* ascii_fingerprint; // = "0ABA72BDD3AAD2E5363D3BEA81E18E7D";
-    static const uint8_t binary_fingerprint[16]; // = {0x0A,0xBA,0x72,0xBD,0xD3,0xAA,0xD2,0xE5,0x36,0x3D,0x3B,0xEA,0x81,0xE1,0x8E,0x7D};
+    static const char* ascii_fingerprint; // = "3531E6632C3EF2CFBB3B908B5D816072";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0x31,0xE6,0x63,0x2C,0x3E,0xF2,0xCF,0xBB,0x3B,0x90,0x8B,0x5D,0x81,0x60,0x72};
 
     TaskTracker_create_cf_args(const TaskTracker_create_cf_args&);
     TaskTracker_create_cf_args& operator=(const TaskTracker_create_cf_args&);
@@ -357,8 +409,8 @@ public:
 class TaskTracker_create_cf_pargs {
 public:
 
-    static const char* ascii_fingerprint; // = "0ABA72BDD3AAD2E5363D3BEA81E18E7D";
-    static const uint8_t binary_fingerprint[16]; // = {0x0A,0xBA,0x72,0xBD,0xD3,0xAA,0xD2,0xE5,0x36,0x3D,0x3B,0xEA,0x81,0xE1,0x8E,0x7D};
+    static const char* ascii_fingerprint; // = "3531E6632C3EF2CFBB3B908B5D816072";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0x31,0xE6,0x63,0x2C,0x3E,0xF2,0xCF,0xBB,0x3B,0x90,0x8B,0x5D,0x81,0x60,0x72};
 
 
     virtual ~TaskTracker_create_cf_pargs() throw();
@@ -432,36 +484,36 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const TaskTracker_create_cf_presult& obj);
 };
 
-typedef struct _TaskTracker_vector_put_args__isset {
-    _TaskTracker_vector_put_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), value(false) {}
+typedef struct _TaskTracker_vector_put_int_args__isset {
+    _TaskTracker_vector_put_int_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), value(false) {}
     bool table_name :1;
     bool shard_id :1;
     bool cf_name :1;
     bool row_key :1;
     bool column_key :1;
     bool value :1;
-} _TaskTracker_vector_put_args__isset;
+} _TaskTracker_vector_put_int_args__isset;
 
-class TaskTracker_vector_put_args {
+class TaskTracker_vector_put_int_args {
 public:
 
-    static const char* ascii_fingerprint; // = "D2CCF06D29628375E6E017A8A4C833B1";
-    static const uint8_t binary_fingerprint[16]; // = {0xD2,0xCC,0xF0,0x6D,0x29,0x62,0x83,0x75,0xE6,0xE0,0x17,0xA8,0xA4,0xC8,0x33,0xB1};
+    static const char* ascii_fingerprint; // = "8338ADAE71B0B174C450786B2EDC7524";
+    static const uint8_t binary_fingerprint[16]; // = {0x83,0x38,0xAD,0xAE,0x71,0xB0,0xB1,0x74,0xC4,0x50,0x78,0x6B,0x2E,0xDC,0x75,0x24};
 
-    TaskTracker_vector_put_args(const TaskTracker_vector_put_args&);
-    TaskTracker_vector_put_args& operator=(const TaskTracker_vector_put_args&);
-    TaskTracker_vector_put_args() : table_name(), shard_id(0), cf_name() {
+    TaskTracker_vector_put_int_args(const TaskTracker_vector_put_int_args&);
+    TaskTracker_vector_put_int_args& operator=(const TaskTracker_vector_put_int_args&);
+    TaskTracker_vector_put_int_args() : table_name(), shard_id(0), cf_name() {
     }
 
-    virtual ~TaskTracker_vector_put_args() throw();
+    virtual ~TaskTracker_vector_put_int_args() throw();
     std::string table_name;
     int64_t shard_id;
     std::string cf_name;
     std::vector<std::string>  row_key;
     std::vector<std::string>  column_key;
-    std::vector<std::string>  value;
+    std::vector<int64_t>  value;
 
-    _TaskTracker_vector_put_args__isset __isset;
+    _TaskTracker_vector_put_int_args__isset __isset;
 
     void __set_table_name(const std::string& val);
 
@@ -473,9 +525,9 @@ public:
 
     void __set_column_key(const std::vector<std::string> & val);
 
-    void __set_value(const std::vector<std::string> & val);
+    void __set_value(const std::vector<int64_t> & val);
 
-    bool operator == (const TaskTracker_vector_put_args & rhs) const {
+    bool operator == (const TaskTracker_vector_put_int_args & rhs) const {
         if (!(table_name == rhs.table_name))
             return false;
         if (!(shard_id == rhs.shard_id))
@@ -490,27 +542,333 @@ public:
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_vector_put_args &rhs) const {
+    bool operator != (const TaskTracker_vector_put_int_args &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_vector_put_args & ) const;
+    bool operator < (const TaskTracker_vector_put_int_args & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_args& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_int_args& obj);
 };
 
 
-class TaskTracker_vector_put_pargs {
+class TaskTracker_vector_put_int_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "8338ADAE71B0B174C450786B2EDC7524";
+    static const uint8_t binary_fingerprint[16]; // = {0x83,0x38,0xAD,0xAE,0x71,0xB0,0xB1,0x74,0xC4,0x50,0x78,0x6B,0x2E,0xDC,0x75,0x24};
+
+
+    virtual ~TaskTracker_vector_put_int_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+    const std::vector<int64_t> * value;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_int_pargs& obj);
+};
+
+typedef struct _TaskTracker_vector_put_int_result__isset {
+    _TaskTracker_vector_put_int_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_put_int_result__isset;
+
+class TaskTracker_vector_put_int_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    TaskTracker_vector_put_int_result(const TaskTracker_vector_put_int_result&);
+    TaskTracker_vector_put_int_result& operator=(const TaskTracker_vector_put_int_result&);
+    TaskTracker_vector_put_int_result() : success(0) {
+    }
+
+    virtual ~TaskTracker_vector_put_int_result() throw();
+    int64_t success;
+
+    _TaskTracker_vector_put_int_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const TaskTracker_vector_put_int_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_put_int_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_put_int_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_int_result& obj);
+};
+
+typedef struct _TaskTracker_vector_put_int_presult__isset {
+    _TaskTracker_vector_put_int_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_put_int_presult__isset;
+
+class TaskTracker_vector_put_int_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~TaskTracker_vector_put_int_presult() throw();
+    int64_t* success;
+
+    _TaskTracker_vector_put_int_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_int_presult& obj);
+};
+
+typedef struct _TaskTracker_vector_put_double_args__isset {
+    _TaskTracker_vector_put_double_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), value(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+    bool value :1;
+} _TaskTracker_vector_put_double_args__isset;
+
+class TaskTracker_vector_put_double_args {
+public:
+
+    static const char* ascii_fingerprint; // = "4B2E6292DB478B53B2A562953C07A2BE";
+    static const uint8_t binary_fingerprint[16]; // = {0x4B,0x2E,0x62,0x92,0xDB,0x47,0x8B,0x53,0xB2,0xA5,0x62,0x95,0x3C,0x07,0xA2,0xBE};
+
+    TaskTracker_vector_put_double_args(const TaskTracker_vector_put_double_args&);
+    TaskTracker_vector_put_double_args& operator=(const TaskTracker_vector_put_double_args&);
+    TaskTracker_vector_put_double_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_vector_put_double_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+    std::vector<double>  value;
+
+    _TaskTracker_vector_put_double_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    void __set_value(const std::vector<double> & val);
+
+    bool operator == (const TaskTracker_vector_put_double_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        if (!(value == rhs.value))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_put_double_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_put_double_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_double_args& obj);
+};
+
+
+class TaskTracker_vector_put_double_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "4B2E6292DB478B53B2A562953C07A2BE";
+    static const uint8_t binary_fingerprint[16]; // = {0x4B,0x2E,0x62,0x92,0xDB,0x47,0x8B,0x53,0xB2,0xA5,0x62,0x95,0x3C,0x07,0xA2,0xBE};
+
+
+    virtual ~TaskTracker_vector_put_double_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+    const std::vector<double> * value;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_double_pargs& obj);
+};
+
+typedef struct _TaskTracker_vector_put_double_result__isset {
+    _TaskTracker_vector_put_double_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_put_double_result__isset;
+
+class TaskTracker_vector_put_double_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    TaskTracker_vector_put_double_result(const TaskTracker_vector_put_double_result&);
+    TaskTracker_vector_put_double_result& operator=(const TaskTracker_vector_put_double_result&);
+    TaskTracker_vector_put_double_result() : success(0) {
+    }
+
+    virtual ~TaskTracker_vector_put_double_result() throw();
+    int64_t success;
+
+    _TaskTracker_vector_put_double_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const TaskTracker_vector_put_double_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_put_double_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_put_double_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_double_result& obj);
+};
+
+typedef struct _TaskTracker_vector_put_double_presult__isset {
+    _TaskTracker_vector_put_double_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_put_double_presult__isset;
+
+class TaskTracker_vector_put_double_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~TaskTracker_vector_put_double_presult() throw();
+    int64_t* success;
+
+    _TaskTracker_vector_put_double_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_double_presult& obj);
+};
+
+typedef struct _TaskTracker_vector_put_string_args__isset {
+    _TaskTracker_vector_put_string_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), value(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+    bool value :1;
+} _TaskTracker_vector_put_string_args__isset;
+
+class TaskTracker_vector_put_string_args {
+public:
+
+    static const char* ascii_fingerprint; // = "D2CCF06D29628375E6E017A8A4C833B1";
+    static const uint8_t binary_fingerprint[16]; // = {0xD2,0xCC,0xF0,0x6D,0x29,0x62,0x83,0x75,0xE6,0xE0,0x17,0xA8,0xA4,0xC8,0x33,0xB1};
+
+    TaskTracker_vector_put_string_args(const TaskTracker_vector_put_string_args&);
+    TaskTracker_vector_put_string_args& operator=(const TaskTracker_vector_put_string_args&);
+    TaskTracker_vector_put_string_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_vector_put_string_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+    std::vector<std::string>  value;
+
+    _TaskTracker_vector_put_string_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    void __set_value(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_vector_put_string_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        if (!(value == rhs.value))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_put_string_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_put_string_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_string_args& obj);
+};
+
+
+class TaskTracker_vector_put_string_pargs {
 public:
 
     static const char* ascii_fingerprint; // = "D2CCF06D29628375E6E017A8A4C833B1";
     static const uint8_t binary_fingerprint[16]; // = {0xD2,0xCC,0xF0,0x6D,0x29,0x62,0x83,0x75,0xE6,0xE0,0x17,0xA8,0xA4,0xC8,0x33,0xB1};
 
 
-    virtual ~TaskTracker_vector_put_pargs() throw();
+    virtual ~TaskTracker_vector_put_string_pargs() throw();
     const std::string* table_name;
     const int64_t* shard_id;
     const std::string* cf_name;
@@ -520,73 +878,73 @@ public:
 
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_pargs& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_string_pargs& obj);
 };
 
-typedef struct _TaskTracker_vector_put_result__isset {
-    _TaskTracker_vector_put_result__isset() : success(false) {}
+typedef struct _TaskTracker_vector_put_string_result__isset {
+    _TaskTracker_vector_put_string_result__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_vector_put_result__isset;
+} _TaskTracker_vector_put_string_result__isset;
 
-class TaskTracker_vector_put_result {
+class TaskTracker_vector_put_string_result {
 public:
 
     static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
     static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
 
-    TaskTracker_vector_put_result(const TaskTracker_vector_put_result&);
-    TaskTracker_vector_put_result& operator=(const TaskTracker_vector_put_result&);
-    TaskTracker_vector_put_result() : success(0) {
+    TaskTracker_vector_put_string_result(const TaskTracker_vector_put_string_result&);
+    TaskTracker_vector_put_string_result& operator=(const TaskTracker_vector_put_string_result&);
+    TaskTracker_vector_put_string_result() : success(0) {
     }
 
-    virtual ~TaskTracker_vector_put_result() throw();
+    virtual ~TaskTracker_vector_put_string_result() throw();
     int64_t success;
 
-    _TaskTracker_vector_put_result__isset __isset;
+    _TaskTracker_vector_put_string_result__isset __isset;
 
     void __set_success(const int64_t val);
 
-    bool operator == (const TaskTracker_vector_put_result & rhs) const {
+    bool operator == (const TaskTracker_vector_put_string_result & rhs) const {
         if (!(success == rhs.success))
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_vector_put_result &rhs) const {
+    bool operator != (const TaskTracker_vector_put_string_result &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_vector_put_result & ) const;
+    bool operator < (const TaskTracker_vector_put_string_result & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_result& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_string_result& obj);
 };
 
-typedef struct _TaskTracker_vector_put_presult__isset {
-    _TaskTracker_vector_put_presult__isset() : success(false) {}
+typedef struct _TaskTracker_vector_put_string_presult__isset {
+    _TaskTracker_vector_put_string_presult__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_vector_put_presult__isset;
+} _TaskTracker_vector_put_string_presult__isset;
 
-class TaskTracker_vector_put_presult {
+class TaskTracker_vector_put_string_presult {
 public:
 
     static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
     static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
 
 
-    virtual ~TaskTracker_vector_put_presult() throw();
+    virtual ~TaskTracker_vector_put_string_presult() throw();
     int64_t* success;
 
-    _TaskTracker_vector_put_presult__isset __isset;
+    _TaskTracker_vector_put_string_presult__isset __isset;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_presult& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_put_string_presult& obj);
 };
 
-typedef struct _TaskTracker_timely_vector_put_args__isset {
-    _TaskTracker_timely_vector_put_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), time_stampe(false), value(false) {}
+typedef struct _TaskTracker_timely_vector_put_int_args__isset {
+    _TaskTracker_timely_vector_put_int_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), time_stampe(false), value(false) {}
     bool table_name :1;
     bool shard_id :1;
     bool cf_name :1;
@@ -594,29 +952,29 @@ typedef struct _TaskTracker_timely_vector_put_args__isset {
     bool column_key :1;
     bool time_stampe :1;
     bool value :1;
-} _TaskTracker_timely_vector_put_args__isset;
+} _TaskTracker_timely_vector_put_int_args__isset;
 
-class TaskTracker_timely_vector_put_args {
+class TaskTracker_timely_vector_put_int_args {
 public:
 
-    static const char* ascii_fingerprint; // = "1ED373136B9FB0A435E8DF0F595A35B4";
-    static const uint8_t binary_fingerprint[16]; // = {0x1E,0xD3,0x73,0x13,0x6B,0x9F,0xB0,0xA4,0x35,0xE8,0xDF,0x0F,0x59,0x5A,0x35,0xB4};
+    static const char* ascii_fingerprint; // = "F7562E7BA51FE08ABAEDFBF4626371E2";
+    static const uint8_t binary_fingerprint[16]; // = {0xF7,0x56,0x2E,0x7B,0xA5,0x1F,0xE0,0x8A,0xBA,0xED,0xFB,0xF4,0x62,0x63,0x71,0xE2};
 
-    TaskTracker_timely_vector_put_args(const TaskTracker_timely_vector_put_args&);
-    TaskTracker_timely_vector_put_args& operator=(const TaskTracker_timely_vector_put_args&);
-    TaskTracker_timely_vector_put_args() : table_name(), shard_id(0), cf_name(), time_stampe(0) {
+    TaskTracker_timely_vector_put_int_args(const TaskTracker_timely_vector_put_int_args&);
+    TaskTracker_timely_vector_put_int_args& operator=(const TaskTracker_timely_vector_put_int_args&);
+    TaskTracker_timely_vector_put_int_args() : table_name(), shard_id(0), cf_name(), time_stampe(0) {
     }
 
-    virtual ~TaskTracker_timely_vector_put_args() throw();
+    virtual ~TaskTracker_timely_vector_put_int_args() throw();
     std::string table_name;
     int64_t shard_id;
     std::string cf_name;
     std::vector<std::string>  row_key;
     std::vector<std::string>  column_key;
     int64_t time_stampe;
-    std::vector<std::string>  value;
+    std::vector<int64_t>  value;
 
-    _TaskTracker_timely_vector_put_args__isset __isset;
+    _TaskTracker_timely_vector_put_int_args__isset __isset;
 
     void __set_table_name(const std::string& val);
 
@@ -630,9 +988,9 @@ public:
 
     void __set_time_stampe(const int64_t val);
 
-    void __set_value(const std::vector<std::string> & val);
+    void __set_value(const std::vector<int64_t> & val);
 
-    bool operator == (const TaskTracker_timely_vector_put_args & rhs) const {
+    bool operator == (const TaskTracker_timely_vector_put_int_args & rhs) const {
         if (!(table_name == rhs.table_name))
             return false;
         if (!(shard_id == rhs.shard_id))
@@ -649,130 +1007,134 @@ public:
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_timely_vector_put_args &rhs) const {
+    bool operator != (const TaskTracker_timely_vector_put_int_args &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_timely_vector_put_args & ) const;
+    bool operator < (const TaskTracker_timely_vector_put_int_args & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_args& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_int_args& obj);
 };
 
 
-class TaskTracker_timely_vector_put_pargs {
+class TaskTracker_timely_vector_put_int_pargs {
 public:
 
-    static const char* ascii_fingerprint; // = "1ED373136B9FB0A435E8DF0F595A35B4";
-    static const uint8_t binary_fingerprint[16]; // = {0x1E,0xD3,0x73,0x13,0x6B,0x9F,0xB0,0xA4,0x35,0xE8,0xDF,0x0F,0x59,0x5A,0x35,0xB4};
+    static const char* ascii_fingerprint; // = "F7562E7BA51FE08ABAEDFBF4626371E2";
+    static const uint8_t binary_fingerprint[16]; // = {0xF7,0x56,0x2E,0x7B,0xA5,0x1F,0xE0,0x8A,0xBA,0xED,0xFB,0xF4,0x62,0x63,0x71,0xE2};
 
 
-    virtual ~TaskTracker_timely_vector_put_pargs() throw();
+    virtual ~TaskTracker_timely_vector_put_int_pargs() throw();
     const std::string* table_name;
     const int64_t* shard_id;
     const std::string* cf_name;
     const std::vector<std::string> * row_key;
     const std::vector<std::string> * column_key;
     const int64_t* time_stampe;
-    const std::vector<std::string> * value;
+    const std::vector<int64_t> * value;
 
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_pargs& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_int_pargs& obj);
 };
 
-typedef struct _TaskTracker_timely_vector_put_result__isset {
-    _TaskTracker_timely_vector_put_result__isset() : success(false) {}
+typedef struct _TaskTracker_timely_vector_put_int_result__isset {
+    _TaskTracker_timely_vector_put_int_result__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_timely_vector_put_result__isset;
+} _TaskTracker_timely_vector_put_int_result__isset;
 
-class TaskTracker_timely_vector_put_result {
+class TaskTracker_timely_vector_put_int_result {
 public:
 
     static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
     static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
 
-    TaskTracker_timely_vector_put_result(const TaskTracker_timely_vector_put_result&);
-    TaskTracker_timely_vector_put_result& operator=(const TaskTracker_timely_vector_put_result&);
-    TaskTracker_timely_vector_put_result() : success(0) {
+    TaskTracker_timely_vector_put_int_result(const TaskTracker_timely_vector_put_int_result&);
+    TaskTracker_timely_vector_put_int_result& operator=(const TaskTracker_timely_vector_put_int_result&);
+    TaskTracker_timely_vector_put_int_result() : success(0) {
     }
 
-    virtual ~TaskTracker_timely_vector_put_result() throw();
+    virtual ~TaskTracker_timely_vector_put_int_result() throw();
     int64_t success;
 
-    _TaskTracker_timely_vector_put_result__isset __isset;
+    _TaskTracker_timely_vector_put_int_result__isset __isset;
 
     void __set_success(const int64_t val);
 
-    bool operator == (const TaskTracker_timely_vector_put_result & rhs) const {
+    bool operator == (const TaskTracker_timely_vector_put_int_result & rhs) const {
         if (!(success == rhs.success))
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_timely_vector_put_result &rhs) const {
+    bool operator != (const TaskTracker_timely_vector_put_int_result &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_timely_vector_put_result & ) const;
+    bool operator < (const TaskTracker_timely_vector_put_int_result & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_result& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_int_result& obj);
 };
 
-typedef struct _TaskTracker_timely_vector_put_presult__isset {
-    _TaskTracker_timely_vector_put_presult__isset() : success(false) {}
+typedef struct _TaskTracker_timely_vector_put_int_presult__isset {
+    _TaskTracker_timely_vector_put_int_presult__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_timely_vector_put_presult__isset;
+} _TaskTracker_timely_vector_put_int_presult__isset;
 
-class TaskTracker_timely_vector_put_presult {
+class TaskTracker_timely_vector_put_int_presult {
 public:
 
     static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
     static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
 
 
-    virtual ~TaskTracker_timely_vector_put_presult() throw();
+    virtual ~TaskTracker_timely_vector_put_int_presult() throw();
     int64_t* success;
 
-    _TaskTracker_timely_vector_put_presult__isset __isset;
+    _TaskTracker_timely_vector_put_int_presult__isset __isset;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_presult& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_int_presult& obj);
 };
 
-typedef struct _TaskTracker_vector_get_args__isset {
-    _TaskTracker_vector_get_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false) {}
+typedef struct _TaskTracker_timely_vector_put_double_args__isset {
+    _TaskTracker_timely_vector_put_double_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), time_stampe(false), value(false) {}
     bool table_name :1;
     bool shard_id :1;
     bool cf_name :1;
     bool row_key :1;
     bool column_key :1;
-} _TaskTracker_vector_get_args__isset;
+    bool time_stampe :1;
+    bool value :1;
+} _TaskTracker_timely_vector_put_double_args__isset;
 
-class TaskTracker_vector_get_args {
+class TaskTracker_timely_vector_put_double_args {
 public:
 
-    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
-    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+    static const char* ascii_fingerprint; // = "BC2C99C57FED00A306A085C47F38062D";
+    static const uint8_t binary_fingerprint[16]; // = {0xBC,0x2C,0x99,0xC5,0x7F,0xED,0x00,0xA3,0x06,0xA0,0x85,0xC4,0x7F,0x38,0x06,0x2D};
 
-    TaskTracker_vector_get_args(const TaskTracker_vector_get_args&);
-    TaskTracker_vector_get_args& operator=(const TaskTracker_vector_get_args&);
-    TaskTracker_vector_get_args() : table_name(), shard_id(0), cf_name() {
+    TaskTracker_timely_vector_put_double_args(const TaskTracker_timely_vector_put_double_args&);
+    TaskTracker_timely_vector_put_double_args& operator=(const TaskTracker_timely_vector_put_double_args&);
+    TaskTracker_timely_vector_put_double_args() : table_name(), shard_id(0), cf_name(), time_stampe(0) {
     }
 
-    virtual ~TaskTracker_vector_get_args() throw();
+    virtual ~TaskTracker_timely_vector_put_double_args() throw();
     std::string table_name;
     int64_t shard_id;
     std::string cf_name;
     std::vector<std::string>  row_key;
     std::vector<std::string>  column_key;
+    int64_t time_stampe;
+    std::vector<double>  value;
 
-    _TaskTracker_vector_get_args__isset __isset;
+    _TaskTracker_timely_vector_put_double_args__isset __isset;
 
     void __set_table_name(const std::string& val);
 
@@ -784,7 +1146,323 @@ public:
 
     void __set_column_key(const std::vector<std::string> & val);
 
-    bool operator == (const TaskTracker_vector_get_args & rhs) const {
+    void __set_time_stampe(const int64_t val);
+
+    void __set_value(const std::vector<double> & val);
+
+    bool operator == (const TaskTracker_timely_vector_put_double_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        if (!(time_stampe == rhs.time_stampe))
+            return false;
+        if (!(value == rhs.value))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_timely_vector_put_double_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_timely_vector_put_double_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_double_args& obj);
+};
+
+
+class TaskTracker_timely_vector_put_double_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "BC2C99C57FED00A306A085C47F38062D";
+    static const uint8_t binary_fingerprint[16]; // = {0xBC,0x2C,0x99,0xC5,0x7F,0xED,0x00,0xA3,0x06,0xA0,0x85,0xC4,0x7F,0x38,0x06,0x2D};
+
+
+    virtual ~TaskTracker_timely_vector_put_double_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+    const int64_t* time_stampe;
+    const std::vector<double> * value;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_double_pargs& obj);
+};
+
+typedef struct _TaskTracker_timely_vector_put_double_result__isset {
+    _TaskTracker_timely_vector_put_double_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_timely_vector_put_double_result__isset;
+
+class TaskTracker_timely_vector_put_double_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    TaskTracker_timely_vector_put_double_result(const TaskTracker_timely_vector_put_double_result&);
+    TaskTracker_timely_vector_put_double_result& operator=(const TaskTracker_timely_vector_put_double_result&);
+    TaskTracker_timely_vector_put_double_result() : success(0) {
+    }
+
+    virtual ~TaskTracker_timely_vector_put_double_result() throw();
+    int64_t success;
+
+    _TaskTracker_timely_vector_put_double_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const TaskTracker_timely_vector_put_double_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_timely_vector_put_double_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_timely_vector_put_double_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_double_result& obj);
+};
+
+typedef struct _TaskTracker_timely_vector_put_double_presult__isset {
+    _TaskTracker_timely_vector_put_double_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_timely_vector_put_double_presult__isset;
+
+class TaskTracker_timely_vector_put_double_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~TaskTracker_timely_vector_put_double_presult() throw();
+    int64_t* success;
+
+    _TaskTracker_timely_vector_put_double_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_double_presult& obj);
+};
+
+typedef struct _TaskTracker_timely_vector_put_string_args__isset {
+    _TaskTracker_timely_vector_put_string_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false), time_stampe(false), value(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+    bool time_stampe :1;
+    bool value :1;
+} _TaskTracker_timely_vector_put_string_args__isset;
+
+class TaskTracker_timely_vector_put_string_args {
+public:
+
+    static const char* ascii_fingerprint; // = "1ED373136B9FB0A435E8DF0F595A35B4";
+    static const uint8_t binary_fingerprint[16]; // = {0x1E,0xD3,0x73,0x13,0x6B,0x9F,0xB0,0xA4,0x35,0xE8,0xDF,0x0F,0x59,0x5A,0x35,0xB4};
+
+    TaskTracker_timely_vector_put_string_args(const TaskTracker_timely_vector_put_string_args&);
+    TaskTracker_timely_vector_put_string_args& operator=(const TaskTracker_timely_vector_put_string_args&);
+    TaskTracker_timely_vector_put_string_args() : table_name(), shard_id(0), cf_name(), time_stampe(0) {
+    }
+
+    virtual ~TaskTracker_timely_vector_put_string_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+    int64_t time_stampe;
+    std::vector<std::string>  value;
+
+    _TaskTracker_timely_vector_put_string_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    void __set_time_stampe(const int64_t val);
+
+    void __set_value(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_timely_vector_put_string_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        if (!(time_stampe == rhs.time_stampe))
+            return false;
+        if (!(value == rhs.value))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_timely_vector_put_string_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_timely_vector_put_string_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_string_args& obj);
+};
+
+
+class TaskTracker_timely_vector_put_string_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "1ED373136B9FB0A435E8DF0F595A35B4";
+    static const uint8_t binary_fingerprint[16]; // = {0x1E,0xD3,0x73,0x13,0x6B,0x9F,0xB0,0xA4,0x35,0xE8,0xDF,0x0F,0x59,0x5A,0x35,0xB4};
+
+
+    virtual ~TaskTracker_timely_vector_put_string_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+    const int64_t* time_stampe;
+    const std::vector<std::string> * value;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_string_pargs& obj);
+};
+
+typedef struct _TaskTracker_timely_vector_put_string_result__isset {
+    _TaskTracker_timely_vector_put_string_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_timely_vector_put_string_result__isset;
+
+class TaskTracker_timely_vector_put_string_result {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+    TaskTracker_timely_vector_put_string_result(const TaskTracker_timely_vector_put_string_result&);
+    TaskTracker_timely_vector_put_string_result& operator=(const TaskTracker_timely_vector_put_string_result&);
+    TaskTracker_timely_vector_put_string_result() : success(0) {
+    }
+
+    virtual ~TaskTracker_timely_vector_put_string_result() throw();
+    int64_t success;
+
+    _TaskTracker_timely_vector_put_string_result__isset __isset;
+
+    void __set_success(const int64_t val);
+
+    bool operator == (const TaskTracker_timely_vector_put_string_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_timely_vector_put_string_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_timely_vector_put_string_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_string_result& obj);
+};
+
+typedef struct _TaskTracker_timely_vector_put_string_presult__isset {
+    _TaskTracker_timely_vector_put_string_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_timely_vector_put_string_presult__isset;
+
+class TaskTracker_timely_vector_put_string_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
+    static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+
+
+    virtual ~TaskTracker_timely_vector_put_string_presult() throw();
+    int64_t* success;
+
+    _TaskTracker_timely_vector_put_string_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_timely_vector_put_string_presult& obj);
+};
+
+typedef struct _TaskTracker_vector_get_int_args__isset {
+    _TaskTracker_vector_get_int_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+} _TaskTracker_vector_get_int_args__isset;
+
+class TaskTracker_vector_get_int_args {
+public:
+
+    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
+    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+
+    TaskTracker_vector_get_int_args(const TaskTracker_vector_get_int_args&);
+    TaskTracker_vector_get_int_args& operator=(const TaskTracker_vector_get_int_args&);
+    TaskTracker_vector_get_int_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_vector_get_int_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+
+    _TaskTracker_vector_get_int_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_vector_get_int_args & rhs) const {
         if (!(table_name == rhs.table_name))
             return false;
         if (!(shard_id == rhs.shard_id))
@@ -797,27 +1475,27 @@ public:
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_vector_get_args &rhs) const {
+    bool operator != (const TaskTracker_vector_get_int_args &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_vector_get_args & ) const;
+    bool operator < (const TaskTracker_vector_get_int_args & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_args& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_int_args& obj);
 };
 
 
-class TaskTracker_vector_get_pargs {
+class TaskTracker_vector_get_int_pargs {
 public:
 
     static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
     static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
 
 
-    virtual ~TaskTracker_vector_get_pargs() throw();
+    virtual ~TaskTracker_vector_get_int_pargs() throw();
     const std::string* table_name;
     const int64_t* shard_id;
     const std::string* cf_name;
@@ -826,69 +1504,361 @@ public:
 
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_pargs& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_int_pargs& obj);
 };
 
-typedef struct _TaskTracker_vector_get_result__isset {
-    _TaskTracker_vector_get_result__isset() : success(false) {}
+typedef struct _TaskTracker_vector_get_int_result__isset {
+    _TaskTracker_vector_get_int_result__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_vector_get_result__isset;
+} _TaskTracker_vector_get_int_result__isset;
 
-class TaskTracker_vector_get_result {
+class TaskTracker_vector_get_int_result {
 public:
 
-    static const char* ascii_fingerprint; // = "C844643081B14EA3A81E57199FB2B504";
-    static const uint8_t binary_fingerprint[16]; // = {0xC8,0x44,0x64,0x30,0x81,0xB1,0x4E,0xA3,0xA8,0x1E,0x57,0x19,0x9F,0xB2,0xB5,0x04};
+    static const char* ascii_fingerprint; // = "EA9202126E2AA9C4AC36CC8333D8BE7B";
+    static const uint8_t binary_fingerprint[16]; // = {0xEA,0x92,0x02,0x12,0x6E,0x2A,0xA9,0xC4,0xAC,0x36,0xCC,0x83,0x33,0xD8,0xBE,0x7B};
 
-    TaskTracker_vector_get_result(const TaskTracker_vector_get_result&);
-    TaskTracker_vector_get_result& operator=(const TaskTracker_vector_get_result&);
-    TaskTracker_vector_get_result() {
+    TaskTracker_vector_get_int_result(const TaskTracker_vector_get_int_result&);
+    TaskTracker_vector_get_int_result& operator=(const TaskTracker_vector_get_int_result&);
+    TaskTracker_vector_get_int_result() {
     }
 
-    virtual ~TaskTracker_vector_get_result() throw();
-    std::vector<std::string>  success;
+    virtual ~TaskTracker_vector_get_int_result() throw();
+    std::vector<int64_t>  success;
 
-    _TaskTracker_vector_get_result__isset __isset;
+    _TaskTracker_vector_get_int_result__isset __isset;
 
-    void __set_success(const std::vector<std::string> & val);
+    void __set_success(const std::vector<int64_t> & val);
 
-    bool operator == (const TaskTracker_vector_get_result & rhs) const {
+    bool operator == (const TaskTracker_vector_get_int_result & rhs) const {
         if (!(success == rhs.success))
             return false;
         return true;
     }
-    bool operator != (const TaskTracker_vector_get_result &rhs) const {
+    bool operator != (const TaskTracker_vector_get_int_result &rhs) const {
         return !(*this == rhs);
     }
 
-    bool operator < (const TaskTracker_vector_get_result & ) const;
+    bool operator < (const TaskTracker_vector_get_int_result & ) const;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
     uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_result& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_int_result& obj);
 };
 
-typedef struct _TaskTracker_vector_get_presult__isset {
-    _TaskTracker_vector_get_presult__isset() : success(false) {}
+typedef struct _TaskTracker_vector_get_int_presult__isset {
+    _TaskTracker_vector_get_int_presult__isset() : success(false) {}
     bool success :1;
-} _TaskTracker_vector_get_presult__isset;
+} _TaskTracker_vector_get_int_presult__isset;
 
-class TaskTracker_vector_get_presult {
+class TaskTracker_vector_get_int_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "EA9202126E2AA9C4AC36CC8333D8BE7B";
+    static const uint8_t binary_fingerprint[16]; // = {0xEA,0x92,0x02,0x12,0x6E,0x2A,0xA9,0xC4,0xAC,0x36,0xCC,0x83,0x33,0xD8,0xBE,0x7B};
+
+
+    virtual ~TaskTracker_vector_get_int_presult() throw();
+    std::vector<int64_t> * success;
+
+    _TaskTracker_vector_get_int_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_int_presult& obj);
+};
+
+typedef struct _TaskTracker_vector_get_double_args__isset {
+    _TaskTracker_vector_get_double_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+} _TaskTracker_vector_get_double_args__isset;
+
+class TaskTracker_vector_get_double_args {
+public:
+
+    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
+    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+
+    TaskTracker_vector_get_double_args(const TaskTracker_vector_get_double_args&);
+    TaskTracker_vector_get_double_args& operator=(const TaskTracker_vector_get_double_args&);
+    TaskTracker_vector_get_double_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_vector_get_double_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+
+    _TaskTracker_vector_get_double_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_vector_get_double_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_get_double_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_get_double_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_double_args& obj);
+};
+
+
+class TaskTracker_vector_get_double_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
+    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+
+
+    virtual ~TaskTracker_vector_get_double_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_double_pargs& obj);
+};
+
+typedef struct _TaskTracker_vector_get_double_result__isset {
+    _TaskTracker_vector_get_double_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_get_double_result__isset;
+
+class TaskTracker_vector_get_double_result {
+public:
+
+    static const char* ascii_fingerprint; // = "225C301FF7EFA8615B0ADBDADA5E5084";
+    static const uint8_t binary_fingerprint[16]; // = {0x22,0x5C,0x30,0x1F,0xF7,0xEF,0xA8,0x61,0x5B,0x0A,0xDB,0xDA,0xDA,0x5E,0x50,0x84};
+
+    TaskTracker_vector_get_double_result(const TaskTracker_vector_get_double_result&);
+    TaskTracker_vector_get_double_result& operator=(const TaskTracker_vector_get_double_result&);
+    TaskTracker_vector_get_double_result() {
+    }
+
+    virtual ~TaskTracker_vector_get_double_result() throw();
+    std::vector<double>  success;
+
+    _TaskTracker_vector_get_double_result__isset __isset;
+
+    void __set_success(const std::vector<double> & val);
+
+    bool operator == (const TaskTracker_vector_get_double_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_get_double_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_get_double_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_double_result& obj);
+};
+
+typedef struct _TaskTracker_vector_get_double_presult__isset {
+    _TaskTracker_vector_get_double_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_get_double_presult__isset;
+
+class TaskTracker_vector_get_double_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "225C301FF7EFA8615B0ADBDADA5E5084";
+    static const uint8_t binary_fingerprint[16]; // = {0x22,0x5C,0x30,0x1F,0xF7,0xEF,0xA8,0x61,0x5B,0x0A,0xDB,0xDA,0xDA,0x5E,0x50,0x84};
+
+
+    virtual ~TaskTracker_vector_get_double_presult() throw();
+    std::vector<double> * success;
+
+    _TaskTracker_vector_get_double_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_double_presult& obj);
+};
+
+typedef struct _TaskTracker_vector_get_string_args__isset {
+    _TaskTracker_vector_get_string_args__isset() : table_name(false), shard_id(false), cf_name(false), row_key(false), column_key(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool row_key :1;
+    bool column_key :1;
+} _TaskTracker_vector_get_string_args__isset;
+
+class TaskTracker_vector_get_string_args {
+public:
+
+    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
+    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+
+    TaskTracker_vector_get_string_args(const TaskTracker_vector_get_string_args&);
+    TaskTracker_vector_get_string_args& operator=(const TaskTracker_vector_get_string_args&);
+    TaskTracker_vector_get_string_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_vector_get_string_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    std::vector<std::string>  row_key;
+    std::vector<std::string>  column_key;
+
+    _TaskTracker_vector_get_string_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_row_key(const std::vector<std::string> & val);
+
+    void __set_column_key(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_vector_get_string_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(row_key == rhs.row_key))
+            return false;
+        if (!(column_key == rhs.column_key))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_get_string_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_get_string_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_string_args& obj);
+};
+
+
+class TaskTracker_vector_get_string_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "78A77717508DF6C5304E2FEC8540EE87";
+    static const uint8_t binary_fingerprint[16]; // = {0x78,0xA7,0x77,0x17,0x50,0x8D,0xF6,0xC5,0x30,0x4E,0x2F,0xEC,0x85,0x40,0xEE,0x87};
+
+
+    virtual ~TaskTracker_vector_get_string_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const std::vector<std::string> * row_key;
+    const std::vector<std::string> * column_key;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_string_pargs& obj);
+};
+
+typedef struct _TaskTracker_vector_get_string_result__isset {
+    _TaskTracker_vector_get_string_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_get_string_result__isset;
+
+class TaskTracker_vector_get_string_result {
+public:
+
+    static const char* ascii_fingerprint; // = "C844643081B14EA3A81E57199FB2B504";
+    static const uint8_t binary_fingerprint[16]; // = {0xC8,0x44,0x64,0x30,0x81,0xB1,0x4E,0xA3,0xA8,0x1E,0x57,0x19,0x9F,0xB2,0xB5,0x04};
+
+    TaskTracker_vector_get_string_result(const TaskTracker_vector_get_string_result&);
+    TaskTracker_vector_get_string_result& operator=(const TaskTracker_vector_get_string_result&);
+    TaskTracker_vector_get_string_result() {
+    }
+
+    virtual ~TaskTracker_vector_get_string_result() throw();
+    std::vector<std::string>  success;
+
+    _TaskTracker_vector_get_string_result__isset __isset;
+
+    void __set_success(const std::vector<std::string> & val);
+
+    bool operator == (const TaskTracker_vector_get_string_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_vector_get_string_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_vector_get_string_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_string_result& obj);
+};
+
+typedef struct _TaskTracker_vector_get_string_presult__isset {
+    _TaskTracker_vector_get_string_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_vector_get_string_presult__isset;
+
+class TaskTracker_vector_get_string_presult {
 public:
 
     static const char* ascii_fingerprint; // = "C844643081B14EA3A81E57199FB2B504";
     static const uint8_t binary_fingerprint[16]; // = {0xC8,0x44,0x64,0x30,0x81,0xB1,0x4E,0xA3,0xA8,0x1E,0x57,0x19,0x9F,0xB2,0xB5,0x04};
 
 
-    virtual ~TaskTracker_vector_get_presult() throw();
+    virtual ~TaskTracker_vector_get_string_presult() throw();
     std::vector<std::string> * success;
 
-    _TaskTracker_vector_get_presult__isset __isset;
+    _TaskTracker_vector_get_string_presult__isset __isset;
 
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_presult& obj);
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_vector_get_string_presult& obj);
 };
 
 typedef struct _TaskTracker_scan_all_args__isset {
@@ -1021,6 +1991,402 @@ public:
     uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
     friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_presult& obj);
+};
+
+typedef struct _TaskTracker_scan_all_int_args__isset {
+    _TaskTracker_scan_all_int_args__isset() : table_name(false), shard_id(false), cf_name(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+} _TaskTracker_scan_all_int_args__isset;
+
+class TaskTracker_scan_all_int_args {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+    TaskTracker_scan_all_int_args(const TaskTracker_scan_all_int_args&);
+    TaskTracker_scan_all_int_args& operator=(const TaskTracker_scan_all_int_args&);
+    TaskTracker_scan_all_int_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_scan_all_int_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+
+    _TaskTracker_scan_all_int_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    bool operator == (const TaskTracker_scan_all_int_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_int_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_int_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_int_args& obj);
+};
+
+
+class TaskTracker_scan_all_int_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+
+    virtual ~TaskTracker_scan_all_int_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_int_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_all_int_result__isset {
+    _TaskTracker_scan_all_int_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_int_result__isset;
+
+class TaskTracker_scan_all_int_result {
+public:
+
+    static const char* ascii_fingerprint; // = "3386021766A2D11461150B354292D3E5";
+    static const uint8_t binary_fingerprint[16]; // = {0x33,0x86,0x02,0x17,0x66,0xA2,0xD1,0x14,0x61,0x15,0x0B,0x35,0x42,0x92,0xD3,0xE5};
+
+    TaskTracker_scan_all_int_result(const TaskTracker_scan_all_int_result&);
+    TaskTracker_scan_all_int_result& operator=(const TaskTracker_scan_all_int_result&);
+    TaskTracker_scan_all_int_result() {
+    }
+
+    virtual ~TaskTracker_scan_all_int_result() throw();
+    std::vector<std::map<std::string, int64_t> >  success;
+
+    _TaskTracker_scan_all_int_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, int64_t> > & val);
+
+    bool operator == (const TaskTracker_scan_all_int_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_int_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_int_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_int_result& obj);
+};
+
+typedef struct _TaskTracker_scan_all_int_presult__isset {
+    _TaskTracker_scan_all_int_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_int_presult__isset;
+
+class TaskTracker_scan_all_int_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "3386021766A2D11461150B354292D3E5";
+    static const uint8_t binary_fingerprint[16]; // = {0x33,0x86,0x02,0x17,0x66,0xA2,0xD1,0x14,0x61,0x15,0x0B,0x35,0x42,0x92,0xD3,0xE5};
+
+
+    virtual ~TaskTracker_scan_all_int_presult() throw();
+    std::vector<std::map<std::string, int64_t> > * success;
+
+    _TaskTracker_scan_all_int_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_int_presult& obj);
+};
+
+typedef struct _TaskTracker_scan_all_double_args__isset {
+    _TaskTracker_scan_all_double_args__isset() : table_name(false), shard_id(false), cf_name(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+} _TaskTracker_scan_all_double_args__isset;
+
+class TaskTracker_scan_all_double_args {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+    TaskTracker_scan_all_double_args(const TaskTracker_scan_all_double_args&);
+    TaskTracker_scan_all_double_args& operator=(const TaskTracker_scan_all_double_args&);
+    TaskTracker_scan_all_double_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_scan_all_double_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+
+    _TaskTracker_scan_all_double_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    bool operator == (const TaskTracker_scan_all_double_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_double_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_double_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_double_args& obj);
+};
+
+
+class TaskTracker_scan_all_double_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+
+    virtual ~TaskTracker_scan_all_double_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_double_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_all_double_result__isset {
+    _TaskTracker_scan_all_double_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_double_result__isset;
+
+class TaskTracker_scan_all_double_result {
+public:
+
+    static const char* ascii_fingerprint; // = "A154E0D9CFB450B211B0905DC1A519AC";
+    static const uint8_t binary_fingerprint[16]; // = {0xA1,0x54,0xE0,0xD9,0xCF,0xB4,0x50,0xB2,0x11,0xB0,0x90,0x5D,0xC1,0xA5,0x19,0xAC};
+
+    TaskTracker_scan_all_double_result(const TaskTracker_scan_all_double_result&);
+    TaskTracker_scan_all_double_result& operator=(const TaskTracker_scan_all_double_result&);
+    TaskTracker_scan_all_double_result() {
+    }
+
+    virtual ~TaskTracker_scan_all_double_result() throw();
+    std::vector<std::map<std::string, double> >  success;
+
+    _TaskTracker_scan_all_double_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, double> > & val);
+
+    bool operator == (const TaskTracker_scan_all_double_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_double_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_double_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_double_result& obj);
+};
+
+typedef struct _TaskTracker_scan_all_double_presult__isset {
+    _TaskTracker_scan_all_double_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_double_presult__isset;
+
+class TaskTracker_scan_all_double_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "A154E0D9CFB450B211B0905DC1A519AC";
+    static const uint8_t binary_fingerprint[16]; // = {0xA1,0x54,0xE0,0xD9,0xCF,0xB4,0x50,0xB2,0x11,0xB0,0x90,0x5D,0xC1,0xA5,0x19,0xAC};
+
+
+    virtual ~TaskTracker_scan_all_double_presult() throw();
+    std::vector<std::map<std::string, double> > * success;
+
+    _TaskTracker_scan_all_double_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_double_presult& obj);
+};
+
+typedef struct _TaskTracker_scan_all_string_args__isset {
+    _TaskTracker_scan_all_string_args__isset() : table_name(false), shard_id(false), cf_name(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+} _TaskTracker_scan_all_string_args__isset;
+
+class TaskTracker_scan_all_string_args {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+    TaskTracker_scan_all_string_args(const TaskTracker_scan_all_string_args&);
+    TaskTracker_scan_all_string_args& operator=(const TaskTracker_scan_all_string_args&);
+    TaskTracker_scan_all_string_args() : table_name(), shard_id(0), cf_name() {
+    }
+
+    virtual ~TaskTracker_scan_all_string_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+
+    _TaskTracker_scan_all_string_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    bool operator == (const TaskTracker_scan_all_string_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_string_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_string_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_string_args& obj);
+};
+
+
+class TaskTracker_scan_all_string_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+    static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+
+
+    virtual ~TaskTracker_scan_all_string_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_string_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_all_string_result__isset {
+    _TaskTracker_scan_all_string_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_string_result__isset;
+
+class TaskTracker_scan_all_string_result {
+public:
+
+    static const char* ascii_fingerprint; // = "66E077DB1443528DE4204943E4A399A6";
+    static const uint8_t binary_fingerprint[16]; // = {0x66,0xE0,0x77,0xDB,0x14,0x43,0x52,0x8D,0xE4,0x20,0x49,0x43,0xE4,0xA3,0x99,0xA6};
+
+    TaskTracker_scan_all_string_result(const TaskTracker_scan_all_string_result&);
+    TaskTracker_scan_all_string_result& operator=(const TaskTracker_scan_all_string_result&);
+    TaskTracker_scan_all_string_result() {
+    }
+
+    virtual ~TaskTracker_scan_all_string_result() throw();
+    std::vector<std::map<std::string, std::string> >  success;
+
+    _TaskTracker_scan_all_string_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, std::string> > & val);
+
+    bool operator == (const TaskTracker_scan_all_string_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_all_string_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_all_string_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_string_result& obj);
+};
+
+typedef struct _TaskTracker_scan_all_string_presult__isset {
+    _TaskTracker_scan_all_string_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_all_string_presult__isset;
+
+class TaskTracker_scan_all_string_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "66E077DB1443528DE4204943E4A399A6";
+    static const uint8_t binary_fingerprint[16]; // = {0x66,0xE0,0x77,0xDB,0x14,0x43,0x52,0x8D,0xE4,0x20,0x49,0x43,0xE4,0xA3,0x99,0xA6};
+
+
+    virtual ~TaskTracker_scan_all_string_presult() throw();
+    std::vector<std::map<std::string, std::string> > * success;
+
+    _TaskTracker_scan_all_string_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_all_string_presult& obj);
 };
 
 typedef struct _TaskTracker_scan_by_time_args__isset {
@@ -1162,6 +2528,423 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_presult& obj);
 };
 
+typedef struct _TaskTracker_scan_by_time_int_args__isset {
+    _TaskTracker_scan_by_time_int_args__isset() : table_name(false), shard_id(false), cf_name(false), time_stamp(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool time_stamp :1;
+} _TaskTracker_scan_by_time_int_args__isset;
+
+class TaskTracker_scan_by_time_int_args {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+    TaskTracker_scan_by_time_int_args(const TaskTracker_scan_by_time_int_args&);
+    TaskTracker_scan_by_time_int_args& operator=(const TaskTracker_scan_by_time_int_args&);
+    TaskTracker_scan_by_time_int_args() : table_name(), shard_id(0), cf_name(), time_stamp(0) {
+    }
+
+    virtual ~TaskTracker_scan_by_time_int_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    int64_t time_stamp;
+
+    _TaskTracker_scan_by_time_int_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_time_stamp(const int64_t val);
+
+    bool operator == (const TaskTracker_scan_by_time_int_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(time_stamp == rhs.time_stamp))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_int_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_int_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_int_args& obj);
+};
+
+
+class TaskTracker_scan_by_time_int_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+
+    virtual ~TaskTracker_scan_by_time_int_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const int64_t* time_stamp;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_int_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_int_result__isset {
+    _TaskTracker_scan_by_time_int_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_int_result__isset;
+
+class TaskTracker_scan_by_time_int_result {
+public:
+
+    static const char* ascii_fingerprint; // = "3386021766A2D11461150B354292D3E5";
+    static const uint8_t binary_fingerprint[16]; // = {0x33,0x86,0x02,0x17,0x66,0xA2,0xD1,0x14,0x61,0x15,0x0B,0x35,0x42,0x92,0xD3,0xE5};
+
+    TaskTracker_scan_by_time_int_result(const TaskTracker_scan_by_time_int_result&);
+    TaskTracker_scan_by_time_int_result& operator=(const TaskTracker_scan_by_time_int_result&);
+    TaskTracker_scan_by_time_int_result() {
+    }
+
+    virtual ~TaskTracker_scan_by_time_int_result() throw();
+    std::vector<std::map<std::string, int64_t> >  success;
+
+    _TaskTracker_scan_by_time_int_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, int64_t> > & val);
+
+    bool operator == (const TaskTracker_scan_by_time_int_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_int_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_int_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_int_result& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_int_presult__isset {
+    _TaskTracker_scan_by_time_int_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_int_presult__isset;
+
+class TaskTracker_scan_by_time_int_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "3386021766A2D11461150B354292D3E5";
+    static const uint8_t binary_fingerprint[16]; // = {0x33,0x86,0x02,0x17,0x66,0xA2,0xD1,0x14,0x61,0x15,0x0B,0x35,0x42,0x92,0xD3,0xE5};
+
+
+    virtual ~TaskTracker_scan_by_time_int_presult() throw();
+    std::vector<std::map<std::string, int64_t> > * success;
+
+    _TaskTracker_scan_by_time_int_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_int_presult& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_double_args__isset {
+    _TaskTracker_scan_by_time_double_args__isset() : table_name(false), shard_id(false), cf_name(false), time_stamp(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool time_stamp :1;
+} _TaskTracker_scan_by_time_double_args__isset;
+
+class TaskTracker_scan_by_time_double_args {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+    TaskTracker_scan_by_time_double_args(const TaskTracker_scan_by_time_double_args&);
+    TaskTracker_scan_by_time_double_args& operator=(const TaskTracker_scan_by_time_double_args&);
+    TaskTracker_scan_by_time_double_args() : table_name(), shard_id(0), cf_name(), time_stamp(0) {
+    }
+
+    virtual ~TaskTracker_scan_by_time_double_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    int64_t time_stamp;
+
+    _TaskTracker_scan_by_time_double_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_time_stamp(const int64_t val);
+
+    bool operator == (const TaskTracker_scan_by_time_double_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(time_stamp == rhs.time_stamp))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_double_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_double_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_double_args& obj);
+};
+
+
+class TaskTracker_scan_by_time_double_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+
+    virtual ~TaskTracker_scan_by_time_double_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const int64_t* time_stamp;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_double_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_double_result__isset {
+    _TaskTracker_scan_by_time_double_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_double_result__isset;
+
+class TaskTracker_scan_by_time_double_result {
+public:
+
+    static const char* ascii_fingerprint; // = "A154E0D9CFB450B211B0905DC1A519AC";
+    static const uint8_t binary_fingerprint[16]; // = {0xA1,0x54,0xE0,0xD9,0xCF,0xB4,0x50,0xB2,0x11,0xB0,0x90,0x5D,0xC1,0xA5,0x19,0xAC};
+
+    TaskTracker_scan_by_time_double_result(const TaskTracker_scan_by_time_double_result&);
+    TaskTracker_scan_by_time_double_result& operator=(const TaskTracker_scan_by_time_double_result&);
+    TaskTracker_scan_by_time_double_result() {
+    }
+
+    virtual ~TaskTracker_scan_by_time_double_result() throw();
+    std::vector<std::map<std::string, double> >  success;
+
+    _TaskTracker_scan_by_time_double_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, double> > & val);
+
+    bool operator == (const TaskTracker_scan_by_time_double_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_double_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_double_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_double_result& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_double_presult__isset {
+    _TaskTracker_scan_by_time_double_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_double_presult__isset;
+
+class TaskTracker_scan_by_time_double_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "A154E0D9CFB450B211B0905DC1A519AC";
+    static const uint8_t binary_fingerprint[16]; // = {0xA1,0x54,0xE0,0xD9,0xCF,0xB4,0x50,0xB2,0x11,0xB0,0x90,0x5D,0xC1,0xA5,0x19,0xAC};
+
+
+    virtual ~TaskTracker_scan_by_time_double_presult() throw();
+    std::vector<std::map<std::string, double> > * success;
+
+    _TaskTracker_scan_by_time_double_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_double_presult& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_string_args__isset {
+    _TaskTracker_scan_by_time_string_args__isset() : table_name(false), shard_id(false), cf_name(false), time_stamp(false) {}
+    bool table_name :1;
+    bool shard_id :1;
+    bool cf_name :1;
+    bool time_stamp :1;
+} _TaskTracker_scan_by_time_string_args__isset;
+
+class TaskTracker_scan_by_time_string_args {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+    TaskTracker_scan_by_time_string_args(const TaskTracker_scan_by_time_string_args&);
+    TaskTracker_scan_by_time_string_args& operator=(const TaskTracker_scan_by_time_string_args&);
+    TaskTracker_scan_by_time_string_args() : table_name(), shard_id(0), cf_name(), time_stamp(0) {
+    }
+
+    virtual ~TaskTracker_scan_by_time_string_args() throw();
+    std::string table_name;
+    int64_t shard_id;
+    std::string cf_name;
+    int64_t time_stamp;
+
+    _TaskTracker_scan_by_time_string_args__isset __isset;
+
+    void __set_table_name(const std::string& val);
+
+    void __set_shard_id(const int64_t val);
+
+    void __set_cf_name(const std::string& val);
+
+    void __set_time_stamp(const int64_t val);
+
+    bool operator == (const TaskTracker_scan_by_time_string_args & rhs) const {
+        if (!(table_name == rhs.table_name))
+            return false;
+        if (!(shard_id == rhs.shard_id))
+            return false;
+        if (!(cf_name == rhs.cf_name))
+            return false;
+        if (!(time_stamp == rhs.time_stamp))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_string_args &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_string_args & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_string_args& obj);
+};
+
+
+class TaskTracker_scan_by_time_string_pargs {
+public:
+
+    static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+    static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+
+
+    virtual ~TaskTracker_scan_by_time_string_pargs() throw();
+    const std::string* table_name;
+    const int64_t* shard_id;
+    const std::string* cf_name;
+    const int64_t* time_stamp;
+
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_string_pargs& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_string_result__isset {
+    _TaskTracker_scan_by_time_string_result__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_string_result__isset;
+
+class TaskTracker_scan_by_time_string_result {
+public:
+
+    static const char* ascii_fingerprint; // = "66E077DB1443528DE4204943E4A399A6";
+    static const uint8_t binary_fingerprint[16]; // = {0x66,0xE0,0x77,0xDB,0x14,0x43,0x52,0x8D,0xE4,0x20,0x49,0x43,0xE4,0xA3,0x99,0xA6};
+
+    TaskTracker_scan_by_time_string_result(const TaskTracker_scan_by_time_string_result&);
+    TaskTracker_scan_by_time_string_result& operator=(const TaskTracker_scan_by_time_string_result&);
+    TaskTracker_scan_by_time_string_result() {
+    }
+
+    virtual ~TaskTracker_scan_by_time_string_result() throw();
+    std::vector<std::map<std::string, std::string> >  success;
+
+    _TaskTracker_scan_by_time_string_result__isset __isset;
+
+    void __set_success(const std::vector<std::map<std::string, std::string> > & val);
+
+    bool operator == (const TaskTracker_scan_by_time_string_result & rhs) const {
+        if (!(success == rhs.success))
+            return false;
+        return true;
+    }
+    bool operator != (const TaskTracker_scan_by_time_string_result &rhs) const {
+        return !(*this == rhs);
+    }
+
+    bool operator < (const TaskTracker_scan_by_time_string_result & ) const;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_string_result& obj);
+};
+
+typedef struct _TaskTracker_scan_by_time_string_presult__isset {
+    _TaskTracker_scan_by_time_string_presult__isset() : success(false) {}
+    bool success :1;
+} _TaskTracker_scan_by_time_string_presult__isset;
+
+class TaskTracker_scan_by_time_string_presult {
+public:
+
+    static const char* ascii_fingerprint; // = "66E077DB1443528DE4204943E4A399A6";
+    static const uint8_t binary_fingerprint[16]; // = {0x66,0xE0,0x77,0xDB,0x14,0x43,0x52,0x8D,0xE4,0x20,0x49,0x43,0xE4,0xA3,0x99,0xA6};
+
+
+    virtual ~TaskTracker_scan_by_time_string_presult() throw();
+    std::vector<std::map<std::string, std::string> > * success;
+
+    _TaskTracker_scan_by_time_string_presult__isset __isset;
+
+    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+    friend std::ostream& operator<<(std::ostream& out, const TaskTracker_scan_by_time_string_presult& obj);
+};
+
 class TaskTrackerClient : virtual public TaskTrackerIf {
 public:
     TaskTrackerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -1196,21 +2979,57 @@ public:
     int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property);
     void send_create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property);
     int64_t recv_create_cf();
-    int64_t vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value);
-    void send_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value);
-    int64_t recv_vector_put();
-    int64_t timely_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value);
-    void send_timely_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value);
-    int64_t recv_timely_vector_put();
-    void vector_get(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
-    void send_vector_get(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
-    void recv_vector_get(std::vector<std::string> & _return);
+    int64_t vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value);
+    void send_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value);
+    int64_t recv_vector_put_int();
+    int64_t vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value);
+    void send_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value);
+    int64_t recv_vector_put_double();
+    int64_t vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value);
+    void send_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value);
+    int64_t recv_vector_put_string();
+    int64_t timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value);
+    void send_timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value);
+    int64_t recv_timely_vector_put_int();
+    int64_t timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value);
+    void send_timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value);
+    int64_t recv_timely_vector_put_double();
+    int64_t timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value);
+    void send_timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value);
+    int64_t recv_timely_vector_put_string();
+    void vector_get_int(std::vector<int64_t> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void send_vector_get_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void recv_vector_get_int(std::vector<int64_t> & _return);
+    void vector_get_double(std::vector<double> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void send_vector_get_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void recv_vector_get_double(std::vector<double> & _return);
+    void vector_get_string(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void send_vector_get_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key);
+    void recv_vector_get_string(std::vector<std::string> & _return);
     void scan_all(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
     void send_scan_all(const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
     void recv_scan_all(std::vector<std::vector<std::string> > & _return);
+    void scan_all_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void send_scan_all_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void recv_scan_all_int(std::vector<std::map<std::string, int64_t> > & _return);
+    void scan_all_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void send_scan_all_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void recv_scan_all_double(std::vector<std::map<std::string, double> > & _return);
+    void scan_all_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void send_scan_all_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name);
+    void recv_scan_all_string(std::vector<std::map<std::string, std::string> > & _return);
     void scan_by_time(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
     void send_scan_by_time(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
     void recv_scan_by_time(std::vector<std::vector<std::string> > & _return);
+    void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void send_scan_by_time_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void recv_scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return);
+    void scan_by_time_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void send_scan_by_time_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void recv_scan_by_time_double(std::vector<std::map<std::string, double> > & _return);
+    void scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void send_scan_by_time_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp);
+    void recv_scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return);
 protected:
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
     boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1229,22 +3048,46 @@ private:
     void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_create_table(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_create_cf(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-    void process_vector_put(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-    void process_timely_vector_put(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-    void process_vector_get(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_put_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_put_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_put_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_timely_vector_put_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_timely_vector_put_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_timely_vector_put_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_get_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_get_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_vector_get_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_scan_all(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_all_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_all_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_all_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
     void process_scan_by_time(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_by_time_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_by_time_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+    void process_scan_by_time_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
 public:
     TaskTrackerProcessor(boost::shared_ptr<TaskTrackerIf> iface) :
         iface_(iface) {
         processMap_["ping"] = &TaskTrackerProcessor::process_ping;
         processMap_["create_table"] = &TaskTrackerProcessor::process_create_table;
         processMap_["create_cf"] = &TaskTrackerProcessor::process_create_cf;
-        processMap_["vector_put"] = &TaskTrackerProcessor::process_vector_put;
-        processMap_["timely_vector_put"] = &TaskTrackerProcessor::process_timely_vector_put;
-        processMap_["vector_get"] = &TaskTrackerProcessor::process_vector_get;
+        processMap_["vector_put_int"] = &TaskTrackerProcessor::process_vector_put_int;
+        processMap_["vector_put_double"] = &TaskTrackerProcessor::process_vector_put_double;
+        processMap_["vector_put_string"] = &TaskTrackerProcessor::process_vector_put_string;
+        processMap_["timely_vector_put_int"] = &TaskTrackerProcessor::process_timely_vector_put_int;
+        processMap_["timely_vector_put_double"] = &TaskTrackerProcessor::process_timely_vector_put_double;
+        processMap_["timely_vector_put_string"] = &TaskTrackerProcessor::process_timely_vector_put_string;
+        processMap_["vector_get_int"] = &TaskTrackerProcessor::process_vector_get_int;
+        processMap_["vector_get_double"] = &TaskTrackerProcessor::process_vector_get_double;
+        processMap_["vector_get_string"] = &TaskTrackerProcessor::process_vector_get_string;
         processMap_["scan_all"] = &TaskTrackerProcessor::process_scan_all;
+        processMap_["scan_all_int"] = &TaskTrackerProcessor::process_scan_all_int;
+        processMap_["scan_all_double"] = &TaskTrackerProcessor::process_scan_all_double;
+        processMap_["scan_all_string"] = &TaskTrackerProcessor::process_scan_all_string;
         processMap_["scan_by_time"] = &TaskTrackerProcessor::process_scan_by_time;
+        processMap_["scan_by_time_int"] = &TaskTrackerProcessor::process_scan_by_time_int;
+        processMap_["scan_by_time_double"] = &TaskTrackerProcessor::process_scan_by_time_double;
+        processMap_["scan_by_time_string"] = &TaskTrackerProcessor::process_scan_by_time_string;
     }
 
     virtual ~TaskTrackerProcessor() {}
@@ -1301,31 +3144,87 @@ public:
         return ifaces_[i]->create_cf(table_name, cf_property);
     }
 
-    int64_t vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
+    int64_t vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value) {
         size_t sz = ifaces_.size();
         size_t i = 0;
         for (; i < (sz - 1); ++i) {
-            ifaces_[i]->vector_put(table_name, shard_id, cf_name, row_key, column_key, value);
+            ifaces_[i]->vector_put_int(table_name, shard_id, cf_name, row_key, column_key, value);
         }
-        return ifaces_[i]->vector_put(table_name, shard_id, cf_name, row_key, column_key, value);
+        return ifaces_[i]->vector_put_int(table_name, shard_id, cf_name, row_key, column_key, value);
     }
 
-    int64_t timely_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+    int64_t vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value) {
         size_t sz = ifaces_.size();
         size_t i = 0;
         for (; i < (sz - 1); ++i) {
-            ifaces_[i]->timely_vector_put(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+            ifaces_[i]->vector_put_double(table_name, shard_id, cf_name, row_key, column_key, value);
         }
-        return ifaces_[i]->timely_vector_put(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+        return ifaces_[i]->vector_put_double(table_name, shard_id, cf_name, row_key, column_key, value);
     }
 
-    void vector_get(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+    int64_t vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
         size_t sz = ifaces_.size();
         size_t i = 0;
         for (; i < (sz - 1); ++i) {
-            ifaces_[i]->vector_get(_return, table_name, shard_id, cf_name, row_key, column_key);
+            ifaces_[i]->vector_put_string(table_name, shard_id, cf_name, row_key, column_key, value);
         }
-        ifaces_[i]->vector_get(_return, table_name, shard_id, cf_name, row_key, column_key);
+        return ifaces_[i]->vector_put_string(table_name, shard_id, cf_name, row_key, column_key, value);
+    }
+
+    int64_t timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->timely_vector_put_int(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+        }
+        return ifaces_[i]->timely_vector_put_int(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    }
+
+    int64_t timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->timely_vector_put_double(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+        }
+        return ifaces_[i]->timely_vector_put_double(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    }
+
+    int64_t timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->timely_vector_put_string(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+        }
+        return ifaces_[i]->timely_vector_put_string(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    }
+
+    void vector_get_int(std::vector<int64_t> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->vector_get_int(_return, table_name, shard_id, cf_name, row_key, column_key);
+        }
+        ifaces_[i]->vector_get_int(_return, table_name, shard_id, cf_name, row_key, column_key);
+        return;
+    }
+
+    void vector_get_double(std::vector<double> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->vector_get_double(_return, table_name, shard_id, cf_name, row_key, column_key);
+        }
+        ifaces_[i]->vector_get_double(_return, table_name, shard_id, cf_name, row_key, column_key);
+        return;
+    }
+
+    void vector_get_string(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->vector_get_string(_return, table_name, shard_id, cf_name, row_key, column_key);
+        }
+        ifaces_[i]->vector_get_string(_return, table_name, shard_id, cf_name, row_key, column_key);
         return;
     }
 
@@ -1339,6 +3238,36 @@ public:
         return;
     }
 
+    void scan_all_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_all_int(_return, table_name, shard_id, cf_name);
+        }
+        ifaces_[i]->scan_all_int(_return, table_name, shard_id, cf_name);
+        return;
+    }
+
+    void scan_all_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_all_double(_return, table_name, shard_id, cf_name);
+        }
+        ifaces_[i]->scan_all_double(_return, table_name, shard_id, cf_name);
+        return;
+    }
+
+    void scan_all_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_all_string(_return, table_name, shard_id, cf_name);
+        }
+        ifaces_[i]->scan_all_string(_return, table_name, shard_id, cf_name);
+        return;
+    }
+
     void scan_by_time(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
         size_t sz = ifaces_.size();
         size_t i = 0;
@@ -1346,6 +3275,36 @@ public:
             ifaces_[i]->scan_by_time(_return, table_name, shard_id, cf_name, time_stamp);
         }
         ifaces_[i]->scan_by_time(_return, table_name, shard_id, cf_name, time_stamp);
+        return;
+    }
+
+    void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_by_time_int(_return, table_name, shard_id, cf_name, time_stamp);
+        }
+        ifaces_[i]->scan_by_time_int(_return, table_name, shard_id, cf_name, time_stamp);
+        return;
+    }
+
+    void scan_by_time_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_by_time_double(_return, table_name, shard_id, cf_name, time_stamp);
+        }
+        ifaces_[i]->scan_by_time_double(_return, table_name, shard_id, cf_name, time_stamp);
+        return;
+    }
+
+    void scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        size_t sz = ifaces_.size();
+        size_t i = 0;
+        for (; i < (sz - 1); ++i) {
+            ifaces_[i]->scan_by_time_string(_return, table_name, shard_id, cf_name, time_stamp);
+        }
+        ifaces_[i]->scan_by_time_string(_return, table_name, shard_id, cf_name, time_stamp);
         return;
     }
 

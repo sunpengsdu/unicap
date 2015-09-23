@@ -187,7 +187,7 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
     return 1;
 }
 
-int64_t TaskTrackerHandler::vector_put(const std::string& table_name,
+int64_t TaskTrackerHandler::vector_put_string(const std::string& table_name,
                                        const int64_t shard_id,
                                        const std::string& cf_name,
                                        const std::vector<std::string> & row_key,
@@ -202,7 +202,7 @@ int64_t TaskTrackerHandler::vector_put(const std::string& table_name,
     return 1;
 }
 
-int64_t TaskTrackerHandler::timely_vector_put(const std::string& table_name,
+int64_t TaskTrackerHandler::timely_vector_put_string(const std::string& table_name,
         const int64_t shard_id,
         const std::string& cf_name,
         const std::vector<std::string> & row_key,
@@ -216,7 +216,7 @@ int64_t TaskTrackerHandler::timely_vector_put(const std::string& table_name,
     return 1;
 }
 
-void TaskTrackerHandler::vector_get(std::vector<std::string> & _return,
+void TaskTrackerHandler::vector_get_string(std::vector<std::string> & _return,
                                     const std::string& table_name,
                                     const int64_t shard_id,
                                     const std::string& cf_name,

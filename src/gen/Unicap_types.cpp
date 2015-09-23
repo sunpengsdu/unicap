@@ -34,6 +34,18 @@ const char* _kStorageTypeNames[] = {
 };
 const std::map<int, const char*> _StorageType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(7, _kStorageTypeValues, _kStorageTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kValueTypeValues[] = {
+    ValueType::Int64,
+    ValueType::Double,
+    ValueType::String
+};
+const char* _kValueTypeNames[] = {
+    "Int64",
+    "Double",
+    "String"
+};
+const std::map<int, const char*> _ValueType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kValueTypeValues, _kValueTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 int _kKeyPartitionAlgoValues[] = {
     KeyPartitionAlgo::NoneAlgo,
     KeyPartitionAlgo::HashingPartition,
@@ -550,12 +562,16 @@ void ColumnFamilyProperty::__set_storage_type(const StorageType::type val) {
     this->storage_type = val;
 }
 
+void ColumnFamilyProperty::__set_value_type(const ValueType::type val) {
+    this->value_type = val;
+}
+
 void ColumnFamilyProperty::__set_block_size(const std::vector<int64_t> & val) {
     this->block_size = val;
 }
 
-const char* ColumnFamilyProperty::ascii_fingerprint = "4CA06419F0B7D20D15BF1012BB23D92D";
-const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0x4C,0xA0,0x64,0x19,0xF0,0xB7,0xD2,0x0D,0x15,0xBF,0x10,0x12,0xBB,0x23,0xD9,0x2D};
+const char* ColumnFamilyProperty::ascii_fingerprint = "E05D11A065D289293DBEC51207844A07";
+const uint8_t ColumnFamilyProperty::binary_fingerprint[16] = {0xE0,0x5D,0x11,0xA0,0x65,0xD2,0x89,0x29,0x3D,0xBE,0xC5,0x12,0x07,0x84,0x4A,0x07};
 
 uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -570,6 +586,7 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
 
     bool isset_cf_name = false;
     bool isset_storage_type = false;
+    bool isset_value_type = false;
     bool isset_block_size = false;
 
     while (true) {
@@ -597,16 +614,26 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
             }
             break;
         case 3:
+            if (ftype == ::apache::thrift::protocol::T_I32) {
+                int32_t ecast38;
+                xfer += iprot->readI32(ecast38);
+                this->value_type = (ValueType::type)ecast38;
+                isset_value_type = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 4:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->block_size.clear();
-                    uint32_t _size38;
-                    ::apache::thrift::protocol::TType _etype41;
-                    xfer += iprot->readListBegin(_etype41, _size38);
-                    this->block_size.resize(_size38);
-                    uint32_t _i42;
-                    for (_i42 = 0; _i42 < _size38; ++_i42) {
-                        xfer += iprot->readI64(this->block_size[_i42]);
+                    uint32_t _size39;
+                    ::apache::thrift::protocol::TType _etype42;
+                    xfer += iprot->readListBegin(_etype42, _size39);
+                    this->block_size.resize(_size39);
+                    uint32_t _i43;
+                    for (_i43 = 0; _i43 < _size39; ++_i43) {
+                        xfer += iprot->readI64(this->block_size[_i43]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -628,6 +655,8 @@ uint32_t ColumnFamilyProperty::read(::apache::thrift::protocol::TProtocol* iprot
         throw TProtocolException(TProtocolException::INVALID_DATA);
     if (!isset_storage_type)
         throw TProtocolException(TProtocolException::INVALID_DATA);
+    if (!isset_value_type)
+        throw TProtocolException(TProtocolException::INVALID_DATA);
     if (!isset_block_size)
         throw TProtocolException(TProtocolException::INVALID_DATA);
     return xfer;
@@ -646,12 +675,16 @@ uint32_t ColumnFamilyProperty::write(::apache::thrift::protocol::TProtocol* opro
     xfer += oprot->writeI32((int32_t)this->storage_type);
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("block_size", ::apache::thrift::protocol::T_LIST, 3);
+    xfer += oprot->writeFieldBegin("value_type", ::apache::thrift::protocol::T_I32, 3);
+    xfer += oprot->writeI32((int32_t)this->value_type);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("block_size", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->block_size.size()));
-        std::vector<int64_t> ::const_iterator _iter43;
-        for (_iter43 = this->block_size.begin(); _iter43 != this->block_size.end(); ++_iter43) {
-            xfer += oprot->writeI64((*_iter43));
+        std::vector<int64_t> ::const_iterator _iter44;
+        for (_iter44 = this->block_size.begin(); _iter44 != this->block_size.end(); ++_iter44) {
+            xfer += oprot->writeI64((*_iter44));
         }
         xfer += oprot->writeListEnd();
     }
@@ -667,18 +700,21 @@ void swap(ColumnFamilyProperty &a, ColumnFamilyProperty &b) {
     using ::std::swap;
     swap(a.cf_name, b.cf_name);
     swap(a.storage_type, b.storage_type);
+    swap(a.value_type, b.value_type);
     swap(a.block_size, b.block_size);
 }
 
-ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other44) {
-    cf_name = other44.cf_name;
-    storage_type = other44.storage_type;
-    block_size = other44.block_size;
-}
-ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other45) {
+ColumnFamilyProperty::ColumnFamilyProperty(const ColumnFamilyProperty& other45) {
     cf_name = other45.cf_name;
     storage_type = other45.storage_type;
+    value_type = other45.value_type;
     block_size = other45.block_size;
+}
+ColumnFamilyProperty& ColumnFamilyProperty::operator=(const ColumnFamilyProperty& other46) {
+    cf_name = other46.cf_name;
+    storage_type = other46.storage_type;
+    value_type = other46.value_type;
+    block_size = other46.block_size;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
@@ -686,6 +722,7 @@ std::ostream& operator<<(std::ostream& out, const ColumnFamilyProperty& obj) {
     out << "ColumnFamilyProperty(";
     out << "cf_name=" << to_string(obj.cf_name);
     out << ", " << "storage_type=" << to_string(obj.storage_type);
+    out << ", " << "value_type=" << to_string(obj.value_type);
     out << ", " << "block_size=" << to_string(obj.block_size);
     out << ")";
     return out;
@@ -936,20 +973,7 @@ void swap(TaskNode &a, TaskNode &b) {
     swap(a.__isset, b.__isset);
 }
 
-TaskNode::TaskNode(const TaskNode& other46) {
-    status = other46.status;
-    stage_id = other46.stage_id;
-    task_id = other46.task_id;
-    function_name = other46.function_name;
-    src_table_name = other46.src_table_name;
-    src_shard_id = other46.src_shard_id;
-    src_cf_name = other46.src_cf_name;
-    dst_table_name = other46.dst_table_name;
-    dst_cf_name = other46.dst_cf_name;
-    dst_shard_id = other46.dst_shard_id;
-    __isset = other46.__isset;
-}
-TaskNode& TaskNode::operator=(const TaskNode& other47) {
+TaskNode::TaskNode(const TaskNode& other47) {
     status = other47.status;
     stage_id = other47.stage_id;
     task_id = other47.task_id;
@@ -961,6 +985,19 @@ TaskNode& TaskNode::operator=(const TaskNode& other47) {
     dst_cf_name = other47.dst_cf_name;
     dst_shard_id = other47.dst_shard_id;
     __isset = other47.__isset;
+}
+TaskNode& TaskNode::operator=(const TaskNode& other48) {
+    status = other48.status;
+    stage_id = other48.stage_id;
+    task_id = other48.task_id;
+    function_name = other48.function_name;
+    src_table_name = other48.src_table_name;
+    src_shard_id = other48.src_shard_id;
+    src_cf_name = other48.src_cf_name;
+    dst_table_name = other48.dst_table_name;
+    dst_cf_name = other48.dst_cf_name;
+    dst_shard_id = other48.dst_shard_id;
+    __isset = other48.__isset;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const TaskNode& obj) {

@@ -40,38 +40,115 @@ public:
 
     int64_t create_cf(const std::string& table_name, const ColumnFamilyProperty& cf_property);
 
-    int64_t vector_put(const std::string& table_name,
-                       const int64_t shard_id,
-                       const std::string& cf_name,
-                       const std::vector<std::string> & row_key,
-                       const std::vector<std::string> & column_key,
-                       const std::vector<std::string> & value);
+    int64_t vector_put_int(const std::string& table_name,
+                        const int64_t shard_id,
+                        const std::string& cf_name,
+                        const std::vector<std::string> & row_key,
+                        const std::vector<std::string> & column_key,
+                        const std::vector<int64_t> & value) {}
 
-    int64_t timely_vector_put(const std::string& table_name,
-                              const int64_t shard_id,
-                              const std::string& cf_name,
-                              const std::vector<std::string> & row_key,
-                              const std::vector<std::string> & column_key,
-                              const int64_t time_stampe,
-                              const std::vector<std::string> & value);
+    int64_t vector_put_double(const std::string& table_name,
+                        const int64_t shard_id,
+                        const std::string& cf_name,
+                        const std::vector<std::string> & row_key,
+                        const std::vector<std::string> & column_key,
+                        const std::vector<double> & value) {}
 
-    void vector_get(std::vector<std::string> & _return,
+    int64_t vector_put_string(const std::string& table_name,
+                        const int64_t shard_id,
+                        const std::string& cf_name,
+                        const std::vector<std::string> & row_key,
+                        const std::vector<std::string> & column_key,
+                        const std::vector<std::string> & value);
+
+    int64_t timely_vector_put_int(const std::string& table_name,
+                        const int64_t shard_id, const std::string& cf_name,
+                        const std::vector<std::string> & row_key,
+                        const std::vector<std::string> & column_key,
+                        const int64_t time_stampe,
+                        const std::vector<int64_t> & value) {}
+
+    int64_t timely_vector_put_double(const std::string& table_name,
+                                const int64_t shard_id,
+                                const std::string& cf_name,
+                                const std::vector<std::string> & row_key,
+                                const std::vector<std::string> & column_key,
+                                const int64_t time_stampe,
+                                const std::vector<double> & value) {}
+
+    int64_t timely_vector_put_string(const std::string& table_name,
+                                const int64_t shard_id,
+                                const std::string& cf_name,
+                                const std::vector<std::string> & row_key,
+                                const std::vector<std::string> & column_key,
+                                const int64_t time_stampe,
+                                const std::vector<std::string> & value);
+
+    void vector_get_int(std::vector<int64_t> & _return,
+                    const std::string& table_name,
+                    const int64_t shard_id,
+                    const std::string& cf_name,
+                    const std::vector<std::string> & row_key,
+                    const std::vector<std::string> & column_key) {}
+
+    void vector_get_double(std::vector<double> & _return,
+                    const std::string& table_name,
+                    const int64_t shard_id,
+                    const std::string& cf_name,
+                    const std::vector<std::string> & row_key,
+                    const std::vector<std::string> & column_key) {}
+
+    void vector_get_string(std::vector<std::string> & _return,
                     const std::string& table_name,
                     const int64_t shard_id,
                     const std::string& cf_name,
                     const std::vector<std::string> & row_key,
                     const std::vector<std::string> & column_key);
 
-    void scan_by_time(std::vector<std::vector<std::string> > & _return,
-                      const std::string& table_name,
-                      const int64_t shard_id,
-                      const std::string& cf_name,
-                      const int64_t time_stamp);
-
     void scan_all(std::vector<std::vector<std::string> > & _return,
-                  const std::string& table_name,
-                  const int64_t shard_id,
-                  const std::string& cf_name);
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name);
+
+    void scan_all_int(std::vector<std::map<std::string, int64_t> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name) {}
+
+    void scan_all_double(std::vector<std::map<std::string, double> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name) {}
+
+    void scan_all_string(std::vector<std::map<std::string, std::string> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name) {}
+
+    void scan_by_time(std::vector<std::vector<std::string> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name,
+            const int64_t time_stamp);
+
+    void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name,
+            const int64_t time_stamp) {}
+
+    void scan_by_time_double(std::vector<std::map<std::string, double> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name,
+            const int64_t time_stamp) {}
+
+    void scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return,
+            const std::string& table_name,
+            const int64_t shard_id,
+            const std::string& cf_name,
+            const int64_t time_stamp) {}
+
 private:
 };
 

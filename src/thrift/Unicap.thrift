@@ -10,6 +10,12 @@ SparseMatrix = 6,
 HdfsKeyValue = 7,
 }
 
+enum ValueType {
+Int64 = 1,
+Double = 2,
+String = 3,
+}
+
 enum KeyPartitionAlgo {
 NoneAlgo         = 1,
 HashingPartition = 2,
@@ -37,7 +43,8 @@ struct TableProperty {
 struct ColumnFamilyProperty {
 1:  required string      cf_name,
 2:  required StorageType storage_type,
-3:  required list<i64>   block_size,
+3:  required ValueType   value_type,
+4:  required list<i64>   block_size,
 }
 
 struct TaskNode {
@@ -55,20 +62,56 @@ struct TaskNode {
 
 service JobTracker {
     i64 register_task_tracker(1:i64 node_id, 2:string node_name, 3:i64 storage_weight),
+
     map<i64, TaskTrackerInfo> get_all_task_tracker_info(),
-    TaskNode fetch_cpu_task(1:i64 task_tracker_id)
-    TaskNode fetch_gpu_task(1:i64 task_tracker_id)
-    i64 complete_cpu_task(1:i64 stage_id, 2:i64 task_id)
+
+    TaskNode fetch_cpu_task(1:i64 task_tracker_id),
+
+    TaskNode fetch_gpu_task(1:i64 task_tracker_id),
+
+    i64 complete_cpu_task(1:i64 stage_id, 2:i64 task_id),
+
     i64 complete_gpu_task(1:i64 stage_id, 2:i64 task_id)
 }
 
 service TaskTracker {
     string ping(),
+    
     i64 create_table(1:TableProperty table_property),
+    
     i64 create_cf(1:string table_name, 2:ColumnFamilyProperty cf_property),
-    i64 vector_put(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:list<string> value),
-    i64 timely_vector_put(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:i64 time_stampe, 7:list<string> value),
-    list<string> vector_get(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key),
+
+    i64 vector_put_int(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:list<i64> value),
+
+    i64 vector_put_double(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:list<double> value),
+
+    i64 vector_put_string(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:list<string> value),
+
+    i64 timely_vector_put_int(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:i64 time_stampe, 7:list<i64> value),
+
+    i64 timely_vector_put_double(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:i64 time_stampe, 7:list<double> value),
+
+    i64 timely_vector_put_string(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key, 6:i64 time_stampe, 7:list<string> value),
+
+    list<i64> vector_get_int(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key),
+    
+    list<double> vector_get_double(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key),
+    
+    list<string> vector_get_string(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:list<string> row_key, 5:list<string> column_key),
+    
     list<list<string>> scan_all(1:string table_name, 2:i64 shard_id, 3:string cf_name),
-    list<list<string>> scan_by_time(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp)
+
+    list<map<string, i64>> scan_all_int(1:string table_name, 2:i64 shard_id, 3:string cf_name),
+    
+    list<map<string, double>> scan_all_double(1:string table_name, 2:i64 shard_id, 3:string cf_name),
+    
+    list<map<string, string>> scan_all_string(1:string table_name, 2:i64 shard_id, 3:string cf_name),
+ 
+    list<list<string>> scan_by_time(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp),
+
+    list<map<string, i64>> scan_by_time_int(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp),
+    
+    list<map<string, double>> scan_by_time_double(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp),
+    
+    list<map<string, string>> scan_by_time_string(1:string table_name, 2:i64 shard_id, 3:string cf_name, 4:i64 time_stamp)
 }

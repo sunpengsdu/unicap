@@ -29,7 +29,7 @@ int64_t Storage::vector_put(const std::string table,
                             shard_location[shard_id];
     auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
     i->open_transport();
-    i->method()->vector_put(table,shard_id, cf, row_key, column_key, value);
+    i->method()->vector_put_string(table,shard_id, cf, row_key, column_key, value);
     i->close_transport();
     return 1;
 
@@ -49,7 +49,7 @@ int64_t Storage::timely_vector_put(const std::string table,
                             shard_location[shard_id];
     auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
     i->open_transport();
-    i->method()->timely_vector_put(table, shard_id, cf, row_key, column_key, time_stamp, value);
+    i->method()->timely_vector_put_string(table, shard_id, cf, row_key, column_key, time_stamp, value);
     i->close_transport();
     return 1;
 }
@@ -67,7 +67,7 @@ int64_t Storage::vector_get(const std::string table,
                             shard_location[shard_id];
     auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
     i->open_transport();
-    i->method()->vector_get(value, table, shard_id, cf, row_key, column_key);
+    i->method()->vector_get_string(value, table, shard_id, cf, row_key, column_key);
     i->close_transport();
     return 1;
 }

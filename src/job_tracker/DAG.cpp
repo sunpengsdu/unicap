@@ -126,6 +126,7 @@ int64_t DAG::create_cf(const std::string& table_name,
     new_cf._cf_property.block_size.resize(2);
     new_cf._cf_property.block_size[0] = size.first;
     new_cf._cf_property.block_size[1] = size.second;
+    new_cf._cf_property.value_type = ValueType::type::String;
 
     for (auto& exist_cf : StorageInfo::singleton()._cf_info[table_name]) {
         if (exist_cf.first == cf_name) {

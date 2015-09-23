@@ -37,19 +37,49 @@ public:
         printf("create_cf\n");
     }
 
-    int64_t vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
+    int64_t vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value) {
         // Your implementation goes here
-        printf("vector_put\n");
+        printf("vector_put_int\n");
     }
 
-    int64_t timely_vector_put(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+    int64_t vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value) {
         // Your implementation goes here
-        printf("timely_vector_put\n");
+        printf("vector_put_double\n");
     }
 
-    void vector_get(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+    int64_t vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
         // Your implementation goes here
-        printf("vector_get\n");
+        printf("vector_put_string\n");
+    }
+
+    int64_t timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
+        // Your implementation goes here
+        printf("timely_vector_put_int\n");
+    }
+
+    int64_t timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
+        // Your implementation goes here
+        printf("timely_vector_put_double\n");
+    }
+
+    int64_t timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+        // Your implementation goes here
+        printf("timely_vector_put_string\n");
+    }
+
+    void vector_get_int(std::vector<int64_t> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        // Your implementation goes here
+        printf("vector_get_int\n");
+    }
+
+    void vector_get_double(std::vector<double> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        // Your implementation goes here
+        printf("vector_get_double\n");
+    }
+
+    void vector_get_string(std::vector<std::string> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
+        // Your implementation goes here
+        printf("vector_get_string\n");
     }
 
     void scan_all(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
@@ -57,9 +87,39 @@ public:
         printf("scan_all\n");
     }
 
+    void scan_all_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        // Your implementation goes here
+        printf("scan_all_int\n");
+    }
+
+    void scan_all_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        // Your implementation goes here
+        printf("scan_all_double\n");
+    }
+
+    void scan_all_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+        // Your implementation goes here
+        printf("scan_all_string\n");
+    }
+
     void scan_by_time(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
         // Your implementation goes here
         printf("scan_by_time\n");
+    }
+
+    void scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        // Your implementation goes here
+        printf("scan_by_time_int\n");
+    }
+
+    void scan_by_time_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        // Your implementation goes here
+        printf("scan_by_time_double\n");
+    }
+
+    void scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+        // Your implementation goes here
+        printf("scan_by_time_string\n");
     }
 
 };
