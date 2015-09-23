@@ -1551,11 +1551,11 @@ uint32_t TaskTracker_vector_put_string_presult::read(::apache::thrift::protocol:
 }
 
 
-TaskTracker_timely_vector_put_int_args::~TaskTracker_timely_vector_put_int_args() throw() {
+TaskTracker_vector_merge_int_args::~TaskTracker_vector_merge_int_args() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_int_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_int_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -1636,14 +1636,6 @@ uint32_t TaskTracker_timely_vector_put_int_args::read(::apache::thrift::protocol
             }
             break;
         case 6:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->time_stampe);
-                this->__isset.time_stampe = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 7:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->value.clear();
@@ -1674,10 +1666,10 @@ uint32_t TaskTracker_timely_vector_put_int_args::read(::apache::thrift::protocol
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_int_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_int_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_int_args");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_int_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -1713,11 +1705,7 @@ uint32_t TaskTracker_timely_vector_put_int_args::write(::apache::thrift::protoco
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64(this->time_stampe);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->value.size()));
         std::vector<int64_t> ::const_iterator _iter144;
@@ -1735,14 +1723,14 @@ uint32_t TaskTracker_timely_vector_put_int_args::write(::apache::thrift::protoco
 }
 
 
-TaskTracker_timely_vector_put_int_pargs::~TaskTracker_timely_vector_put_int_pargs() throw() {
+TaskTracker_vector_merge_int_pargs::~TaskTracker_vector_merge_int_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_int_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_int_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_int_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_int_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -1778,11 +1766,7 @@ uint32_t TaskTracker_timely_vector_put_int_pargs::write(::apache::thrift::protoc
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64((*(this->time_stampe)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>((*(this->value)).size()));
         std::vector<int64_t> ::const_iterator _iter147;
@@ -1800,11 +1784,11 @@ uint32_t TaskTracker_timely_vector_put_int_pargs::write(::apache::thrift::protoc
 }
 
 
-TaskTracker_timely_vector_put_int_result::~TaskTracker_timely_vector_put_int_result() throw() {
+TaskTracker_vector_merge_int_result::~TaskTracker_vector_merge_int_result() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_int_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_int_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -1842,11 +1826,11 @@ uint32_t TaskTracker_timely_vector_put_int_result::read(::apache::thrift::protoc
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_int_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_int_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_int_result");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_int_result");
 
     if (this->__isset.success) {
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
@@ -1859,11 +1843,11 @@ uint32_t TaskTracker_timely_vector_put_int_result::write(::apache::thrift::proto
 }
 
 
-TaskTracker_timely_vector_put_int_presult::~TaskTracker_timely_vector_put_int_presult() throw() {
+TaskTracker_vector_merge_int_presult::~TaskTracker_vector_merge_int_presult() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_int_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_int_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -1902,11 +1886,11 @@ uint32_t TaskTracker_timely_vector_put_int_presult::read(::apache::thrift::proto
 }
 
 
-TaskTracker_timely_vector_put_double_args::~TaskTracker_timely_vector_put_double_args() throw() {
+TaskTracker_vector_merge_double_args::~TaskTracker_vector_merge_double_args() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_double_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_double_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -1987,14 +1971,6 @@ uint32_t TaskTracker_timely_vector_put_double_args::read(::apache::thrift::proto
             }
             break;
         case 6:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->time_stampe);
-                this->__isset.time_stampe = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 7:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->value.clear();
@@ -2025,10 +2001,10 @@ uint32_t TaskTracker_timely_vector_put_double_args::read(::apache::thrift::proto
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_double_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_double_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_double_args");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_double_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -2064,11 +2040,7 @@ uint32_t TaskTracker_timely_vector_put_double_args::write(::apache::thrift::prot
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64(this->time_stampe);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->value.size()));
         std::vector<double> ::const_iterator _iter165;
@@ -2086,14 +2058,14 @@ uint32_t TaskTracker_timely_vector_put_double_args::write(::apache::thrift::prot
 }
 
 
-TaskTracker_timely_vector_put_double_pargs::~TaskTracker_timely_vector_put_double_pargs() throw() {
+TaskTracker_vector_merge_double_pargs::~TaskTracker_vector_merge_double_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_double_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_double_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_double_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_double_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -2129,11 +2101,7 @@ uint32_t TaskTracker_timely_vector_put_double_pargs::write(::apache::thrift::pro
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64((*(this->time_stampe)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>((*(this->value)).size()));
         std::vector<double> ::const_iterator _iter168;
@@ -2151,11 +2119,11 @@ uint32_t TaskTracker_timely_vector_put_double_pargs::write(::apache::thrift::pro
 }
 
 
-TaskTracker_timely_vector_put_double_result::~TaskTracker_timely_vector_put_double_result() throw() {
+TaskTracker_vector_merge_double_result::~TaskTracker_vector_merge_double_result() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_double_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_double_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -2193,11 +2161,11 @@ uint32_t TaskTracker_timely_vector_put_double_result::read(::apache::thrift::pro
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_double_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_double_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_double_result");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_double_result");
 
     if (this->__isset.success) {
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
@@ -2210,11 +2178,11 @@ uint32_t TaskTracker_timely_vector_put_double_result::write(::apache::thrift::pr
 }
 
 
-TaskTracker_timely_vector_put_double_presult::~TaskTracker_timely_vector_put_double_presult() throw() {
+TaskTracker_vector_merge_double_presult::~TaskTracker_vector_merge_double_presult() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_double_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_double_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -2253,11 +2221,11 @@ uint32_t TaskTracker_timely_vector_put_double_presult::read(::apache::thrift::pr
 }
 
 
-TaskTracker_timely_vector_put_string_args::~TaskTracker_timely_vector_put_string_args() throw() {
+TaskTracker_vector_merge_string_args::~TaskTracker_vector_merge_string_args() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_string_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_string_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -2338,14 +2306,6 @@ uint32_t TaskTracker_timely_vector_put_string_args::read(::apache::thrift::proto
             }
             break;
         case 6:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->time_stampe);
-                this->__isset.time_stampe = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 7:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->value.clear();
@@ -2376,10 +2336,10 @@ uint32_t TaskTracker_timely_vector_put_string_args::read(::apache::thrift::proto
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_string_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_string_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_string_args");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_string_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -2415,11 +2375,7 @@ uint32_t TaskTracker_timely_vector_put_string_args::write(::apache::thrift::prot
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64(this->time_stampe);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->value.size()));
         std::vector<std::string> ::const_iterator _iter186;
@@ -2437,14 +2393,14 @@ uint32_t TaskTracker_timely_vector_put_string_args::write(::apache::thrift::prot
 }
 
 
-TaskTracker_timely_vector_put_string_pargs::~TaskTracker_timely_vector_put_string_pargs() throw() {
+TaskTracker_vector_merge_string_pargs::~TaskTracker_vector_merge_string_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_string_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_string_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_string_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_string_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -2480,11 +2436,7 @@ uint32_t TaskTracker_timely_vector_put_string_pargs::write(::apache::thrift::pro
     }
     xfer += oprot->writeFieldEnd();
 
-    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
-    xfer += oprot->writeI64((*(this->time_stampe)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 6);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->value)).size()));
         std::vector<std::string> ::const_iterator _iter189;
@@ -2502,11 +2454,11 @@ uint32_t TaskTracker_timely_vector_put_string_pargs::write(::apache::thrift::pro
 }
 
 
-TaskTracker_timely_vector_put_string_result::~TaskTracker_timely_vector_put_string_result() throw() {
+TaskTracker_vector_merge_string_result::~TaskTracker_vector_merge_string_result() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_string_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_string_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -2544,11 +2496,11 @@ uint32_t TaskTracker_timely_vector_put_string_result::read(::apache::thrift::pro
     return xfer;
 }
 
-uint32_t TaskTracker_timely_vector_put_string_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_vector_merge_string_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_timely_vector_put_string_result");
+    xfer += oprot->writeStructBegin("TaskTracker_vector_merge_string_result");
 
     if (this->__isset.success) {
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
@@ -2561,11 +2513,1064 @@ uint32_t TaskTracker_timely_vector_put_string_result::write(::apache::thrift::pr
 }
 
 
-TaskTracker_timely_vector_put_string_presult::~TaskTracker_timely_vector_put_string_presult() throw() {
+TaskTracker_vector_merge_string_presult::~TaskTracker_vector_merge_string_presult() throw() {
 }
 
 
-uint32_t TaskTracker_timely_vector_put_string_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_vector_merge_string_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64((*(this->success)));
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_int_args::~TaskTracker_timed_vector_put_int_args() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_int_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 1:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->table_name);
+                this->__isset.table_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 2:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->shard_id);
+                this->__isset.shard_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 3:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->cf_name);
+                this->__isset.cf_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 4:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->row_key.clear();
+                    uint32_t _size190;
+                    ::apache::thrift::protocol::TType _etype193;
+                    xfer += iprot->readListBegin(_etype193, _size190);
+                    this->row_key.resize(_size190);
+                    uint32_t _i194;
+                    for (_i194 = 0; _i194 < _size190; ++_i194) {
+                        xfer += iprot->readString(this->row_key[_i194]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.row_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 5:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->column_key.clear();
+                    uint32_t _size195;
+                    ::apache::thrift::protocol::TType _etype198;
+                    xfer += iprot->readListBegin(_etype198, _size195);
+                    this->column_key.resize(_size195);
+                    uint32_t _i199;
+                    for (_i199 = 0; _i199 < _size195; ++_i199) {
+                        xfer += iprot->readString(this->column_key[_i199]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.column_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 6:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->time_stampe);
+                this->__isset.time_stampe = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 7:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->value.clear();
+                    uint32_t _size200;
+                    ::apache::thrift::protocol::TType _etype203;
+                    xfer += iprot->readListBegin(_etype203, _size200);
+                    this->value.resize(_size200);
+                    uint32_t _i204;
+                    for (_i204 = 0; _i204 < _size200; ++_i204) {
+                        xfer += iprot->readI64(this->value[_i204]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.value = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_int_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_int_args");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString(this->table_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64(this->shard_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString(this->cf_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
+        std::vector<std::string> ::const_iterator _iter205;
+        for (_iter205 = this->row_key.begin(); _iter205 != this->row_key.end(); ++_iter205) {
+            xfer += oprot->writeString((*_iter205));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
+        std::vector<std::string> ::const_iterator _iter206;
+        for (_iter206 = this->column_key.begin(); _iter206 != this->column_key.end(); ++_iter206) {
+            xfer += oprot->writeString((*_iter206));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64(this->time_stampe);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->value.size()));
+        std::vector<int64_t> ::const_iterator _iter207;
+        for (_iter207 = this->value.begin(); _iter207 != this->value.end(); ++_iter207) {
+            xfer += oprot->writeI64((*_iter207));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_int_pargs::~TaskTracker_timed_vector_put_int_pargs() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_int_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_int_pargs");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString((*(this->table_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64((*(this->shard_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString((*(this->cf_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
+        std::vector<std::string> ::const_iterator _iter208;
+        for (_iter208 = (*(this->row_key)).begin(); _iter208 != (*(this->row_key)).end(); ++_iter208) {
+            xfer += oprot->writeString((*_iter208));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
+        std::vector<std::string> ::const_iterator _iter209;
+        for (_iter209 = (*(this->column_key)).begin(); _iter209 != (*(this->column_key)).end(); ++_iter209) {
+            xfer += oprot->writeString((*_iter209));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64((*(this->time_stampe)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>((*(this->value)).size()));
+        std::vector<int64_t> ::const_iterator _iter210;
+        for (_iter210 = (*(this->value)).begin(); _iter210 != (*(this->value)).end(); ++_iter210) {
+            xfer += oprot->writeI64((*_iter210));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_int_result::~TaskTracker_timed_vector_put_int_result() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_int_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->success);
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_int_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+    uint32_t xfer = 0;
+
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_int_result");
+
+    if (this->__isset.success) {
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+        xfer += oprot->writeI64(this->success);
+        xfer += oprot->writeFieldEnd();
+    }
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_int_presult::~TaskTracker_timed_vector_put_int_presult() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_int_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64((*(this->success)));
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_double_args::~TaskTracker_timed_vector_put_double_args() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_double_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 1:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->table_name);
+                this->__isset.table_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 2:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->shard_id);
+                this->__isset.shard_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 3:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->cf_name);
+                this->__isset.cf_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 4:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->row_key.clear();
+                    uint32_t _size211;
+                    ::apache::thrift::protocol::TType _etype214;
+                    xfer += iprot->readListBegin(_etype214, _size211);
+                    this->row_key.resize(_size211);
+                    uint32_t _i215;
+                    for (_i215 = 0; _i215 < _size211; ++_i215) {
+                        xfer += iprot->readString(this->row_key[_i215]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.row_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 5:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->column_key.clear();
+                    uint32_t _size216;
+                    ::apache::thrift::protocol::TType _etype219;
+                    xfer += iprot->readListBegin(_etype219, _size216);
+                    this->column_key.resize(_size216);
+                    uint32_t _i220;
+                    for (_i220 = 0; _i220 < _size216; ++_i220) {
+                        xfer += iprot->readString(this->column_key[_i220]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.column_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 6:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->time_stampe);
+                this->__isset.time_stampe = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 7:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->value.clear();
+                    uint32_t _size221;
+                    ::apache::thrift::protocol::TType _etype224;
+                    xfer += iprot->readListBegin(_etype224, _size221);
+                    this->value.resize(_size221);
+                    uint32_t _i225;
+                    for (_i225 = 0; _i225 < _size221; ++_i225) {
+                        xfer += iprot->readDouble(this->value[_i225]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.value = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_double_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_double_args");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString(this->table_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64(this->shard_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString(this->cf_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
+        std::vector<std::string> ::const_iterator _iter226;
+        for (_iter226 = this->row_key.begin(); _iter226 != this->row_key.end(); ++_iter226) {
+            xfer += oprot->writeString((*_iter226));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
+        std::vector<std::string> ::const_iterator _iter227;
+        for (_iter227 = this->column_key.begin(); _iter227 != this->column_key.end(); ++_iter227) {
+            xfer += oprot->writeString((*_iter227));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64(this->time_stampe);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->value.size()));
+        std::vector<double> ::const_iterator _iter228;
+        for (_iter228 = this->value.begin(); _iter228 != this->value.end(); ++_iter228) {
+            xfer += oprot->writeDouble((*_iter228));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_double_pargs::~TaskTracker_timed_vector_put_double_pargs() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_double_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_double_pargs");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString((*(this->table_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64((*(this->shard_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString((*(this->cf_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
+        std::vector<std::string> ::const_iterator _iter229;
+        for (_iter229 = (*(this->row_key)).begin(); _iter229 != (*(this->row_key)).end(); ++_iter229) {
+            xfer += oprot->writeString((*_iter229));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
+        std::vector<std::string> ::const_iterator _iter230;
+        for (_iter230 = (*(this->column_key)).begin(); _iter230 != (*(this->column_key)).end(); ++_iter230) {
+            xfer += oprot->writeString((*_iter230));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64((*(this->time_stampe)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>((*(this->value)).size()));
+        std::vector<double> ::const_iterator _iter231;
+        for (_iter231 = (*(this->value)).begin(); _iter231 != (*(this->value)).end(); ++_iter231) {
+            xfer += oprot->writeDouble((*_iter231));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_double_result::~TaskTracker_timed_vector_put_double_result() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_double_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->success);
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_double_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+    uint32_t xfer = 0;
+
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_double_result");
+
+    if (this->__isset.success) {
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+        xfer += oprot->writeI64(this->success);
+        xfer += oprot->writeFieldEnd();
+    }
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_double_presult::~TaskTracker_timed_vector_put_double_presult() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_double_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64((*(this->success)));
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_string_args::~TaskTracker_timed_vector_put_string_args() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_string_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 1:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->table_name);
+                this->__isset.table_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 2:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->shard_id);
+                this->__isset.shard_id = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 3:
+            if (ftype == ::apache::thrift::protocol::T_STRING) {
+                xfer += iprot->readString(this->cf_name);
+                this->__isset.cf_name = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 4:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->row_key.clear();
+                    uint32_t _size232;
+                    ::apache::thrift::protocol::TType _etype235;
+                    xfer += iprot->readListBegin(_etype235, _size232);
+                    this->row_key.resize(_size232);
+                    uint32_t _i236;
+                    for (_i236 = 0; _i236 < _size232; ++_i236) {
+                        xfer += iprot->readString(this->row_key[_i236]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.row_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 5:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->column_key.clear();
+                    uint32_t _size237;
+                    ::apache::thrift::protocol::TType _etype240;
+                    xfer += iprot->readListBegin(_etype240, _size237);
+                    this->column_key.resize(_size237);
+                    uint32_t _i241;
+                    for (_i241 = 0; _i241 < _size237; ++_i241) {
+                        xfer += iprot->readString(this->column_key[_i241]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.column_key = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 6:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->time_stampe);
+                this->__isset.time_stampe = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        case 7:
+            if (ftype == ::apache::thrift::protocol::T_LIST) {
+                {
+                    this->value.clear();
+                    uint32_t _size242;
+                    ::apache::thrift::protocol::TType _etype245;
+                    xfer += iprot->readListBegin(_etype245, _size242);
+                    this->value.resize(_size242);
+                    uint32_t _i246;
+                    for (_i246 = 0; _i246 < _size242; ++_i246) {
+                        xfer += iprot->readString(this->value[_i246]);
+                    }
+                    xfer += iprot->readListEnd();
+                }
+                this->__isset.value = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_string_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_string_args");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString(this->table_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64(this->shard_id);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString(this->cf_name);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
+        std::vector<std::string> ::const_iterator _iter247;
+        for (_iter247 = this->row_key.begin(); _iter247 != this->row_key.end(); ++_iter247) {
+            xfer += oprot->writeString((*_iter247));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
+        std::vector<std::string> ::const_iterator _iter248;
+        for (_iter248 = this->column_key.begin(); _iter248 != this->column_key.end(); ++_iter248) {
+            xfer += oprot->writeString((*_iter248));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64(this->time_stampe);
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->value.size()));
+        std::vector<std::string> ::const_iterator _iter249;
+        for (_iter249 = this->value.begin(); _iter249 != this->value.end(); ++_iter249) {
+            xfer += oprot->writeString((*_iter249));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_string_pargs::~TaskTracker_timed_vector_put_string_pargs() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_string_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+    uint32_t xfer = 0;
+    oprot->incrementRecursionDepth();
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_string_pargs");
+
+    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
+    xfer += oprot->writeString((*(this->table_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
+    xfer += oprot->writeI64((*(this->shard_id)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString((*(this->cf_name)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
+        std::vector<std::string> ::const_iterator _iter250;
+        for (_iter250 = (*(this->row_key)).begin(); _iter250 != (*(this->row_key)).end(); ++_iter250) {
+            xfer += oprot->writeString((*_iter250));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
+        std::vector<std::string> ::const_iterator _iter251;
+        for (_iter251 = (*(this->column_key)).begin(); _iter251 != (*(this->column_key)).end(); ++_iter251) {
+            xfer += oprot->writeString((*_iter251));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("time_stampe", ::apache::thrift::protocol::T_I64, 6);
+    xfer += oprot->writeI64((*(this->time_stampe)));
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 7);
+    {
+        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->value)).size()));
+        std::vector<std::string> ::const_iterator _iter252;
+        for (_iter252 = (*(this->value)).begin(); _iter252 != (*(this->value)).end(); ++_iter252) {
+            xfer += oprot->writeString((*_iter252));
+        }
+        xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    oprot->decrementRecursionDepth();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_string_result::~TaskTracker_timed_vector_put_string_result() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_string_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+    uint32_t xfer = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TType ftype;
+    int16_t fid;
+
+    xfer += iprot->readStructBegin(fname);
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+
+    while (true) {
+        xfer += iprot->readFieldBegin(fname, ftype, fid);
+        if (ftype == ::apache::thrift::protocol::T_STOP) {
+            break;
+        }
+        switch (fid) {
+        case 0:
+            if (ftype == ::apache::thrift::protocol::T_I64) {
+                xfer += iprot->readI64(this->success);
+                this->__isset.success = true;
+            } else {
+                xfer += iprot->skip(ftype);
+            }
+            break;
+        default:
+            xfer += iprot->skip(ftype);
+            break;
+        }
+        xfer += iprot->readFieldEnd();
+    }
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t TaskTracker_timed_vector_put_string_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+    uint32_t xfer = 0;
+
+    xfer += oprot->writeStructBegin("TaskTracker_timed_vector_put_string_result");
+
+    if (this->__isset.success) {
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
+        xfer += oprot->writeI64(this->success);
+        xfer += oprot->writeFieldEnd();
+    }
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+
+TaskTracker_timed_vector_put_string_presult::~TaskTracker_timed_vector_put_string_presult() throw() {
+}
+
+
+uint32_t TaskTracker_timed_vector_put_string_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -2654,13 +3659,13 @@ uint32_t TaskTracker_vector_get_int_args::read(::apache::thrift::protocol::TProt
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->row_key.clear();
-                    uint32_t _size190;
-                    ::apache::thrift::protocol::TType _etype193;
-                    xfer += iprot->readListBegin(_etype193, _size190);
-                    this->row_key.resize(_size190);
-                    uint32_t _i194;
-                    for (_i194 = 0; _i194 < _size190; ++_i194) {
-                        xfer += iprot->readString(this->row_key[_i194]);
+                    uint32_t _size253;
+                    ::apache::thrift::protocol::TType _etype256;
+                    xfer += iprot->readListBegin(_etype256, _size253);
+                    this->row_key.resize(_size253);
+                    uint32_t _i257;
+                    for (_i257 = 0; _i257 < _size253; ++_i257) {
+                        xfer += iprot->readString(this->row_key[_i257]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -2673,13 +3678,13 @@ uint32_t TaskTracker_vector_get_int_args::read(::apache::thrift::protocol::TProt
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->column_key.clear();
-                    uint32_t _size195;
-                    ::apache::thrift::protocol::TType _etype198;
-                    xfer += iprot->readListBegin(_etype198, _size195);
-                    this->column_key.resize(_size195);
-                    uint32_t _i199;
-                    for (_i199 = 0; _i199 < _size195; ++_i199) {
-                        xfer += iprot->readString(this->column_key[_i199]);
+                    uint32_t _size258;
+                    ::apache::thrift::protocol::TType _etype261;
+                    xfer += iprot->readListBegin(_etype261, _size258);
+                    this->column_key.resize(_size258);
+                    uint32_t _i262;
+                    for (_i262 = 0; _i262 < _size258; ++_i262) {
+                        xfer += iprot->readString(this->column_key[_i262]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -2720,9 +3725,9 @@ uint32_t TaskTracker_vector_get_int_args::write(::apache::thrift::protocol::TPro
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
-        std::vector<std::string> ::const_iterator _iter200;
-        for (_iter200 = this->row_key.begin(); _iter200 != this->row_key.end(); ++_iter200) {
-            xfer += oprot->writeString((*_iter200));
+        std::vector<std::string> ::const_iterator _iter263;
+        for (_iter263 = this->row_key.begin(); _iter263 != this->row_key.end(); ++_iter263) {
+            xfer += oprot->writeString((*_iter263));
         }
         xfer += oprot->writeListEnd();
     }
@@ -2731,9 +3736,9 @@ uint32_t TaskTracker_vector_get_int_args::write(::apache::thrift::protocol::TPro
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
-        std::vector<std::string> ::const_iterator _iter201;
-        for (_iter201 = this->column_key.begin(); _iter201 != this->column_key.end(); ++_iter201) {
-            xfer += oprot->writeString((*_iter201));
+        std::vector<std::string> ::const_iterator _iter264;
+        for (_iter264 = this->column_key.begin(); _iter264 != this->column_key.end(); ++_iter264) {
+            xfer += oprot->writeString((*_iter264));
         }
         xfer += oprot->writeListEnd();
     }
@@ -2770,9 +3775,9 @@ uint32_t TaskTracker_vector_get_int_pargs::write(::apache::thrift::protocol::TPr
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
-        std::vector<std::string> ::const_iterator _iter202;
-        for (_iter202 = (*(this->row_key)).begin(); _iter202 != (*(this->row_key)).end(); ++_iter202) {
-            xfer += oprot->writeString((*_iter202));
+        std::vector<std::string> ::const_iterator _iter265;
+        for (_iter265 = (*(this->row_key)).begin(); _iter265 != (*(this->row_key)).end(); ++_iter265) {
+            xfer += oprot->writeString((*_iter265));
         }
         xfer += oprot->writeListEnd();
     }
@@ -2781,9 +3786,9 @@ uint32_t TaskTracker_vector_get_int_pargs::write(::apache::thrift::protocol::TPr
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
-        std::vector<std::string> ::const_iterator _iter203;
-        for (_iter203 = (*(this->column_key)).begin(); _iter203 != (*(this->column_key)).end(); ++_iter203) {
-            xfer += oprot->writeString((*_iter203));
+        std::vector<std::string> ::const_iterator _iter266;
+        for (_iter266 = (*(this->column_key)).begin(); _iter266 != (*(this->column_key)).end(); ++_iter266) {
+            xfer += oprot->writeString((*_iter266));
         }
         xfer += oprot->writeListEnd();
     }
@@ -2822,13 +3827,13 @@ uint32_t TaskTracker_vector_get_int_result::read(::apache::thrift::protocol::TPr
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->success.clear();
-                    uint32_t _size204;
-                    ::apache::thrift::protocol::TType _etype207;
-                    xfer += iprot->readListBegin(_etype207, _size204);
-                    this->success.resize(_size204);
-                    uint32_t _i208;
-                    for (_i208 = 0; _i208 < _size204; ++_i208) {
-                        xfer += iprot->readI64(this->success[_i208]);
+                    uint32_t _size267;
+                    ::apache::thrift::protocol::TType _etype270;
+                    xfer += iprot->readListBegin(_etype270, _size267);
+                    this->success.resize(_size267);
+                    uint32_t _i271;
+                    for (_i271 = 0; _i271 < _size267; ++_i271) {
+                        xfer += iprot->readI64(this->success[_i271]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -2859,9 +3864,9 @@ uint32_t TaskTracker_vector_get_int_result::write(::apache::thrift::protocol::TP
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
         {
             xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->success.size()));
-            std::vector<int64_t> ::const_iterator _iter209;
-            for (_iter209 = this->success.begin(); _iter209 != this->success.end(); ++_iter209) {
-                xfer += oprot->writeI64((*_iter209));
+            std::vector<int64_t> ::const_iterator _iter272;
+            for (_iter272 = this->success.begin(); _iter272 != this->success.end(); ++_iter272) {
+                xfer += oprot->writeI64((*_iter272));
             }
             xfer += oprot->writeListEnd();
         }
@@ -2899,13 +3904,13 @@ uint32_t TaskTracker_vector_get_int_presult::read(::apache::thrift::protocol::TP
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size210;
-                    ::apache::thrift::protocol::TType _etype213;
-                    xfer += iprot->readListBegin(_etype213, _size210);
-                    (*(this->success)).resize(_size210);
-                    uint32_t _i214;
-                    for (_i214 = 0; _i214 < _size210; ++_i214) {
-                        xfer += iprot->readI64((*(this->success))[_i214]);
+                    uint32_t _size273;
+                    ::apache::thrift::protocol::TType _etype276;
+                    xfer += iprot->readListBegin(_etype276, _size273);
+                    (*(this->success)).resize(_size273);
+                    uint32_t _i277;
+                    for (_i277 = 0; _i277 < _size273; ++_i277) {
+                        xfer += iprot->readI64((*(this->success))[_i277]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -2977,13 +3982,13 @@ uint32_t TaskTracker_vector_get_double_args::read(::apache::thrift::protocol::TP
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->row_key.clear();
-                    uint32_t _size215;
-                    ::apache::thrift::protocol::TType _etype218;
-                    xfer += iprot->readListBegin(_etype218, _size215);
-                    this->row_key.resize(_size215);
-                    uint32_t _i219;
-                    for (_i219 = 0; _i219 < _size215; ++_i219) {
-                        xfer += iprot->readString(this->row_key[_i219]);
+                    uint32_t _size278;
+                    ::apache::thrift::protocol::TType _etype281;
+                    xfer += iprot->readListBegin(_etype281, _size278);
+                    this->row_key.resize(_size278);
+                    uint32_t _i282;
+                    for (_i282 = 0; _i282 < _size278; ++_i282) {
+                        xfer += iprot->readString(this->row_key[_i282]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -2996,13 +4001,13 @@ uint32_t TaskTracker_vector_get_double_args::read(::apache::thrift::protocol::TP
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->column_key.clear();
-                    uint32_t _size220;
-                    ::apache::thrift::protocol::TType _etype223;
-                    xfer += iprot->readListBegin(_etype223, _size220);
-                    this->column_key.resize(_size220);
-                    uint32_t _i224;
-                    for (_i224 = 0; _i224 < _size220; ++_i224) {
-                        xfer += iprot->readString(this->column_key[_i224]);
+                    uint32_t _size283;
+                    ::apache::thrift::protocol::TType _etype286;
+                    xfer += iprot->readListBegin(_etype286, _size283);
+                    this->column_key.resize(_size283);
+                    uint32_t _i287;
+                    for (_i287 = 0; _i287 < _size283; ++_i287) {
+                        xfer += iprot->readString(this->column_key[_i287]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3043,9 +4048,9 @@ uint32_t TaskTracker_vector_get_double_args::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
-        std::vector<std::string> ::const_iterator _iter225;
-        for (_iter225 = this->row_key.begin(); _iter225 != this->row_key.end(); ++_iter225) {
-            xfer += oprot->writeString((*_iter225));
+        std::vector<std::string> ::const_iterator _iter288;
+        for (_iter288 = this->row_key.begin(); _iter288 != this->row_key.end(); ++_iter288) {
+            xfer += oprot->writeString((*_iter288));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3054,9 +4059,9 @@ uint32_t TaskTracker_vector_get_double_args::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
-        std::vector<std::string> ::const_iterator _iter226;
-        for (_iter226 = this->column_key.begin(); _iter226 != this->column_key.end(); ++_iter226) {
-            xfer += oprot->writeString((*_iter226));
+        std::vector<std::string> ::const_iterator _iter289;
+        for (_iter289 = this->column_key.begin(); _iter289 != this->column_key.end(); ++_iter289) {
+            xfer += oprot->writeString((*_iter289));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3093,9 +4098,9 @@ uint32_t TaskTracker_vector_get_double_pargs::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
-        std::vector<std::string> ::const_iterator _iter227;
-        for (_iter227 = (*(this->row_key)).begin(); _iter227 != (*(this->row_key)).end(); ++_iter227) {
-            xfer += oprot->writeString((*_iter227));
+        std::vector<std::string> ::const_iterator _iter290;
+        for (_iter290 = (*(this->row_key)).begin(); _iter290 != (*(this->row_key)).end(); ++_iter290) {
+            xfer += oprot->writeString((*_iter290));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3104,9 +4109,9 @@ uint32_t TaskTracker_vector_get_double_pargs::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
-        std::vector<std::string> ::const_iterator _iter228;
-        for (_iter228 = (*(this->column_key)).begin(); _iter228 != (*(this->column_key)).end(); ++_iter228) {
-            xfer += oprot->writeString((*_iter228));
+        std::vector<std::string> ::const_iterator _iter291;
+        for (_iter291 = (*(this->column_key)).begin(); _iter291 != (*(this->column_key)).end(); ++_iter291) {
+            xfer += oprot->writeString((*_iter291));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3145,13 +4150,13 @@ uint32_t TaskTracker_vector_get_double_result::read(::apache::thrift::protocol::
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->success.clear();
-                    uint32_t _size229;
-                    ::apache::thrift::protocol::TType _etype232;
-                    xfer += iprot->readListBegin(_etype232, _size229);
-                    this->success.resize(_size229);
-                    uint32_t _i233;
-                    for (_i233 = 0; _i233 < _size229; ++_i233) {
-                        xfer += iprot->readDouble(this->success[_i233]);
+                    uint32_t _size292;
+                    ::apache::thrift::protocol::TType _etype295;
+                    xfer += iprot->readListBegin(_etype295, _size292);
+                    this->success.resize(_size292);
+                    uint32_t _i296;
+                    for (_i296 = 0; _i296 < _size292; ++_i296) {
+                        xfer += iprot->readDouble(this->success[_i296]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3182,9 +4187,9 @@ uint32_t TaskTracker_vector_get_double_result::write(::apache::thrift::protocol:
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
         {
             xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->success.size()));
-            std::vector<double> ::const_iterator _iter234;
-            for (_iter234 = this->success.begin(); _iter234 != this->success.end(); ++_iter234) {
-                xfer += oprot->writeDouble((*_iter234));
+            std::vector<double> ::const_iterator _iter297;
+            for (_iter297 = this->success.begin(); _iter297 != this->success.end(); ++_iter297) {
+                xfer += oprot->writeDouble((*_iter297));
             }
             xfer += oprot->writeListEnd();
         }
@@ -3222,13 +4227,13 @@ uint32_t TaskTracker_vector_get_double_presult::read(::apache::thrift::protocol:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size235;
-                    ::apache::thrift::protocol::TType _etype238;
-                    xfer += iprot->readListBegin(_etype238, _size235);
-                    (*(this->success)).resize(_size235);
-                    uint32_t _i239;
-                    for (_i239 = 0; _i239 < _size235; ++_i239) {
-                        xfer += iprot->readDouble((*(this->success))[_i239]);
+                    uint32_t _size298;
+                    ::apache::thrift::protocol::TType _etype301;
+                    xfer += iprot->readListBegin(_etype301, _size298);
+                    (*(this->success)).resize(_size298);
+                    uint32_t _i302;
+                    for (_i302 = 0; _i302 < _size298; ++_i302) {
+                        xfer += iprot->readDouble((*(this->success))[_i302]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3300,13 +4305,13 @@ uint32_t TaskTracker_vector_get_string_args::read(::apache::thrift::protocol::TP
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->row_key.clear();
-                    uint32_t _size240;
-                    ::apache::thrift::protocol::TType _etype243;
-                    xfer += iprot->readListBegin(_etype243, _size240);
-                    this->row_key.resize(_size240);
-                    uint32_t _i244;
-                    for (_i244 = 0; _i244 < _size240; ++_i244) {
-                        xfer += iprot->readString(this->row_key[_i244]);
+                    uint32_t _size303;
+                    ::apache::thrift::protocol::TType _etype306;
+                    xfer += iprot->readListBegin(_etype306, _size303);
+                    this->row_key.resize(_size303);
+                    uint32_t _i307;
+                    for (_i307 = 0; _i307 < _size303; ++_i307) {
+                        xfer += iprot->readString(this->row_key[_i307]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3319,13 +4324,13 @@ uint32_t TaskTracker_vector_get_string_args::read(::apache::thrift::protocol::TP
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->column_key.clear();
-                    uint32_t _size245;
-                    ::apache::thrift::protocol::TType _etype248;
-                    xfer += iprot->readListBegin(_etype248, _size245);
-                    this->column_key.resize(_size245);
-                    uint32_t _i249;
-                    for (_i249 = 0; _i249 < _size245; ++_i249) {
-                        xfer += iprot->readString(this->column_key[_i249]);
+                    uint32_t _size308;
+                    ::apache::thrift::protocol::TType _etype311;
+                    xfer += iprot->readListBegin(_etype311, _size308);
+                    this->column_key.resize(_size308);
+                    uint32_t _i312;
+                    for (_i312 = 0; _i312 < _size308; ++_i312) {
+                        xfer += iprot->readString(this->column_key[_i312]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3366,9 +4371,9 @@ uint32_t TaskTracker_vector_get_string_args::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->row_key.size()));
-        std::vector<std::string> ::const_iterator _iter250;
-        for (_iter250 = this->row_key.begin(); _iter250 != this->row_key.end(); ++_iter250) {
-            xfer += oprot->writeString((*_iter250));
+        std::vector<std::string> ::const_iterator _iter313;
+        for (_iter313 = this->row_key.begin(); _iter313 != this->row_key.end(); ++_iter313) {
+            xfer += oprot->writeString((*_iter313));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3377,9 +4382,9 @@ uint32_t TaskTracker_vector_get_string_args::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->column_key.size()));
-        std::vector<std::string> ::const_iterator _iter251;
-        for (_iter251 = this->column_key.begin(); _iter251 != this->column_key.end(); ++_iter251) {
-            xfer += oprot->writeString((*_iter251));
+        std::vector<std::string> ::const_iterator _iter314;
+        for (_iter314 = this->column_key.begin(); _iter314 != this->column_key.end(); ++_iter314) {
+            xfer += oprot->writeString((*_iter314));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3416,9 +4421,9 @@ uint32_t TaskTracker_vector_get_string_pargs::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("row_key", ::apache::thrift::protocol::T_LIST, 4);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->row_key)).size()));
-        std::vector<std::string> ::const_iterator _iter252;
-        for (_iter252 = (*(this->row_key)).begin(); _iter252 != (*(this->row_key)).end(); ++_iter252) {
-            xfer += oprot->writeString((*_iter252));
+        std::vector<std::string> ::const_iterator _iter315;
+        for (_iter315 = (*(this->row_key)).begin(); _iter315 != (*(this->row_key)).end(); ++_iter315) {
+            xfer += oprot->writeString((*_iter315));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3427,9 +4432,9 @@ uint32_t TaskTracker_vector_get_string_pargs::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("column_key", ::apache::thrift::protocol::T_LIST, 5);
     {
         xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->column_key)).size()));
-        std::vector<std::string> ::const_iterator _iter253;
-        for (_iter253 = (*(this->column_key)).begin(); _iter253 != (*(this->column_key)).end(); ++_iter253) {
-            xfer += oprot->writeString((*_iter253));
+        std::vector<std::string> ::const_iterator _iter316;
+        for (_iter316 = (*(this->column_key)).begin(); _iter316 != (*(this->column_key)).end(); ++_iter316) {
+            xfer += oprot->writeString((*_iter316));
         }
         xfer += oprot->writeListEnd();
     }
@@ -3468,13 +4473,13 @@ uint32_t TaskTracker_vector_get_string_result::read(::apache::thrift::protocol::
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     this->success.clear();
-                    uint32_t _size254;
-                    ::apache::thrift::protocol::TType _etype257;
-                    xfer += iprot->readListBegin(_etype257, _size254);
-                    this->success.resize(_size254);
-                    uint32_t _i258;
-                    for (_i258 = 0; _i258 < _size254; ++_i258) {
-                        xfer += iprot->readString(this->success[_i258]);
+                    uint32_t _size317;
+                    ::apache::thrift::protocol::TType _etype320;
+                    xfer += iprot->readListBegin(_etype320, _size317);
+                    this->success.resize(_size317);
+                    uint32_t _i321;
+                    for (_i321 = 0; _i321 < _size317; ++_i321) {
+                        xfer += iprot->readString(this->success[_i321]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3505,9 +4510,9 @@ uint32_t TaskTracker_vector_get_string_result::write(::apache::thrift::protocol:
         xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
         {
             xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::string> ::const_iterator _iter259;
-            for (_iter259 = this->success.begin(); _iter259 != this->success.end(); ++_iter259) {
-                xfer += oprot->writeString((*_iter259));
+            std::vector<std::string> ::const_iterator _iter322;
+            for (_iter322 = this->success.begin(); _iter322 != this->success.end(); ++_iter322) {
+                xfer += oprot->writeString((*_iter322));
             }
             xfer += oprot->writeListEnd();
         }
@@ -3545,283 +4550,13 @@ uint32_t TaskTracker_vector_get_string_presult::read(::apache::thrift::protocol:
             if (ftype == ::apache::thrift::protocol::T_LIST) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size260;
-                    ::apache::thrift::protocol::TType _etype263;
-                    xfer += iprot->readListBegin(_etype263, _size260);
-                    (*(this->success)).resize(_size260);
-                    uint32_t _i264;
-                    for (_i264 = 0; _i264 < _size260; ++_i264) {
-                        xfer += iprot->readString((*(this->success))[_i264]);
-                    }
-                    xfer += iprot->readListEnd();
-                }
-                this->__isset.success = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-
-TaskTracker_scan_all_args::~TaskTracker_scan_all_args() throw() {
-}
-
-
-uint32_t TaskTracker_scan_all_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 1:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->table_name);
-                this->__isset.table_name = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 2:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->shard_id);
-                this->__isset.shard_id = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 3:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->cf_name);
-                this->__isset.cf_name = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-uint32_t TaskTracker_scan_all_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-    uint32_t xfer = 0;
-    oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_all_args");
-
-    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
-    xfer += oprot->writeString(this->table_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
-    xfer += oprot->writeI64(this->shard_id);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
-    xfer += oprot->writeString(this->cf_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    oprot->decrementRecursionDepth();
-    return xfer;
-}
-
-
-TaskTracker_scan_all_pargs::~TaskTracker_scan_all_pargs() throw() {
-}
-
-
-uint32_t TaskTracker_scan_all_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-    uint32_t xfer = 0;
-    oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_all_pargs");
-
-    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
-    xfer += oprot->writeString((*(this->table_name)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
-    xfer += oprot->writeI64((*(this->shard_id)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
-    xfer += oprot->writeString((*(this->cf_name)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    oprot->decrementRecursionDepth();
-    return xfer;
-}
-
-
-TaskTracker_scan_all_result::~TaskTracker_scan_all_result() throw() {
-}
-
-
-uint32_t TaskTracker_scan_all_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
-                {
-                    this->success.clear();
-                    uint32_t _size265;
-                    ::apache::thrift::protocol::TType _etype268;
-                    xfer += iprot->readListBegin(_etype268, _size265);
-                    this->success.resize(_size265);
-                    uint32_t _i269;
-                    for (_i269 = 0; _i269 < _size265; ++_i269) {
-                        {
-                            this->success[_i269].clear();
-                            uint32_t _size270;
-                            ::apache::thrift::protocol::TType _etype273;
-                            xfer += iprot->readListBegin(_etype273, _size270);
-                            this->success[_i269].resize(_size270);
-                            uint32_t _i274;
-                            for (_i274 = 0; _i274 < _size270; ++_i274) {
-                                xfer += iprot->readString(this->success[_i269][_i274]);
-                            }
-                            xfer += iprot->readListEnd();
-                        }
-                    }
-                    xfer += iprot->readListEnd();
-                }
-                this->__isset.success = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-uint32_t TaskTracker_scan_all_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-    uint32_t xfer = 0;
-
-    xfer += oprot->writeStructBegin("TaskTracker_scan_all_result");
-
-    if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
-        {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_LIST, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::vector<std::string> > ::const_iterator _iter275;
-            for (_iter275 = this->success.begin(); _iter275 != this->success.end(); ++_iter275) {
-                {
-                    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*_iter275).size()));
-                    std::vector<std::string> ::const_iterator _iter276;
-                    for (_iter276 = (*_iter275).begin(); _iter276 != (*_iter275).end(); ++_iter276) {
-                        xfer += oprot->writeString((*_iter276));
-                    }
-                    xfer += oprot->writeListEnd();
-                }
-            }
-            xfer += oprot->writeListEnd();
-        }
-        xfer += oprot->writeFieldEnd();
-    }
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    return xfer;
-}
-
-
-TaskTracker_scan_all_presult::~TaskTracker_scan_all_presult() throw() {
-}
-
-
-uint32_t TaskTracker_scan_all_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
-                {
-                    (*(this->success)).clear();
-                    uint32_t _size277;
-                    ::apache::thrift::protocol::TType _etype280;
-                    xfer += iprot->readListBegin(_etype280, _size277);
-                    (*(this->success)).resize(_size277);
-                    uint32_t _i281;
-                    for (_i281 = 0; _i281 < _size277; ++_i281) {
-                        {
-                            (*(this->success))[_i281].clear();
-                            uint32_t _size282;
-                            ::apache::thrift::protocol::TType _etype285;
-                            xfer += iprot->readListBegin(_etype285, _size282);
-                            (*(this->success))[_i281].resize(_size282);
-                            uint32_t _i286;
-                            for (_i286 = 0; _i286 < _size282; ++_i286) {
-                                xfer += iprot->readString((*(this->success))[_i281][_i286]);
-                            }
-                            xfer += iprot->readListEnd();
-                        }
+                    uint32_t _size323;
+                    ::apache::thrift::protocol::TType _etype326;
+                    xfer += iprot->readListBegin(_etype326, _size323);
+                    (*(this->success)).resize(_size323);
+                    uint32_t _i327;
+                    for (_i327 = 0; _i327 < _size323; ++_i327) {
+                        xfer += iprot->readString((*(this->success))[_i327]);
                     }
                     xfer += iprot->readListEnd();
                 }
@@ -3976,32 +4711,35 @@ uint32_t TaskTracker_scan_all_int_result::read(::apache::thrift::protocol::TProt
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size287;
-                    ::apache::thrift::protocol::TType _etype290;
-                    xfer += iprot->readListBegin(_etype290, _size287);
-                    this->success.resize(_size287);
-                    uint32_t _i291;
-                    for (_i291 = 0; _i291 < _size287; ++_i291) {
+                    uint32_t _size328;
+                    ::apache::thrift::protocol::TType _ktype329;
+                    ::apache::thrift::protocol::TType _vtype330;
+                    xfer += iprot->readMapBegin(_ktype329, _vtype330, _size328);
+                    uint32_t _i332;
+                    for (_i332 = 0; _i332 < _size328; ++_i332) {
+                        std::string _key333;
+                        xfer += iprot->readString(_key333);
+                        std::map<std::string, int64_t> & _val334 = this->success[_key333];
                         {
-                            this->success[_i291].clear();
-                            uint32_t _size292;
-                            ::apache::thrift::protocol::TType _ktype293;
-                            ::apache::thrift::protocol::TType _vtype294;
-                            xfer += iprot->readMapBegin(_ktype293, _vtype294, _size292);
-                            uint32_t _i296;
-                            for (_i296 = 0; _i296 < _size292; ++_i296) {
-                                std::string _key297;
-                                xfer += iprot->readString(_key297);
-                                int64_t& _val298 = this->success[_i291][_key297];
-                                xfer += iprot->readI64(_val298);
+                            _val334.clear();
+                            uint32_t _size335;
+                            ::apache::thrift::protocol::TType _ktype336;
+                            ::apache::thrift::protocol::TType _vtype337;
+                            xfer += iprot->readMapBegin(_ktype336, _vtype337, _size335);
+                            uint32_t _i339;
+                            for (_i339 = 0; _i339 < _size335; ++_i339) {
+                                std::string _key340;
+                                xfer += iprot->readString(_key340);
+                                int64_t& _val341 = _val334[_key340];
+                                xfer += iprot->readI64(_val341);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4027,22 +4765,23 @@ uint32_t TaskTracker_scan_all_int_result::write(::apache::thrift::protocol::TPro
     xfer += oprot->writeStructBegin("TaskTracker_scan_all_int_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, int64_t> > ::const_iterator _iter299;
-            for (_iter299 = this->success.begin(); _iter299 != this->success.end(); ++_iter299) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, int64_t> > ::const_iterator _iter342;
+            for (_iter342 = this->success.begin(); _iter342 != this->success.end(); ++_iter342) {
+                xfer += oprot->writeString(_iter342->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>((*_iter299).size()));
-                    std::map<std::string, int64_t> ::const_iterator _iter300;
-                    for (_iter300 = (*_iter299).begin(); _iter300 != (*_iter299).end(); ++_iter300) {
-                        xfer += oprot->writeString(_iter300->first);
-                        xfer += oprot->writeI64(_iter300->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(_iter342->second.size()));
+                    std::map<std::string, int64_t> ::const_iterator _iter343;
+                    for (_iter343 = _iter342->second.begin(); _iter343 != _iter342->second.end(); ++_iter343) {
+                        xfer += oprot->writeString(_iter343->first);
+                        xfer += oprot->writeI64(_iter343->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -4075,32 +4814,35 @@ uint32_t TaskTracker_scan_all_int_presult::read(::apache::thrift::protocol::TPro
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size301;
-                    ::apache::thrift::protocol::TType _etype304;
-                    xfer += iprot->readListBegin(_etype304, _size301);
-                    (*(this->success)).resize(_size301);
-                    uint32_t _i305;
-                    for (_i305 = 0; _i305 < _size301; ++_i305) {
+                    uint32_t _size344;
+                    ::apache::thrift::protocol::TType _ktype345;
+                    ::apache::thrift::protocol::TType _vtype346;
+                    xfer += iprot->readMapBegin(_ktype345, _vtype346, _size344);
+                    uint32_t _i348;
+                    for (_i348 = 0; _i348 < _size344; ++_i348) {
+                        std::string _key349;
+                        xfer += iprot->readString(_key349);
+                        std::map<std::string, int64_t> & _val350 = (*(this->success))[_key349];
                         {
-                            (*(this->success))[_i305].clear();
-                            uint32_t _size306;
-                            ::apache::thrift::protocol::TType _ktype307;
-                            ::apache::thrift::protocol::TType _vtype308;
-                            xfer += iprot->readMapBegin(_ktype307, _vtype308, _size306);
-                            uint32_t _i310;
-                            for (_i310 = 0; _i310 < _size306; ++_i310) {
-                                std::string _key311;
-                                xfer += iprot->readString(_key311);
-                                int64_t& _val312 = (*(this->success))[_i305][_key311];
-                                xfer += iprot->readI64(_val312);
+                            _val350.clear();
+                            uint32_t _size351;
+                            ::apache::thrift::protocol::TType _ktype352;
+                            ::apache::thrift::protocol::TType _vtype353;
+                            xfer += iprot->readMapBegin(_ktype352, _vtype353, _size351);
+                            uint32_t _i355;
+                            for (_i355 = 0; _i355 < _size351; ++_i355) {
+                                std::string _key356;
+                                xfer += iprot->readString(_key356);
+                                int64_t& _val357 = _val350[_key356];
+                                xfer += iprot->readI64(_val357);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4253,32 +4995,35 @@ uint32_t TaskTracker_scan_all_double_result::read(::apache::thrift::protocol::TP
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size313;
-                    ::apache::thrift::protocol::TType _etype316;
-                    xfer += iprot->readListBegin(_etype316, _size313);
-                    this->success.resize(_size313);
-                    uint32_t _i317;
-                    for (_i317 = 0; _i317 < _size313; ++_i317) {
+                    uint32_t _size358;
+                    ::apache::thrift::protocol::TType _ktype359;
+                    ::apache::thrift::protocol::TType _vtype360;
+                    xfer += iprot->readMapBegin(_ktype359, _vtype360, _size358);
+                    uint32_t _i362;
+                    for (_i362 = 0; _i362 < _size358; ++_i362) {
+                        std::string _key363;
+                        xfer += iprot->readString(_key363);
+                        std::map<std::string, double> & _val364 = this->success[_key363];
                         {
-                            this->success[_i317].clear();
-                            uint32_t _size318;
-                            ::apache::thrift::protocol::TType _ktype319;
-                            ::apache::thrift::protocol::TType _vtype320;
-                            xfer += iprot->readMapBegin(_ktype319, _vtype320, _size318);
-                            uint32_t _i322;
-                            for (_i322 = 0; _i322 < _size318; ++_i322) {
-                                std::string _key323;
-                                xfer += iprot->readString(_key323);
-                                double& _val324 = this->success[_i317][_key323];
-                                xfer += iprot->readDouble(_val324);
+                            _val364.clear();
+                            uint32_t _size365;
+                            ::apache::thrift::protocol::TType _ktype366;
+                            ::apache::thrift::protocol::TType _vtype367;
+                            xfer += iprot->readMapBegin(_ktype366, _vtype367, _size365);
+                            uint32_t _i369;
+                            for (_i369 = 0; _i369 < _size365; ++_i369) {
+                                std::string _key370;
+                                xfer += iprot->readString(_key370);
+                                double& _val371 = _val364[_key370];
+                                xfer += iprot->readDouble(_val371);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4304,22 +5049,23 @@ uint32_t TaskTracker_scan_all_double_result::write(::apache::thrift::protocol::T
     xfer += oprot->writeStructBegin("TaskTracker_scan_all_double_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, double> > ::const_iterator _iter325;
-            for (_iter325 = this->success.begin(); _iter325 != this->success.end(); ++_iter325) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, double> > ::const_iterator _iter372;
+            for (_iter372 = this->success.begin(); _iter372 != this->success.end(); ++_iter372) {
+                xfer += oprot->writeString(_iter372->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>((*_iter325).size()));
-                    std::map<std::string, double> ::const_iterator _iter326;
-                    for (_iter326 = (*_iter325).begin(); _iter326 != (*_iter325).end(); ++_iter326) {
-                        xfer += oprot->writeString(_iter326->first);
-                        xfer += oprot->writeDouble(_iter326->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(_iter372->second.size()));
+                    std::map<std::string, double> ::const_iterator _iter373;
+                    for (_iter373 = _iter372->second.begin(); _iter373 != _iter372->second.end(); ++_iter373) {
+                        xfer += oprot->writeString(_iter373->first);
+                        xfer += oprot->writeDouble(_iter373->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -4352,32 +5098,35 @@ uint32_t TaskTracker_scan_all_double_presult::read(::apache::thrift::protocol::T
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size327;
-                    ::apache::thrift::protocol::TType _etype330;
-                    xfer += iprot->readListBegin(_etype330, _size327);
-                    (*(this->success)).resize(_size327);
-                    uint32_t _i331;
-                    for (_i331 = 0; _i331 < _size327; ++_i331) {
+                    uint32_t _size374;
+                    ::apache::thrift::protocol::TType _ktype375;
+                    ::apache::thrift::protocol::TType _vtype376;
+                    xfer += iprot->readMapBegin(_ktype375, _vtype376, _size374);
+                    uint32_t _i378;
+                    for (_i378 = 0; _i378 < _size374; ++_i378) {
+                        std::string _key379;
+                        xfer += iprot->readString(_key379);
+                        std::map<std::string, double> & _val380 = (*(this->success))[_key379];
                         {
-                            (*(this->success))[_i331].clear();
-                            uint32_t _size332;
-                            ::apache::thrift::protocol::TType _ktype333;
-                            ::apache::thrift::protocol::TType _vtype334;
-                            xfer += iprot->readMapBegin(_ktype333, _vtype334, _size332);
-                            uint32_t _i336;
-                            for (_i336 = 0; _i336 < _size332; ++_i336) {
-                                std::string _key337;
-                                xfer += iprot->readString(_key337);
-                                double& _val338 = (*(this->success))[_i331][_key337];
-                                xfer += iprot->readDouble(_val338);
+                            _val380.clear();
+                            uint32_t _size381;
+                            ::apache::thrift::protocol::TType _ktype382;
+                            ::apache::thrift::protocol::TType _vtype383;
+                            xfer += iprot->readMapBegin(_ktype382, _vtype383, _size381);
+                            uint32_t _i385;
+                            for (_i385 = 0; _i385 < _size381; ++_i385) {
+                                std::string _key386;
+                                xfer += iprot->readString(_key386);
+                                double& _val387 = _val380[_key386];
+                                xfer += iprot->readDouble(_val387);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4530,32 +5279,35 @@ uint32_t TaskTracker_scan_all_string_result::read(::apache::thrift::protocol::TP
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size339;
-                    ::apache::thrift::protocol::TType _etype342;
-                    xfer += iprot->readListBegin(_etype342, _size339);
-                    this->success.resize(_size339);
-                    uint32_t _i343;
-                    for (_i343 = 0; _i343 < _size339; ++_i343) {
+                    uint32_t _size388;
+                    ::apache::thrift::protocol::TType _ktype389;
+                    ::apache::thrift::protocol::TType _vtype390;
+                    xfer += iprot->readMapBegin(_ktype389, _vtype390, _size388);
+                    uint32_t _i392;
+                    for (_i392 = 0; _i392 < _size388; ++_i392) {
+                        std::string _key393;
+                        xfer += iprot->readString(_key393);
+                        std::map<std::string, std::string> & _val394 = this->success[_key393];
                         {
-                            this->success[_i343].clear();
-                            uint32_t _size344;
-                            ::apache::thrift::protocol::TType _ktype345;
-                            ::apache::thrift::protocol::TType _vtype346;
-                            xfer += iprot->readMapBegin(_ktype345, _vtype346, _size344);
-                            uint32_t _i348;
-                            for (_i348 = 0; _i348 < _size344; ++_i348) {
-                                std::string _key349;
-                                xfer += iprot->readString(_key349);
-                                std::string& _val350 = this->success[_i343][_key349];
-                                xfer += iprot->readString(_val350);
+                            _val394.clear();
+                            uint32_t _size395;
+                            ::apache::thrift::protocol::TType _ktype396;
+                            ::apache::thrift::protocol::TType _vtype397;
+                            xfer += iprot->readMapBegin(_ktype396, _vtype397, _size395);
+                            uint32_t _i399;
+                            for (_i399 = 0; _i399 < _size395; ++_i399) {
+                                std::string _key400;
+                                xfer += iprot->readString(_key400);
+                                std::string& _val401 = _val394[_key400];
+                                xfer += iprot->readString(_val401);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4581,22 +5333,23 @@ uint32_t TaskTracker_scan_all_string_result::write(::apache::thrift::protocol::T
     xfer += oprot->writeStructBegin("TaskTracker_scan_all_string_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, std::string> > ::const_iterator _iter351;
-            for (_iter351 = this->success.begin(); _iter351 != this->success.end(); ++_iter351) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, std::string> > ::const_iterator _iter402;
+            for (_iter402 = this->success.begin(); _iter402 != this->success.end(); ++_iter402) {
+                xfer += oprot->writeString(_iter402->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*_iter351).size()));
-                    std::map<std::string, std::string> ::const_iterator _iter352;
-                    for (_iter352 = (*_iter351).begin(); _iter352 != (*_iter351).end(); ++_iter352) {
-                        xfer += oprot->writeString(_iter352->first);
-                        xfer += oprot->writeString(_iter352->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(_iter402->second.size()));
+                    std::map<std::string, std::string> ::const_iterator _iter403;
+                    for (_iter403 = _iter402->second.begin(); _iter403 != _iter402->second.end(); ++_iter403) {
+                        xfer += oprot->writeString(_iter403->first);
+                        xfer += oprot->writeString(_iter403->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -4629,32 +5382,35 @@ uint32_t TaskTracker_scan_all_string_presult::read(::apache::thrift::protocol::T
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size353;
-                    ::apache::thrift::protocol::TType _etype356;
-                    xfer += iprot->readListBegin(_etype356, _size353);
-                    (*(this->success)).resize(_size353);
-                    uint32_t _i357;
-                    for (_i357 = 0; _i357 < _size353; ++_i357) {
+                    uint32_t _size404;
+                    ::apache::thrift::protocol::TType _ktype405;
+                    ::apache::thrift::protocol::TType _vtype406;
+                    xfer += iprot->readMapBegin(_ktype405, _vtype406, _size404);
+                    uint32_t _i408;
+                    for (_i408 = 0; _i408 < _size404; ++_i408) {
+                        std::string _key409;
+                        xfer += iprot->readString(_key409);
+                        std::map<std::string, std::string> & _val410 = (*(this->success))[_key409];
                         {
-                            (*(this->success))[_i357].clear();
-                            uint32_t _size358;
-                            ::apache::thrift::protocol::TType _ktype359;
-                            ::apache::thrift::protocol::TType _vtype360;
-                            xfer += iprot->readMapBegin(_ktype359, _vtype360, _size358);
-                            uint32_t _i362;
-                            for (_i362 = 0; _i362 < _size358; ++_i362) {
-                                std::string _key363;
-                                xfer += iprot->readString(_key363);
-                                std::string& _val364 = (*(this->success))[_i357][_key363];
-                                xfer += iprot->readString(_val364);
+                            _val410.clear();
+                            uint32_t _size411;
+                            ::apache::thrift::protocol::TType _ktype412;
+                            ::apache::thrift::protocol::TType _vtype413;
+                            xfer += iprot->readMapBegin(_ktype412, _vtype413, _size411);
+                            uint32_t _i415;
+                            for (_i415 = 0; _i415 < _size411; ++_i415) {
+                                std::string _key416;
+                                xfer += iprot->readString(_key416);
+                                std::string& _val417 = _val410[_key416];
+                                xfer += iprot->readString(_val417);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -4674,11 +5430,11 @@ uint32_t TaskTracker_scan_all_string_presult::read(::apache::thrift::protocol::T
 }
 
 
-TaskTracker_scan_by_time_args::~TaskTracker_scan_by_time_args() throw() {
+TaskTracker_timed_scan_int_args::~TaskTracker_timed_scan_int_args() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_int_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -4740,10 +5496,10 @@ uint32_t TaskTracker_scan_by_time_args::read(::apache::thrift::protocol::TProtoc
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_int_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_args");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_int_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -4768,14 +5524,14 @@ uint32_t TaskTracker_scan_by_time_args::write(::apache::thrift::protocol::TProto
 }
 
 
-TaskTracker_scan_by_time_pargs::~TaskTracker_scan_by_time_pargs() throw() {
+TaskTracker_timed_scan_int_pargs::~TaskTracker_timed_scan_int_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_int_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_int_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -4800,11 +5556,11 @@ uint32_t TaskTracker_scan_by_time_pargs::write(::apache::thrift::protocol::TProt
 }
 
 
-TaskTracker_scan_by_time_result::~TaskTracker_scan_by_time_result() throw() {
+TaskTracker_timed_scan_int_result::~TaskTracker_timed_scan_int_result() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_int_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -4823,318 +5579,35 @@ uint32_t TaskTracker_scan_by_time_result::read(::apache::thrift::protocol::TProt
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size365;
-                    ::apache::thrift::protocol::TType _etype368;
-                    xfer += iprot->readListBegin(_etype368, _size365);
-                    this->success.resize(_size365);
-                    uint32_t _i369;
-                    for (_i369 = 0; _i369 < _size365; ++_i369) {
+                    uint32_t _size418;
+                    ::apache::thrift::protocol::TType _ktype419;
+                    ::apache::thrift::protocol::TType _vtype420;
+                    xfer += iprot->readMapBegin(_ktype419, _vtype420, _size418);
+                    uint32_t _i422;
+                    for (_i422 = 0; _i422 < _size418; ++_i422) {
+                        std::string _key423;
+                        xfer += iprot->readString(_key423);
+                        std::map<std::string, int64_t> & _val424 = this->success[_key423];
                         {
-                            this->success[_i369].clear();
-                            uint32_t _size370;
-                            ::apache::thrift::protocol::TType _etype373;
-                            xfer += iprot->readListBegin(_etype373, _size370);
-                            this->success[_i369].resize(_size370);
-                            uint32_t _i374;
-                            for (_i374 = 0; _i374 < _size370; ++_i374) {
-                                xfer += iprot->readString(this->success[_i369][_i374]);
-                            }
-                            xfer += iprot->readListEnd();
-                        }
-                    }
-                    xfer += iprot->readListEnd();
-                }
-                this->__isset.success = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-uint32_t TaskTracker_scan_by_time_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-    uint32_t xfer = 0;
-
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_result");
-
-    if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
-        {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_LIST, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::vector<std::string> > ::const_iterator _iter375;
-            for (_iter375 = this->success.begin(); _iter375 != this->success.end(); ++_iter375) {
-                {
-                    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*_iter375).size()));
-                    std::vector<std::string> ::const_iterator _iter376;
-                    for (_iter376 = (*_iter375).begin(); _iter376 != (*_iter375).end(); ++_iter376) {
-                        xfer += oprot->writeString((*_iter376));
-                    }
-                    xfer += oprot->writeListEnd();
-                }
-            }
-            xfer += oprot->writeListEnd();
-        }
-        xfer += oprot->writeFieldEnd();
-    }
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    return xfer;
-}
-
-
-TaskTracker_scan_by_time_presult::~TaskTracker_scan_by_time_presult() throw() {
-}
-
-
-uint32_t TaskTracker_scan_by_time_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
-                {
-                    (*(this->success)).clear();
-                    uint32_t _size377;
-                    ::apache::thrift::protocol::TType _etype380;
-                    xfer += iprot->readListBegin(_etype380, _size377);
-                    (*(this->success)).resize(_size377);
-                    uint32_t _i381;
-                    for (_i381 = 0; _i381 < _size377; ++_i381) {
-                        {
-                            (*(this->success))[_i381].clear();
-                            uint32_t _size382;
-                            ::apache::thrift::protocol::TType _etype385;
-                            xfer += iprot->readListBegin(_etype385, _size382);
-                            (*(this->success))[_i381].resize(_size382);
-                            uint32_t _i386;
-                            for (_i386 = 0; _i386 < _size382; ++_i386) {
-                                xfer += iprot->readString((*(this->success))[_i381][_i386]);
-                            }
-                            xfer += iprot->readListEnd();
-                        }
-                    }
-                    xfer += iprot->readListEnd();
-                }
-                this->__isset.success = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-
-TaskTracker_scan_by_time_int_args::~TaskTracker_scan_by_time_int_args() throw() {
-}
-
-
-uint32_t TaskTracker_scan_by_time_int_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 1:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->table_name);
-                this->__isset.table_name = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 2:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->shard_id);
-                this->__isset.shard_id = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 3:
-            if (ftype == ::apache::thrift::protocol::T_STRING) {
-                xfer += iprot->readString(this->cf_name);
-                this->__isset.cf_name = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        case 4:
-            if (ftype == ::apache::thrift::protocol::T_I64) {
-                xfer += iprot->readI64(this->time_stamp);
-                this->__isset.time_stamp = true;
-            } else {
-                xfer += iprot->skip(ftype);
-            }
-            break;
-        default:
-            xfer += iprot->skip(ftype);
-            break;
-        }
-        xfer += iprot->readFieldEnd();
-    }
-
-    xfer += iprot->readStructEnd();
-
-    return xfer;
-}
-
-uint32_t TaskTracker_scan_by_time_int_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-    uint32_t xfer = 0;
-    oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_int_args");
-
-    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
-    xfer += oprot->writeString(this->table_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
-    xfer += oprot->writeI64(this->shard_id);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
-    xfer += oprot->writeString(this->cf_name);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("time_stamp", ::apache::thrift::protocol::T_I64, 4);
-    xfer += oprot->writeI64(this->time_stamp);
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    oprot->decrementRecursionDepth();
-    return xfer;
-}
-
-
-TaskTracker_scan_by_time_int_pargs::~TaskTracker_scan_by_time_int_pargs() throw() {
-}
-
-
-uint32_t TaskTracker_scan_by_time_int_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-    uint32_t xfer = 0;
-    oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_int_pargs");
-
-    xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
-    xfer += oprot->writeString((*(this->table_name)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("shard_id", ::apache::thrift::protocol::T_I64, 2);
-    xfer += oprot->writeI64((*(this->shard_id)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("cf_name", ::apache::thrift::protocol::T_STRING, 3);
-    xfer += oprot->writeString((*(this->cf_name)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldBegin("time_stamp", ::apache::thrift::protocol::T_I64, 4);
-    xfer += oprot->writeI64((*(this->time_stamp)));
-    xfer += oprot->writeFieldEnd();
-
-    xfer += oprot->writeFieldStop();
-    xfer += oprot->writeStructEnd();
-    oprot->decrementRecursionDepth();
-    return xfer;
-}
-
-
-TaskTracker_scan_by_time_int_result::~TaskTracker_scan_by_time_int_result() throw() {
-}
-
-
-uint32_t TaskTracker_scan_by_time_int_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-    uint32_t xfer = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TType ftype;
-    int16_t fid;
-
-    xfer += iprot->readStructBegin(fname);
-
-    using ::apache::thrift::protocol::TProtocolException;
-
-
-    while (true) {
-        xfer += iprot->readFieldBegin(fname, ftype, fid);
-        if (ftype == ::apache::thrift::protocol::T_STOP) {
-            break;
-        }
-        switch (fid) {
-        case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
-                {
-                    this->success.clear();
-                    uint32_t _size387;
-                    ::apache::thrift::protocol::TType _etype390;
-                    xfer += iprot->readListBegin(_etype390, _size387);
-                    this->success.resize(_size387);
-                    uint32_t _i391;
-                    for (_i391 = 0; _i391 < _size387; ++_i391) {
-                        {
-                            this->success[_i391].clear();
-                            uint32_t _size392;
-                            ::apache::thrift::protocol::TType _ktype393;
-                            ::apache::thrift::protocol::TType _vtype394;
-                            xfer += iprot->readMapBegin(_ktype393, _vtype394, _size392);
-                            uint32_t _i396;
-                            for (_i396 = 0; _i396 < _size392; ++_i396) {
-                                std::string _key397;
-                                xfer += iprot->readString(_key397);
-                                int64_t& _val398 = this->success[_i391][_key397];
-                                xfer += iprot->readI64(_val398);
+                            _val424.clear();
+                            uint32_t _size425;
+                            ::apache::thrift::protocol::TType _ktype426;
+                            ::apache::thrift::protocol::TType _vtype427;
+                            xfer += iprot->readMapBegin(_ktype426, _vtype427, _size425);
+                            uint32_t _i429;
+                            for (_i429 = 0; _i429 < _size425; ++_i429) {
+                                std::string _key430;
+                                xfer += iprot->readString(_key430);
+                                int64_t& _val431 = _val424[_key430];
+                                xfer += iprot->readI64(_val431);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -5153,29 +5626,30 @@ uint32_t TaskTracker_scan_by_time_int_result::read(::apache::thrift::protocol::T
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_int_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_int_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_int_result");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_int_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, int64_t> > ::const_iterator _iter399;
-            for (_iter399 = this->success.begin(); _iter399 != this->success.end(); ++_iter399) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, int64_t> > ::const_iterator _iter432;
+            for (_iter432 = this->success.begin(); _iter432 != this->success.end(); ++_iter432) {
+                xfer += oprot->writeString(_iter432->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>((*_iter399).size()));
-                    std::map<std::string, int64_t> ::const_iterator _iter400;
-                    for (_iter400 = (*_iter399).begin(); _iter400 != (*_iter399).end(); ++_iter400) {
-                        xfer += oprot->writeString(_iter400->first);
-                        xfer += oprot->writeI64(_iter400->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I64, static_cast<uint32_t>(_iter432->second.size()));
+                    std::map<std::string, int64_t> ::const_iterator _iter433;
+                    for (_iter433 = _iter432->second.begin(); _iter433 != _iter432->second.end(); ++_iter433) {
+                        xfer += oprot->writeString(_iter433->first);
+                        xfer += oprot->writeI64(_iter433->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -5185,11 +5659,11 @@ uint32_t TaskTracker_scan_by_time_int_result::write(::apache::thrift::protocol::
 }
 
 
-TaskTracker_scan_by_time_int_presult::~TaskTracker_scan_by_time_int_presult() throw() {
+TaskTracker_timed_scan_int_presult::~TaskTracker_timed_scan_int_presult() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_int_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_int_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5208,32 +5682,35 @@ uint32_t TaskTracker_scan_by_time_int_presult::read(::apache::thrift::protocol::
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size401;
-                    ::apache::thrift::protocol::TType _etype404;
-                    xfer += iprot->readListBegin(_etype404, _size401);
-                    (*(this->success)).resize(_size401);
-                    uint32_t _i405;
-                    for (_i405 = 0; _i405 < _size401; ++_i405) {
+                    uint32_t _size434;
+                    ::apache::thrift::protocol::TType _ktype435;
+                    ::apache::thrift::protocol::TType _vtype436;
+                    xfer += iprot->readMapBegin(_ktype435, _vtype436, _size434);
+                    uint32_t _i438;
+                    for (_i438 = 0; _i438 < _size434; ++_i438) {
+                        std::string _key439;
+                        xfer += iprot->readString(_key439);
+                        std::map<std::string, int64_t> & _val440 = (*(this->success))[_key439];
                         {
-                            (*(this->success))[_i405].clear();
-                            uint32_t _size406;
-                            ::apache::thrift::protocol::TType _ktype407;
-                            ::apache::thrift::protocol::TType _vtype408;
-                            xfer += iprot->readMapBegin(_ktype407, _vtype408, _size406);
-                            uint32_t _i410;
-                            for (_i410 = 0; _i410 < _size406; ++_i410) {
-                                std::string _key411;
-                                xfer += iprot->readString(_key411);
-                                int64_t& _val412 = (*(this->success))[_i405][_key411];
-                                xfer += iprot->readI64(_val412);
+                            _val440.clear();
+                            uint32_t _size441;
+                            ::apache::thrift::protocol::TType _ktype442;
+                            ::apache::thrift::protocol::TType _vtype443;
+                            xfer += iprot->readMapBegin(_ktype442, _vtype443, _size441);
+                            uint32_t _i445;
+                            for (_i445 = 0; _i445 < _size441; ++_i445) {
+                                std::string _key446;
+                                xfer += iprot->readString(_key446);
+                                int64_t& _val447 = _val440[_key446];
+                                xfer += iprot->readI64(_val447);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -5253,11 +5730,11 @@ uint32_t TaskTracker_scan_by_time_int_presult::read(::apache::thrift::protocol::
 }
 
 
-TaskTracker_scan_by_time_double_args::~TaskTracker_scan_by_time_double_args() throw() {
+TaskTracker_timed_scan_double_args::~TaskTracker_timed_scan_double_args() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_double_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_double_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5319,10 +5796,10 @@ uint32_t TaskTracker_scan_by_time_double_args::read(::apache::thrift::protocol::
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_double_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_double_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_double_args");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_double_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -5347,14 +5824,14 @@ uint32_t TaskTracker_scan_by_time_double_args::write(::apache::thrift::protocol:
 }
 
 
-TaskTracker_scan_by_time_double_pargs::~TaskTracker_scan_by_time_double_pargs() throw() {
+TaskTracker_timed_scan_double_pargs::~TaskTracker_timed_scan_double_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_double_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_double_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_double_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_double_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -5379,11 +5856,11 @@ uint32_t TaskTracker_scan_by_time_double_pargs::write(::apache::thrift::protocol
 }
 
 
-TaskTracker_scan_by_time_double_result::~TaskTracker_scan_by_time_double_result() throw() {
+TaskTracker_timed_scan_double_result::~TaskTracker_timed_scan_double_result() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_double_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_double_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5402,32 +5879,35 @@ uint32_t TaskTracker_scan_by_time_double_result::read(::apache::thrift::protocol
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size413;
-                    ::apache::thrift::protocol::TType _etype416;
-                    xfer += iprot->readListBegin(_etype416, _size413);
-                    this->success.resize(_size413);
-                    uint32_t _i417;
-                    for (_i417 = 0; _i417 < _size413; ++_i417) {
+                    uint32_t _size448;
+                    ::apache::thrift::protocol::TType _ktype449;
+                    ::apache::thrift::protocol::TType _vtype450;
+                    xfer += iprot->readMapBegin(_ktype449, _vtype450, _size448);
+                    uint32_t _i452;
+                    for (_i452 = 0; _i452 < _size448; ++_i452) {
+                        std::string _key453;
+                        xfer += iprot->readString(_key453);
+                        std::map<std::string, double> & _val454 = this->success[_key453];
                         {
-                            this->success[_i417].clear();
-                            uint32_t _size418;
-                            ::apache::thrift::protocol::TType _ktype419;
-                            ::apache::thrift::protocol::TType _vtype420;
-                            xfer += iprot->readMapBegin(_ktype419, _vtype420, _size418);
-                            uint32_t _i422;
-                            for (_i422 = 0; _i422 < _size418; ++_i422) {
-                                std::string _key423;
-                                xfer += iprot->readString(_key423);
-                                double& _val424 = this->success[_i417][_key423];
-                                xfer += iprot->readDouble(_val424);
+                            _val454.clear();
+                            uint32_t _size455;
+                            ::apache::thrift::protocol::TType _ktype456;
+                            ::apache::thrift::protocol::TType _vtype457;
+                            xfer += iprot->readMapBegin(_ktype456, _vtype457, _size455);
+                            uint32_t _i459;
+                            for (_i459 = 0; _i459 < _size455; ++_i459) {
+                                std::string _key460;
+                                xfer += iprot->readString(_key460);
+                                double& _val461 = _val454[_key460];
+                                xfer += iprot->readDouble(_val461);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -5446,29 +5926,30 @@ uint32_t TaskTracker_scan_by_time_double_result::read(::apache::thrift::protocol
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_double_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_double_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_double_result");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_double_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, double> > ::const_iterator _iter425;
-            for (_iter425 = this->success.begin(); _iter425 != this->success.end(); ++_iter425) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, double> > ::const_iterator _iter462;
+            for (_iter462 = this->success.begin(); _iter462 != this->success.end(); ++_iter462) {
+                xfer += oprot->writeString(_iter462->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>((*_iter425).size()));
-                    std::map<std::string, double> ::const_iterator _iter426;
-                    for (_iter426 = (*_iter425).begin(); _iter426 != (*_iter425).end(); ++_iter426) {
-                        xfer += oprot->writeString(_iter426->first);
-                        xfer += oprot->writeDouble(_iter426->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(_iter462->second.size()));
+                    std::map<std::string, double> ::const_iterator _iter463;
+                    for (_iter463 = _iter462->second.begin(); _iter463 != _iter462->second.end(); ++_iter463) {
+                        xfer += oprot->writeString(_iter463->first);
+                        xfer += oprot->writeDouble(_iter463->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -5478,11 +5959,11 @@ uint32_t TaskTracker_scan_by_time_double_result::write(::apache::thrift::protoco
 }
 
 
-TaskTracker_scan_by_time_double_presult::~TaskTracker_scan_by_time_double_presult() throw() {
+TaskTracker_timed_scan_double_presult::~TaskTracker_timed_scan_double_presult() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_double_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_double_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5501,32 +5982,35 @@ uint32_t TaskTracker_scan_by_time_double_presult::read(::apache::thrift::protoco
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size427;
-                    ::apache::thrift::protocol::TType _etype430;
-                    xfer += iprot->readListBegin(_etype430, _size427);
-                    (*(this->success)).resize(_size427);
-                    uint32_t _i431;
-                    for (_i431 = 0; _i431 < _size427; ++_i431) {
+                    uint32_t _size464;
+                    ::apache::thrift::protocol::TType _ktype465;
+                    ::apache::thrift::protocol::TType _vtype466;
+                    xfer += iprot->readMapBegin(_ktype465, _vtype466, _size464);
+                    uint32_t _i468;
+                    for (_i468 = 0; _i468 < _size464; ++_i468) {
+                        std::string _key469;
+                        xfer += iprot->readString(_key469);
+                        std::map<std::string, double> & _val470 = (*(this->success))[_key469];
                         {
-                            (*(this->success))[_i431].clear();
-                            uint32_t _size432;
-                            ::apache::thrift::protocol::TType _ktype433;
-                            ::apache::thrift::protocol::TType _vtype434;
-                            xfer += iprot->readMapBegin(_ktype433, _vtype434, _size432);
-                            uint32_t _i436;
-                            for (_i436 = 0; _i436 < _size432; ++_i436) {
-                                std::string _key437;
-                                xfer += iprot->readString(_key437);
-                                double& _val438 = (*(this->success))[_i431][_key437];
-                                xfer += iprot->readDouble(_val438);
+                            _val470.clear();
+                            uint32_t _size471;
+                            ::apache::thrift::protocol::TType _ktype472;
+                            ::apache::thrift::protocol::TType _vtype473;
+                            xfer += iprot->readMapBegin(_ktype472, _vtype473, _size471);
+                            uint32_t _i475;
+                            for (_i475 = 0; _i475 < _size471; ++_i475) {
+                                std::string _key476;
+                                xfer += iprot->readString(_key476);
+                                double& _val477 = _val470[_key476];
+                                xfer += iprot->readDouble(_val477);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -5546,11 +6030,11 @@ uint32_t TaskTracker_scan_by_time_double_presult::read(::apache::thrift::protoco
 }
 
 
-TaskTracker_scan_by_time_string_args::~TaskTracker_scan_by_time_string_args() throw() {
+TaskTracker_timed_scan_string_args::~TaskTracker_timed_scan_string_args() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_string_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_string_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5612,10 +6096,10 @@ uint32_t TaskTracker_scan_by_time_string_args::read(::apache::thrift::protocol::
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_string_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_string_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_string_args");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_string_args");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString(this->table_name);
@@ -5640,14 +6124,14 @@ uint32_t TaskTracker_scan_by_time_string_args::write(::apache::thrift::protocol:
 }
 
 
-TaskTracker_scan_by_time_string_pargs::~TaskTracker_scan_by_time_string_pargs() throw() {
+TaskTracker_timed_scan_string_pargs::~TaskTracker_timed_scan_string_pargs() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_string_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_string_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
     uint32_t xfer = 0;
     oprot->incrementRecursionDepth();
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_string_pargs");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_string_pargs");
 
     xfer += oprot->writeFieldBegin("table_name", ::apache::thrift::protocol::T_STRING, 1);
     xfer += oprot->writeString((*(this->table_name)));
@@ -5672,11 +6156,11 @@ uint32_t TaskTracker_scan_by_time_string_pargs::write(::apache::thrift::protocol
 }
 
 
-TaskTracker_scan_by_time_string_result::~TaskTracker_scan_by_time_string_result() throw() {
+TaskTracker_timed_scan_string_result::~TaskTracker_timed_scan_string_result() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_string_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_string_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5695,32 +6179,35 @@ uint32_t TaskTracker_scan_by_time_string_result::read(::apache::thrift::protocol
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     this->success.clear();
-                    uint32_t _size439;
-                    ::apache::thrift::protocol::TType _etype442;
-                    xfer += iprot->readListBegin(_etype442, _size439);
-                    this->success.resize(_size439);
-                    uint32_t _i443;
-                    for (_i443 = 0; _i443 < _size439; ++_i443) {
+                    uint32_t _size478;
+                    ::apache::thrift::protocol::TType _ktype479;
+                    ::apache::thrift::protocol::TType _vtype480;
+                    xfer += iprot->readMapBegin(_ktype479, _vtype480, _size478);
+                    uint32_t _i482;
+                    for (_i482 = 0; _i482 < _size478; ++_i482) {
+                        std::string _key483;
+                        xfer += iprot->readString(_key483);
+                        std::map<std::string, std::string> & _val484 = this->success[_key483];
                         {
-                            this->success[_i443].clear();
-                            uint32_t _size444;
-                            ::apache::thrift::protocol::TType _ktype445;
-                            ::apache::thrift::protocol::TType _vtype446;
-                            xfer += iprot->readMapBegin(_ktype445, _vtype446, _size444);
-                            uint32_t _i448;
-                            for (_i448 = 0; _i448 < _size444; ++_i448) {
-                                std::string _key449;
-                                xfer += iprot->readString(_key449);
-                                std::string& _val450 = this->success[_i443][_key449];
-                                xfer += iprot->readString(_val450);
+                            _val484.clear();
+                            uint32_t _size485;
+                            ::apache::thrift::protocol::TType _ktype486;
+                            ::apache::thrift::protocol::TType _vtype487;
+                            xfer += iprot->readMapBegin(_ktype486, _vtype487, _size485);
+                            uint32_t _i489;
+                            for (_i489 = 0; _i489 < _size485; ++_i489) {
+                                std::string _key490;
+                                xfer += iprot->readString(_key490);
+                                std::string& _val491 = _val484[_key490];
+                                xfer += iprot->readString(_val491);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -5739,29 +6226,30 @@ uint32_t TaskTracker_scan_by_time_string_result::read(::apache::thrift::protocol
     return xfer;
 }
 
-uint32_t TaskTracker_scan_by_time_string_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TaskTracker_timed_scan_string_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
     uint32_t xfer = 0;
 
-    xfer += oprot->writeStructBegin("TaskTracker_scan_by_time_string_result");
+    xfer += oprot->writeStructBegin("TaskTracker_timed_scan_string_result");
 
     if (this->__isset.success) {
-        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+        xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
         {
-            xfer += oprot->writeListBegin(::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
-            std::vector<std::map<std::string, std::string> > ::const_iterator _iter451;
-            for (_iter451 = this->success.begin(); _iter451 != this->success.end(); ++_iter451) {
+            xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_MAP, static_cast<uint32_t>(this->success.size()));
+            std::map<std::string, std::map<std::string, std::string> > ::const_iterator _iter492;
+            for (_iter492 = this->success.begin(); _iter492 != this->success.end(); ++_iter492) {
+                xfer += oprot->writeString(_iter492->first);
                 {
-                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*_iter451).size()));
-                    std::map<std::string, std::string> ::const_iterator _iter452;
-                    for (_iter452 = (*_iter451).begin(); _iter452 != (*_iter451).end(); ++_iter452) {
-                        xfer += oprot->writeString(_iter452->first);
-                        xfer += oprot->writeString(_iter452->second);
+                    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(_iter492->second.size()));
+                    std::map<std::string, std::string> ::const_iterator _iter493;
+                    for (_iter493 = _iter492->second.begin(); _iter493 != _iter492->second.end(); ++_iter493) {
+                        xfer += oprot->writeString(_iter493->first);
+                        xfer += oprot->writeString(_iter493->second);
                     }
                     xfer += oprot->writeMapEnd();
                 }
             }
-            xfer += oprot->writeListEnd();
+            xfer += oprot->writeMapEnd();
         }
         xfer += oprot->writeFieldEnd();
     }
@@ -5771,11 +6259,11 @@ uint32_t TaskTracker_scan_by_time_string_result::write(::apache::thrift::protoco
 }
 
 
-TaskTracker_scan_by_time_string_presult::~TaskTracker_scan_by_time_string_presult() throw() {
+TaskTracker_timed_scan_string_presult::~TaskTracker_timed_scan_string_presult() throw() {
 }
 
 
-uint32_t TaskTracker_scan_by_time_string_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TaskTracker_timed_scan_string_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
     uint32_t xfer = 0;
     std::string fname;
@@ -5794,32 +6282,35 @@ uint32_t TaskTracker_scan_by_time_string_presult::read(::apache::thrift::protoco
         }
         switch (fid) {
         case 0:
-            if (ftype == ::apache::thrift::protocol::T_LIST) {
+            if (ftype == ::apache::thrift::protocol::T_MAP) {
                 {
                     (*(this->success)).clear();
-                    uint32_t _size453;
-                    ::apache::thrift::protocol::TType _etype456;
-                    xfer += iprot->readListBegin(_etype456, _size453);
-                    (*(this->success)).resize(_size453);
-                    uint32_t _i457;
-                    for (_i457 = 0; _i457 < _size453; ++_i457) {
+                    uint32_t _size494;
+                    ::apache::thrift::protocol::TType _ktype495;
+                    ::apache::thrift::protocol::TType _vtype496;
+                    xfer += iprot->readMapBegin(_ktype495, _vtype496, _size494);
+                    uint32_t _i498;
+                    for (_i498 = 0; _i498 < _size494; ++_i498) {
+                        std::string _key499;
+                        xfer += iprot->readString(_key499);
+                        std::map<std::string, std::string> & _val500 = (*(this->success))[_key499];
                         {
-                            (*(this->success))[_i457].clear();
-                            uint32_t _size458;
-                            ::apache::thrift::protocol::TType _ktype459;
-                            ::apache::thrift::protocol::TType _vtype460;
-                            xfer += iprot->readMapBegin(_ktype459, _vtype460, _size458);
-                            uint32_t _i462;
-                            for (_i462 = 0; _i462 < _size458; ++_i462) {
-                                std::string _key463;
-                                xfer += iprot->readString(_key463);
-                                std::string& _val464 = (*(this->success))[_i457][_key463];
-                                xfer += iprot->readString(_val464);
+                            _val500.clear();
+                            uint32_t _size501;
+                            ::apache::thrift::protocol::TType _ktype502;
+                            ::apache::thrift::protocol::TType _vtype503;
+                            xfer += iprot->readMapBegin(_ktype502, _vtype503, _size501);
+                            uint32_t _i505;
+                            for (_i505 = 0; _i505 < _size501; ++_i505) {
+                                std::string _key506;
+                                xfer += iprot->readString(_key506);
+                                std::string& _val507 = _val500[_key506];
+                                xfer += iprot->readString(_val507);
                             }
                             xfer += iprot->readMapEnd();
                         }
                     }
-                    xfer += iprot->readListEnd();
+                    xfer += iprot->readMapEnd();
                 }
                 this->__isset.success = true;
             } else {
@@ -6183,22 +6674,21 @@ int64_t TaskTrackerClient::recv_vector_put_string() {
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "vector_put_string failed: unknown result");
 }
 
-int64_t TaskTrackerClient::timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
-    send_timely_vector_put_int(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
-    return recv_timely_vector_put_int();
+int64_t TaskTrackerClient::vector_merge_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value) {
+    send_vector_merge_int(table_name, shard_id, cf_name, row_key, column_key, value);
+    return recv_vector_merge_int();
 }
 
-void TaskTrackerClient::send_timely_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
+void TaskTrackerClient::send_vector_merge_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<int64_t> & value) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("timely_vector_put_int", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("vector_merge_int", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_timely_vector_put_int_pargs args;
+    TaskTracker_vector_merge_int_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
     args.row_key = &row_key;
     args.column_key = &column_key;
-    args.time_stampe = &time_stampe;
     args.value = &value;
     args.write(oprot_);
 
@@ -6207,7 +6697,7 @@ void TaskTrackerClient::send_timely_vector_put_int(const std::string& table_name
     oprot_->getTransport()->flush();
 }
 
-int64_t TaskTrackerClient::recv_timely_vector_put_int() {
+int64_t TaskTrackerClient::recv_vector_merge_int() {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6226,13 +6716,13 @@ int64_t TaskTrackerClient::recv_timely_vector_put_int() {
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("timely_vector_put_int") != 0) {
+    if (fname.compare("vector_merge_int") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
     int64_t _return;
-    TaskTracker_timely_vector_put_int_presult result;
+    TaskTracker_vector_merge_int_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6241,25 +6731,24 @@ int64_t TaskTrackerClient::recv_timely_vector_put_int() {
     if (result.__isset.success) {
         return _return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timely_vector_put_int failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "vector_merge_int failed: unknown result");
 }
 
-int64_t TaskTrackerClient::timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
-    send_timely_vector_put_double(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
-    return recv_timely_vector_put_double();
+int64_t TaskTrackerClient::vector_merge_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value) {
+    send_vector_merge_double(table_name, shard_id, cf_name, row_key, column_key, value);
+    return recv_vector_merge_double();
 }
 
-void TaskTrackerClient::send_timely_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
+void TaskTrackerClient::send_vector_merge_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<double> & value) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("timely_vector_put_double", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("vector_merge_double", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_timely_vector_put_double_pargs args;
+    TaskTracker_vector_merge_double_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
     args.row_key = &row_key;
     args.column_key = &column_key;
-    args.time_stampe = &time_stampe;
     args.value = &value;
     args.write(oprot_);
 
@@ -6268,7 +6757,7 @@ void TaskTrackerClient::send_timely_vector_put_double(const std::string& table_n
     oprot_->getTransport()->flush();
 }
 
-int64_t TaskTrackerClient::recv_timely_vector_put_double() {
+int64_t TaskTrackerClient::recv_vector_merge_double() {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6287,13 +6776,13 @@ int64_t TaskTrackerClient::recv_timely_vector_put_double() {
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("timely_vector_put_double") != 0) {
+    if (fname.compare("vector_merge_double") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
     int64_t _return;
-    TaskTracker_timely_vector_put_double_presult result;
+    TaskTracker_vector_merge_double_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6302,25 +6791,24 @@ int64_t TaskTrackerClient::recv_timely_vector_put_double() {
     if (result.__isset.success) {
         return _return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timely_vector_put_double failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "vector_merge_double failed: unknown result");
 }
 
-int64_t TaskTrackerClient::timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
-    send_timely_vector_put_string(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
-    return recv_timely_vector_put_string();
+int64_t TaskTrackerClient::vector_merge_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
+    send_vector_merge_string(table_name, shard_id, cf_name, row_key, column_key, value);
+    return recv_vector_merge_string();
 }
 
-void TaskTrackerClient::send_timely_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+void TaskTrackerClient::send_vector_merge_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const std::vector<std::string> & value) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("timely_vector_put_string", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("vector_merge_string", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_timely_vector_put_string_pargs args;
+    TaskTracker_vector_merge_string_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
     args.row_key = &row_key;
     args.column_key = &column_key;
-    args.time_stampe = &time_stampe;
     args.value = &value;
     args.write(oprot_);
 
@@ -6329,7 +6817,7 @@ void TaskTrackerClient::send_timely_vector_put_string(const std::string& table_n
     oprot_->getTransport()->flush();
 }
 
-int64_t TaskTrackerClient::recv_timely_vector_put_string() {
+int64_t TaskTrackerClient::recv_vector_merge_string() {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6348,13 +6836,13 @@ int64_t TaskTrackerClient::recv_timely_vector_put_string() {
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("timely_vector_put_string") != 0) {
+    if (fname.compare("vector_merge_string") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
     int64_t _return;
-    TaskTracker_timely_vector_put_string_presult result;
+    TaskTracker_vector_merge_string_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6363,7 +6851,190 @@ int64_t TaskTrackerClient::recv_timely_vector_put_string() {
     if (result.__isset.success) {
         return _return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timely_vector_put_string failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "vector_merge_string failed: unknown result");
+}
+
+int64_t TaskTrackerClient::timed_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
+    send_timed_vector_put_int(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    return recv_timed_vector_put_int();
+}
+
+void TaskTrackerClient::send_timed_vector_put_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<int64_t> & value) {
+    int32_t cseqid = 0;
+    oprot_->writeMessageBegin("timed_vector_put_int", ::apache::thrift::protocol::T_CALL, cseqid);
+
+    TaskTracker_timed_vector_put_int_pargs args;
+    args.table_name = &table_name;
+    args.shard_id = &shard_id;
+    args.cf_name = &cf_name;
+    args.row_key = &row_key;
+    args.column_key = &column_key;
+    args.time_stampe = &time_stampe;
+    args.value = &value;
+    args.write(oprot_);
+
+    oprot_->writeMessageEnd();
+    oprot_->getTransport()->writeEnd();
+    oprot_->getTransport()->flush();
+}
+
+int64_t TaskTrackerClient::recv_timed_vector_put_int() {
+
+    int32_t rseqid = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TMessageType mtype;
+
+    iprot_->readMessageBegin(fname, mtype, rseqid);
+    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        throw x;
+    }
+    if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    if (fname.compare("timed_vector_put_int") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    int64_t _return;
+    TaskTracker_timed_vector_put_int_presult result;
+    result.success = &_return;
+    result.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+
+    if (result.__isset.success) {
+        return _return;
+    }
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_vector_put_int failed: unknown result");
+}
+
+int64_t TaskTrackerClient::timed_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
+    send_timed_vector_put_double(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    return recv_timed_vector_put_double();
+}
+
+void TaskTrackerClient::send_timed_vector_put_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<double> & value) {
+    int32_t cseqid = 0;
+    oprot_->writeMessageBegin("timed_vector_put_double", ::apache::thrift::protocol::T_CALL, cseqid);
+
+    TaskTracker_timed_vector_put_double_pargs args;
+    args.table_name = &table_name;
+    args.shard_id = &shard_id;
+    args.cf_name = &cf_name;
+    args.row_key = &row_key;
+    args.column_key = &column_key;
+    args.time_stampe = &time_stampe;
+    args.value = &value;
+    args.write(oprot_);
+
+    oprot_->writeMessageEnd();
+    oprot_->getTransport()->writeEnd();
+    oprot_->getTransport()->flush();
+}
+
+int64_t TaskTrackerClient::recv_timed_vector_put_double() {
+
+    int32_t rseqid = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TMessageType mtype;
+
+    iprot_->readMessageBegin(fname, mtype, rseqid);
+    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        throw x;
+    }
+    if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    if (fname.compare("timed_vector_put_double") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    int64_t _return;
+    TaskTracker_timed_vector_put_double_presult result;
+    result.success = &_return;
+    result.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+
+    if (result.__isset.success) {
+        return _return;
+    }
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_vector_put_double failed: unknown result");
+}
+
+int64_t TaskTrackerClient::timed_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+    send_timed_vector_put_string(table_name, shard_id, cf_name, row_key, column_key, time_stampe, value);
+    return recv_timed_vector_put_string();
+}
+
+void TaskTrackerClient::send_timed_vector_put_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key, const int64_t time_stampe, const std::vector<std::string> & value) {
+    int32_t cseqid = 0;
+    oprot_->writeMessageBegin("timed_vector_put_string", ::apache::thrift::protocol::T_CALL, cseqid);
+
+    TaskTracker_timed_vector_put_string_pargs args;
+    args.table_name = &table_name;
+    args.shard_id = &shard_id;
+    args.cf_name = &cf_name;
+    args.row_key = &row_key;
+    args.column_key = &column_key;
+    args.time_stampe = &time_stampe;
+    args.value = &value;
+    args.write(oprot_);
+
+    oprot_->writeMessageEnd();
+    oprot_->getTransport()->writeEnd();
+    oprot_->getTransport()->flush();
+}
+
+int64_t TaskTrackerClient::recv_timed_vector_put_string() {
+
+    int32_t rseqid = 0;
+    std::string fname;
+    ::apache::thrift::protocol::TMessageType mtype;
+
+    iprot_->readMessageBegin(fname, mtype, rseqid);
+    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        throw x;
+    }
+    if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    if (fname.compare("timed_vector_put_string") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+    }
+    int64_t _return;
+    TaskTracker_timed_vector_put_string_presult result;
+    result.success = &_return;
+    result.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+
+    if (result.__isset.success) {
+        return _return;
+    }
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_vector_put_string failed: unknown result");
 }
 
 void TaskTrackerClient::vector_get_int(std::vector<int64_t> & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const std::vector<std::string> & row_key, const std::vector<std::string> & column_key) {
@@ -6543,64 +7214,7 @@ void TaskTrackerClient::recv_vector_get_string(std::vector<std::string> & _retur
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "vector_get_string failed: unknown result");
 }
 
-void TaskTrackerClient::scan_all(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
-    send_scan_all(table_name, shard_id, cf_name);
-    recv_scan_all(_return);
-}
-
-void TaskTrackerClient::send_scan_all(const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
-    int32_t cseqid = 0;
-    oprot_->writeMessageBegin("scan_all", ::apache::thrift::protocol::T_CALL, cseqid);
-
-    TaskTracker_scan_all_pargs args;
-    args.table_name = &table_name;
-    args.shard_id = &shard_id;
-    args.cf_name = &cf_name;
-    args.write(oprot_);
-
-    oprot_->writeMessageEnd();
-    oprot_->getTransport()->writeEnd();
-    oprot_->getTransport()->flush();
-}
-
-void TaskTrackerClient::recv_scan_all(std::vector<std::vector<std::string> > & _return) {
-
-    int32_t rseqid = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TMessageType mtype;
-
-    iprot_->readMessageBegin(fname, mtype, rseqid);
-    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        throw x;
-    }
-    if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-    }
-    if (fname.compare("scan_all") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-    }
-    TaskTracker_scan_all_presult result;
-    result.success = &_return;
-    result.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-
-    if (result.__isset.success) {
-        // _return pointer has now been filled
-        return;
-    }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_all failed: unknown result");
-}
-
-void TaskTrackerClient::scan_all_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+void TaskTrackerClient::scan_all_int(std::map<std::string, std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
     send_scan_all_int(table_name, shard_id, cf_name);
     recv_scan_all_int(_return);
 }
@@ -6620,7 +7234,7 @@ void TaskTrackerClient::send_scan_all_int(const std::string& table_name, const i
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_all_int(std::vector<std::map<std::string, int64_t> > & _return) {
+void TaskTrackerClient::recv_scan_all_int(std::map<std::string, std::map<std::string, int64_t> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6657,7 +7271,7 @@ void TaskTrackerClient::recv_scan_all_int(std::vector<std::map<std::string, int6
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_all_int failed: unknown result");
 }
 
-void TaskTrackerClient::scan_all_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+void TaskTrackerClient::scan_all_double(std::map<std::string, std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
     send_scan_all_double(table_name, shard_id, cf_name);
     recv_scan_all_double(_return);
 }
@@ -6677,7 +7291,7 @@ void TaskTrackerClient::send_scan_all_double(const std::string& table_name, cons
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_all_double(std::vector<std::map<std::string, double> > & _return) {
+void TaskTrackerClient::recv_scan_all_double(std::map<std::string, std::map<std::string, double> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6714,7 +7328,7 @@ void TaskTrackerClient::recv_scan_all_double(std::vector<std::map<std::string, d
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_all_double failed: unknown result");
 }
 
-void TaskTrackerClient::scan_all_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
+void TaskTrackerClient::scan_all_string(std::map<std::string, std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name) {
     send_scan_all_string(table_name, shard_id, cf_name);
     recv_scan_all_string(_return);
 }
@@ -6734,7 +7348,7 @@ void TaskTrackerClient::send_scan_all_string(const std::string& table_name, cons
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_all_string(std::vector<std::map<std::string, std::string> > & _return) {
+void TaskTrackerClient::recv_scan_all_string(std::map<std::string, std::map<std::string, std::string> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6771,16 +7385,16 @@ void TaskTrackerClient::recv_scan_all_string(std::vector<std::map<std::string, s
     throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_all_string failed: unknown result");
 }
 
-void TaskTrackerClient::scan_by_time(std::vector<std::vector<std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
-    send_scan_by_time(table_name, shard_id, cf_name, time_stamp);
-    recv_scan_by_time(_return);
+void TaskTrackerClient::timed_scan_int(std::map<std::string, std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+    send_timed_scan_int(table_name, shard_id, cf_name, time_stamp);
+    recv_timed_scan_int(_return);
 }
 
-void TaskTrackerClient::send_scan_by_time(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+void TaskTrackerClient::send_timed_scan_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("scan_by_time", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("timed_scan_int", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_scan_by_time_pargs args;
+    TaskTracker_timed_scan_int_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
@@ -6792,7 +7406,7 @@ void TaskTrackerClient::send_scan_by_time(const std::string& table_name, const i
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_by_time(std::vector<std::vector<std::string> > & _return) {
+void TaskTrackerClient::recv_timed_scan_int(std::map<std::string, std::map<std::string, int64_t> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6811,12 +7425,12 @@ void TaskTrackerClient::recv_scan_by_time(std::vector<std::vector<std::string> >
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("scan_by_time") != 0) {
+    if (fname.compare("timed_scan_int") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    TaskTracker_scan_by_time_presult result;
+    TaskTracker_timed_scan_int_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6826,19 +7440,19 @@ void TaskTrackerClient::recv_scan_by_time(std::vector<std::vector<std::string> >
         // _return pointer has now been filled
         return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_by_time failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_scan_int failed: unknown result");
 }
 
-void TaskTrackerClient::scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
-    send_scan_by_time_int(table_name, shard_id, cf_name, time_stamp);
-    recv_scan_by_time_int(_return);
+void TaskTrackerClient::timed_scan_double(std::map<std::string, std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+    send_timed_scan_double(table_name, shard_id, cf_name, time_stamp);
+    recv_timed_scan_double(_return);
 }
 
-void TaskTrackerClient::send_scan_by_time_int(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+void TaskTrackerClient::send_timed_scan_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("scan_by_time_int", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("timed_scan_double", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_scan_by_time_int_pargs args;
+    TaskTracker_timed_scan_double_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
@@ -6850,7 +7464,7 @@ void TaskTrackerClient::send_scan_by_time_int(const std::string& table_name, con
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_by_time_int(std::vector<std::map<std::string, int64_t> > & _return) {
+void TaskTrackerClient::recv_timed_scan_double(std::map<std::string, std::map<std::string, double> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6869,12 +7483,12 @@ void TaskTrackerClient::recv_scan_by_time_int(std::vector<std::map<std::string, 
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("scan_by_time_int") != 0) {
+    if (fname.compare("timed_scan_double") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    TaskTracker_scan_by_time_int_presult result;
+    TaskTracker_timed_scan_double_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6884,19 +7498,19 @@ void TaskTrackerClient::recv_scan_by_time_int(std::vector<std::map<std::string, 
         // _return pointer has now been filled
         return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_by_time_int failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_scan_double failed: unknown result");
 }
 
-void TaskTrackerClient::scan_by_time_double(std::vector<std::map<std::string, double> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
-    send_scan_by_time_double(table_name, shard_id, cf_name, time_stamp);
-    recv_scan_by_time_double(_return);
+void TaskTrackerClient::timed_scan_string(std::map<std::string, std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+    send_timed_scan_string(table_name, shard_id, cf_name, time_stamp);
+    recv_timed_scan_string(_return);
 }
 
-void TaskTrackerClient::send_scan_by_time_double(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
+void TaskTrackerClient::send_timed_scan_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
     int32_t cseqid = 0;
-    oprot_->writeMessageBegin("scan_by_time_double", ::apache::thrift::protocol::T_CALL, cseqid);
+    oprot_->writeMessageBegin("timed_scan_string", ::apache::thrift::protocol::T_CALL, cseqid);
 
-    TaskTracker_scan_by_time_double_pargs args;
+    TaskTracker_timed_scan_string_pargs args;
     args.table_name = &table_name;
     args.shard_id = &shard_id;
     args.cf_name = &cf_name;
@@ -6908,7 +7522,7 @@ void TaskTrackerClient::send_scan_by_time_double(const std::string& table_name, 
     oprot_->getTransport()->flush();
 }
 
-void TaskTrackerClient::recv_scan_by_time_double(std::vector<std::map<std::string, double> > & _return) {
+void TaskTrackerClient::recv_timed_scan_string(std::map<std::string, std::map<std::string, std::string> > & _return) {
 
     int32_t rseqid = 0;
     std::string fname;
@@ -6927,12 +7541,12 @@ void TaskTrackerClient::recv_scan_by_time_double(std::vector<std::map<std::strin
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    if (fname.compare("scan_by_time_double") != 0) {
+    if (fname.compare("timed_scan_string") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
     }
-    TaskTracker_scan_by_time_double_presult result;
+    TaskTracker_timed_scan_string_presult result;
     result.success = &_return;
     result.read(iprot_);
     iprot_->readMessageEnd();
@@ -6942,65 +7556,7 @@ void TaskTrackerClient::recv_scan_by_time_double(std::vector<std::map<std::strin
         // _return pointer has now been filled
         return;
     }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_by_time_double failed: unknown result");
-}
-
-void TaskTrackerClient::scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return, const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
-    send_scan_by_time_string(table_name, shard_id, cf_name, time_stamp);
-    recv_scan_by_time_string(_return);
-}
-
-void TaskTrackerClient::send_scan_by_time_string(const std::string& table_name, const int64_t shard_id, const std::string& cf_name, const int64_t time_stamp) {
-    int32_t cseqid = 0;
-    oprot_->writeMessageBegin("scan_by_time_string", ::apache::thrift::protocol::T_CALL, cseqid);
-
-    TaskTracker_scan_by_time_string_pargs args;
-    args.table_name = &table_name;
-    args.shard_id = &shard_id;
-    args.cf_name = &cf_name;
-    args.time_stamp = &time_stamp;
-    args.write(oprot_);
-
-    oprot_->writeMessageEnd();
-    oprot_->getTransport()->writeEnd();
-    oprot_->getTransport()->flush();
-}
-
-void TaskTrackerClient::recv_scan_by_time_string(std::vector<std::map<std::string, std::string> > & _return) {
-
-    int32_t rseqid = 0;
-    std::string fname;
-    ::apache::thrift::protocol::TMessageType mtype;
-
-    iprot_->readMessageBegin(fname, mtype, rseqid);
-    if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        throw x;
-    }
-    if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-    }
-    if (fname.compare("scan_by_time_string") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-    }
-    TaskTracker_scan_by_time_string_presult result;
-    result.success = &_return;
-    result.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-
-    if (result.__isset.success) {
-        // _return pointer has now been filled
-        return;
-    }
-    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "scan_by_time_string failed: unknown result");
+    throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "timed_scan_string failed: unknown result");
 }
 
 bool TaskTrackerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -7340,37 +7896,37 @@ void TaskTrackerProcessor::process_vector_put_string(int32_t seqid, ::apache::th
     }
 }
 
-void TaskTrackerProcessor::process_timely_vector_put_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_vector_merge_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.timely_vector_put_int", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.vector_merge_int", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timely_vector_put_int");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.vector_merge_int");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.timely_vector_put_int");
+        this->eventHandler_->preRead(ctx, "TaskTracker.vector_merge_int");
     }
 
-    TaskTracker_timely_vector_put_int_args args;
+    TaskTracker_vector_merge_int_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.timely_vector_put_int", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.vector_merge_int", bytes);
     }
 
-    TaskTracker_timely_vector_put_int_result result;
+    TaskTracker_vector_merge_int_result result;
     try {
-        result.success = iface_->timely_vector_put_int(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.success = iface_->vector_merge_int(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.value);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.timely_vector_put_int");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.vector_merge_int");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("timely_vector_put_int", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("vector_merge_int", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -7379,51 +7935,51 @@ void TaskTrackerProcessor::process_timely_vector_put_int(int32_t seqid, ::apache
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.timely_vector_put_int");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.vector_merge_int");
     }
 
-    oprot->writeMessageBegin("timely_vector_put_int", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("vector_merge_int", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.timely_vector_put_int", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.vector_merge_int", bytes);
     }
 }
 
-void TaskTrackerProcessor::process_timely_vector_put_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_vector_merge_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.timely_vector_put_double", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.vector_merge_double", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timely_vector_put_double");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.vector_merge_double");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.timely_vector_put_double");
+        this->eventHandler_->preRead(ctx, "TaskTracker.vector_merge_double");
     }
 
-    TaskTracker_timely_vector_put_double_args args;
+    TaskTracker_vector_merge_double_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.timely_vector_put_double", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.vector_merge_double", bytes);
     }
 
-    TaskTracker_timely_vector_put_double_result result;
+    TaskTracker_vector_merge_double_result result;
     try {
-        result.success = iface_->timely_vector_put_double(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.success = iface_->vector_merge_double(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.value);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.timely_vector_put_double");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.vector_merge_double");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("timely_vector_put_double", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("vector_merge_double", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -7432,51 +7988,51 @@ void TaskTrackerProcessor::process_timely_vector_put_double(int32_t seqid, ::apa
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.timely_vector_put_double");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.vector_merge_double");
     }
 
-    oprot->writeMessageBegin("timely_vector_put_double", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("vector_merge_double", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.timely_vector_put_double", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.vector_merge_double", bytes);
     }
 }
 
-void TaskTrackerProcessor::process_timely_vector_put_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_vector_merge_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.timely_vector_put_string", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.vector_merge_string", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timely_vector_put_string");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.vector_merge_string");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.timely_vector_put_string");
+        this->eventHandler_->preRead(ctx, "TaskTracker.vector_merge_string");
     }
 
-    TaskTracker_timely_vector_put_string_args args;
+    TaskTracker_vector_merge_string_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.timely_vector_put_string", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.vector_merge_string", bytes);
     }
 
-    TaskTracker_timely_vector_put_string_result result;
+    TaskTracker_vector_merge_string_result result;
     try {
-        result.success = iface_->timely_vector_put_string(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.success = iface_->vector_merge_string(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.value);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.timely_vector_put_string");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.vector_merge_string");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("timely_vector_put_string", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("vector_merge_string", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -7485,17 +8041,176 @@ void TaskTrackerProcessor::process_timely_vector_put_string(int32_t seqid, ::apa
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.timely_vector_put_string");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.vector_merge_string");
     }
 
-    oprot->writeMessageBegin("timely_vector_put_string", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("vector_merge_string", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.timely_vector_put_string", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.vector_merge_string", bytes);
+    }
+}
+
+void TaskTrackerProcessor::process_timed_vector_put_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+    void* ctx = NULL;
+    if (this->eventHandler_.get() != NULL) {
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_vector_put_int", callContext);
+    }
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_vector_put_int");
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_vector_put_int");
+    }
+
+    TaskTracker_timed_vector_put_int_args args;
+    args.read(iprot);
+    iprot->readMessageEnd();
+    uint32_t bytes = iprot->getTransport()->readEnd();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_vector_put_int", bytes);
+    }
+
+    TaskTracker_timed_vector_put_int_result result;
+    try {
+        result.success = iface_->timed_vector_put_int(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.__isset.success = true;
+    } catch (const std::exception& e) {
+        if (this->eventHandler_.get() != NULL) {
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_vector_put_int");
+        }
+
+        ::apache::thrift::TApplicationException x(e.what());
+        oprot->writeMessageBegin("timed_vector_put_int", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        x.write(oprot);
+        oprot->writeMessageEnd();
+        oprot->getTransport()->writeEnd();
+        oprot->getTransport()->flush();
+        return;
+    }
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_vector_put_int");
+    }
+
+    oprot->writeMessageBegin("timed_vector_put_int", ::apache::thrift::protocol::T_REPLY, seqid);
+    result.write(oprot);
+    oprot->writeMessageEnd();
+    bytes = oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_vector_put_int", bytes);
+    }
+}
+
+void TaskTrackerProcessor::process_timed_vector_put_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+    void* ctx = NULL;
+    if (this->eventHandler_.get() != NULL) {
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_vector_put_double", callContext);
+    }
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_vector_put_double");
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_vector_put_double");
+    }
+
+    TaskTracker_timed_vector_put_double_args args;
+    args.read(iprot);
+    iprot->readMessageEnd();
+    uint32_t bytes = iprot->getTransport()->readEnd();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_vector_put_double", bytes);
+    }
+
+    TaskTracker_timed_vector_put_double_result result;
+    try {
+        result.success = iface_->timed_vector_put_double(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.__isset.success = true;
+    } catch (const std::exception& e) {
+        if (this->eventHandler_.get() != NULL) {
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_vector_put_double");
+        }
+
+        ::apache::thrift::TApplicationException x(e.what());
+        oprot->writeMessageBegin("timed_vector_put_double", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        x.write(oprot);
+        oprot->writeMessageEnd();
+        oprot->getTransport()->writeEnd();
+        oprot->getTransport()->flush();
+        return;
+    }
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_vector_put_double");
+    }
+
+    oprot->writeMessageBegin("timed_vector_put_double", ::apache::thrift::protocol::T_REPLY, seqid);
+    result.write(oprot);
+    oprot->writeMessageEnd();
+    bytes = oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_vector_put_double", bytes);
+    }
+}
+
+void TaskTrackerProcessor::process_timed_vector_put_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+    void* ctx = NULL;
+    if (this->eventHandler_.get() != NULL) {
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_vector_put_string", callContext);
+    }
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_vector_put_string");
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_vector_put_string");
+    }
+
+    TaskTracker_timed_vector_put_string_args args;
+    args.read(iprot);
+    iprot->readMessageEnd();
+    uint32_t bytes = iprot->getTransport()->readEnd();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_vector_put_string", bytes);
+    }
+
+    TaskTracker_timed_vector_put_string_result result;
+    try {
+        result.success = iface_->timed_vector_put_string(args.table_name, args.shard_id, args.cf_name, args.row_key, args.column_key, args.time_stampe, args.value);
+        result.__isset.success = true;
+    } catch (const std::exception& e) {
+        if (this->eventHandler_.get() != NULL) {
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_vector_put_string");
+        }
+
+        ::apache::thrift::TApplicationException x(e.what());
+        oprot->writeMessageBegin("timed_vector_put_string", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        x.write(oprot);
+        oprot->writeMessageEnd();
+        oprot->getTransport()->writeEnd();
+        oprot->getTransport()->flush();
+        return;
+    }
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_vector_put_string");
+    }
+
+    oprot->writeMessageBegin("timed_vector_put_string", ::apache::thrift::protocol::T_REPLY, seqid);
+    result.write(oprot);
+    oprot->writeMessageEnd();
+    bytes = oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+
+    if (this->eventHandler_.get() != NULL) {
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_vector_put_string", bytes);
     }
 }
 
@@ -7658,59 +8373,6 @@ void TaskTrackerProcessor::process_vector_get_string(int32_t seqid, ::apache::th
     }
 }
 
-void TaskTrackerProcessor::process_scan_all(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
-    void* ctx = NULL;
-    if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.scan_all", callContext);
-    }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.scan_all");
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.scan_all");
-    }
-
-    TaskTracker_scan_all_args args;
-    args.read(iprot);
-    iprot->readMessageEnd();
-    uint32_t bytes = iprot->getTransport()->readEnd();
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.scan_all", bytes);
-    }
-
-    TaskTracker_scan_all_result result;
-    try {
-        iface_->scan_all(result.success, args.table_name, args.shard_id, args.cf_name);
-        result.__isset.success = true;
-    } catch (const std::exception& e) {
-        if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.scan_all");
-        }
-
-        ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("scan_all", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-        x.write(oprot);
-        oprot->writeMessageEnd();
-        oprot->getTransport()->writeEnd();
-        oprot->getTransport()->flush();
-        return;
-    }
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.scan_all");
-    }
-
-    oprot->writeMessageBegin("scan_all", ::apache::thrift::protocol::T_REPLY, seqid);
-    result.write(oprot);
-    oprot->writeMessageEnd();
-    bytes = oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.scan_all", bytes);
-    }
-}
-
 void TaskTrackerProcessor::process_scan_all_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
@@ -7870,37 +8532,37 @@ void TaskTrackerProcessor::process_scan_all_string(int32_t seqid, ::apache::thri
     }
 }
 
-void TaskTrackerProcessor::process_scan_by_time(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_timed_scan_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.scan_by_time", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_scan_int", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.scan_by_time");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_scan_int");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.scan_by_time");
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_scan_int");
     }
 
-    TaskTracker_scan_by_time_args args;
+    TaskTracker_timed_scan_int_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.scan_by_time", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_scan_int", bytes);
     }
 
-    TaskTracker_scan_by_time_result result;
+    TaskTracker_timed_scan_int_result result;
     try {
-        iface_->scan_by_time(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
+        iface_->timed_scan_int(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.scan_by_time");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_scan_int");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("scan_by_time", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("timed_scan_int", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -7909,51 +8571,51 @@ void TaskTrackerProcessor::process_scan_by_time(int32_t seqid, ::apache::thrift:
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.scan_by_time");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_scan_int");
     }
 
-    oprot->writeMessageBegin("scan_by_time", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("timed_scan_int", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.scan_by_time", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_scan_int", bytes);
     }
 }
 
-void TaskTrackerProcessor::process_scan_by_time_int(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_timed_scan_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.scan_by_time_int", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_scan_double", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.scan_by_time_int");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_scan_double");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.scan_by_time_int");
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_scan_double");
     }
 
-    TaskTracker_scan_by_time_int_args args;
+    TaskTracker_timed_scan_double_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.scan_by_time_int", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_scan_double", bytes);
     }
 
-    TaskTracker_scan_by_time_int_result result;
+    TaskTracker_timed_scan_double_result result;
     try {
-        iface_->scan_by_time_int(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
+        iface_->timed_scan_double(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.scan_by_time_int");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_scan_double");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("scan_by_time_int", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("timed_scan_double", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -7962,51 +8624,51 @@ void TaskTrackerProcessor::process_scan_by_time_int(int32_t seqid, ::apache::thr
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.scan_by_time_int");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_scan_double");
     }
 
-    oprot->writeMessageBegin("scan_by_time_int", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("timed_scan_double", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.scan_by_time_int", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_scan_double", bytes);
     }
 }
 
-void TaskTrackerProcessor::process_scan_by_time_double(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
+void TaskTrackerProcessor::process_timed_scan_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
     void* ctx = NULL;
     if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.scan_by_time_double", callContext);
+        ctx = this->eventHandler_->getContext("TaskTracker.timed_scan_string", callContext);
     }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.scan_by_time_double");
+    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.timed_scan_string");
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.scan_by_time_double");
+        this->eventHandler_->preRead(ctx, "TaskTracker.timed_scan_string");
     }
 
-    TaskTracker_scan_by_time_double_args args;
+    TaskTracker_timed_scan_string_args args;
     args.read(iprot);
     iprot->readMessageEnd();
     uint32_t bytes = iprot->getTransport()->readEnd();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.scan_by_time_double", bytes);
+        this->eventHandler_->postRead(ctx, "TaskTracker.timed_scan_string", bytes);
     }
 
-    TaskTracker_scan_by_time_double_result result;
+    TaskTracker_timed_scan_string_result result;
     try {
-        iface_->scan_by_time_double(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
+        iface_->timed_scan_string(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
         result.__isset.success = true;
     } catch (const std::exception& e) {
         if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.scan_by_time_double");
+            this->eventHandler_->handlerError(ctx, "TaskTracker.timed_scan_string");
         }
 
         ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("scan_by_time_double", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+        oprot->writeMessageBegin("timed_scan_string", ::apache::thrift::protocol::T_EXCEPTION, seqid);
         x.write(oprot);
         oprot->writeMessageEnd();
         oprot->getTransport()->writeEnd();
@@ -8015,70 +8677,17 @@ void TaskTrackerProcessor::process_scan_by_time_double(int32_t seqid, ::apache::
     }
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.scan_by_time_double");
+        this->eventHandler_->preWrite(ctx, "TaskTracker.timed_scan_string");
     }
 
-    oprot->writeMessageBegin("scan_by_time_double", ::apache::thrift::protocol::T_REPLY, seqid);
+    oprot->writeMessageBegin("timed_scan_string", ::apache::thrift::protocol::T_REPLY, seqid);
     result.write(oprot);
     oprot->writeMessageEnd();
     bytes = oprot->getTransport()->writeEnd();
     oprot->getTransport()->flush();
 
     if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.scan_by_time_double", bytes);
-    }
-}
-
-void TaskTrackerProcessor::process_scan_by_time_string(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext) {
-    void* ctx = NULL;
-    if (this->eventHandler_.get() != NULL) {
-        ctx = this->eventHandler_->getContext("TaskTracker.scan_by_time_string", callContext);
-    }
-    ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TaskTracker.scan_by_time_string");
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preRead(ctx, "TaskTracker.scan_by_time_string");
-    }
-
-    TaskTracker_scan_by_time_string_args args;
-    args.read(iprot);
-    iprot->readMessageEnd();
-    uint32_t bytes = iprot->getTransport()->readEnd();
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postRead(ctx, "TaskTracker.scan_by_time_string", bytes);
-    }
-
-    TaskTracker_scan_by_time_string_result result;
-    try {
-        iface_->scan_by_time_string(result.success, args.table_name, args.shard_id, args.cf_name, args.time_stamp);
-        result.__isset.success = true;
-    } catch (const std::exception& e) {
-        if (this->eventHandler_.get() != NULL) {
-            this->eventHandler_->handlerError(ctx, "TaskTracker.scan_by_time_string");
-        }
-
-        ::apache::thrift::TApplicationException x(e.what());
-        oprot->writeMessageBegin("scan_by_time_string", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-        x.write(oprot);
-        oprot->writeMessageEnd();
-        oprot->getTransport()->writeEnd();
-        oprot->getTransport()->flush();
-        return;
-    }
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->preWrite(ctx, "TaskTracker.scan_by_time_string");
-    }
-
-    oprot->writeMessageBegin("scan_by_time_string", ::apache::thrift::protocol::T_REPLY, seqid);
-    result.write(oprot);
-    oprot->writeMessageEnd();
-    bytes = oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-
-    if (this->eventHandler_.get() != NULL) {
-        this->eventHandler_->postWrite(ctx, "TaskTracker.scan_by_time_string", bytes);
+        this->eventHandler_->postWrite(ctx, "TaskTracker.timed_scan_string", bytes);
     }
 }
 
