@@ -74,7 +74,7 @@ int64_t SparseMatrix::vector_merge(std::vector<std::string> row_key,
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
         column = std::stol(column_key[i]);
-        matrix_value = std::stod(value[i]);
+        matrix_value = std::stod(value[i]) + _storage_container.coeffRef(row, column);
         tripletList.push_back(T(row, column, matrix_value));
     }
 
@@ -123,9 +123,7 @@ void SparseMatrix::scan_all(std::vector<std::vector<std::string>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     value.resize(3);
-    value[0].reserve(1000);
-    value[1].reserve(1000);
-    value[2].reserve(1000);
+
     for (int k = 0; k < _storage_container.outerSize(); ++k) {
 		for (Eigen::SparseMatrix<double>::InnerIterator it(_storage_container, k); it; ++it) {
 			value[2].push_back(std::to_string(it.value()));

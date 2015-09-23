@@ -94,6 +94,7 @@ void LSMKeyValue::vector_get(std::vector<std::string> row_key,
                             std::vector<std::string>& value) {
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
+    value.reserve(row_key.size());
 
     std::string single_key;
     std::string single_value;
@@ -123,10 +124,6 @@ void LSMKeyValue::scan_all(std::vector<std::vector<std::string>>& value) {
     std::vector<std::string> tokens;
     std::string single_key;
     std::string single_value;
-
-    value[0].reserve(1000);
-    value[1].reserve(1000);
-    value[2].reserve(1000);
 
     leveldb::Iterator* it = _db->NewIterator(leveldb::ReadOptions());
     for (it->SeekToFirst(); it->Valid(); it->Next()) {

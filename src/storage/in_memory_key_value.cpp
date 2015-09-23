@@ -90,6 +90,7 @@ void InMemoryKeyValue::vector_get(std::vector<std::string> row_key,
                                 std::vector<std::string>& value) {
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
+    value.reserve(row_key.size());
 
     std::string single_key;
     std::string single_value;
@@ -119,6 +120,10 @@ void InMemoryKeyValue::scan_all(std::vector<std::vector<std::string>>& value) {
     std::vector<std::string> tokens;
     std::string single_key;
     std::string single_value;
+
+    value[0].reserve(_storage_container.size());
+    value[1].reserve(_storage_container.size());
+    value[2].reserve(_storage_container.size());
 
     for (auto& key : _storage_container) {
         tokens.clear();
