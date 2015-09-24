@@ -13,34 +13,43 @@
  *limitations under the License.
 */
 
-#include "sparse_matrix.h"
+#ifdef SPARSE_MATRIX
+
+#include <unordered_map>
+#include <map>
+#include "./kv_base.h"
+#include "../tools/include/Eigen/Sparse"
 
 namespace ntu {
 namespace cap {
 
-SparseMatrix::SparseMatrix():KVStorage() {
+template<class VALUE_T>
+SparseMatrix<VALUE_T>::SparseMatrix():KVStorage() {
 }
 
-SparseMatrix::SparseMatrix(const std::string table_name,
-                        const int64_t shard_id,
-                        const std::string cf_name,
-                        std::pair<int64_t, int64_t> size):
-                        KVStorage(table_name, shard_id, cf_name) {
+template<class VALUE_T>
+SparseMatrix<VALUE_T>::SparseMatrix(const std::string table_name,
+        const int64_t shard_id,
+        const std::string cf_name,
+        std::pair<int64_t, int64_t> size):
+        KVStorage(table_name, shard_id, cf_name) {
     _storage_container.resize(size.first, size.second);
 }
 
-SparseMatrix::~SparseMatrix() {
+template<class VALUE_T>
+SparseMatrix<VALUE_T>::~SparseMatrix() {
 }
 
-int64_t SparseMatrix::vector_put(std::vector<std::string> row_key,
-                   std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+template<class VALUE_T>
+int64_t SparseMatrix<VALUE_T>::vector_put(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T> value) {
+
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
     int64_t row = 0;
     int64_t column = 0;
-    double matrix_value = 0.0;
 
     typedef Eigen::Triplet<double> T;
 	std::vector<T> tripletList;
@@ -49,32 +58,32 @@ int64_t SparseMatrix::vector_put(std::vector<std::string> row_key,
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
         column = std::stol(column_key[i]);
-        matrix_value = std::stod(value[i]);
-        tripletList.push_back(T(row, column, matrix_value));
+        tripletList.push_back(T(row, column, value[i]));
     }
 
     _storage_container.setFromTriplets(tripletList.begin(), tripletList.end());
     return 1;
 }
 
-int64_t SparseMatrix::vector_merge(std::vector<std::string> row_key,
+template<class VALUE_T>
+int64_t SparseMatrix<VALUE_T>::vector_merge(std::vector<std::string> row_key,
                    std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+                   std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
     int64_t row = 0;
     int64_t column = 0;
-    double matrix_value = 0.0;
+    VALUE_T matrix_value;
 
-    typedef Eigen::Triplet<double> T;
+    typedef Eigen::Triplet<VALUE_T> T;
     std::vector<T> tripletList;
     tripletList.reserve(row_key.size());
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
         column = std::stol(column_key[i]);
-        matrix_value = std::stod(value[i]) + _storage_container.coeffRef(row, column);
+        matrix_value = value[i] + _storage_container.coeffRef(row, column);
         tripletList.push_back(T(row, column, matrix_value));
     }
 
@@ -82,10 +91,11 @@ int64_t SparseMatrix::vector_merge(std::vector<std::string> row_key,
     return 1;
 }
 
-int64_t SparseMatrix::timely_vector_put(std::vector<std::string> row_key,
+template<class VALUE_T>
+int64_t SparseMatrix<VALUE_T>::timed_vector_put(std::vector<std::string> row_key,
                           std::vector<std::string> column_key,
                           int64_t time_stamp,
-                          std::vector<std::string> value) {
+                          std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -93,15 +103,15 @@ int64_t SparseMatrix::timely_vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-void SparseMatrix::vector_get(std::vector<std::string> row_key,
+template<class VALUE_T>
+void SparseMatrix<VALUE_T>::vector_get(std::vector<std::string> row_key,
                                 std::vector<std::string> column_key,
-                                std::vector<std::string>& value) {
+                                std::vector<VALUE_T>& value) {
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
 
     int64_t row = 0;
     int64_t column = 0;
-    double result;
     read_lock _lock(KVStorage::_rwmutex);
 
     value.reserve(row_key.size());
@@ -114,33 +124,33 @@ void SparseMatrix::vector_get(std::vector<std::string> row_key,
                 column >= _storage_container.cols()) {
             LOG(ERROR) << "DENSE MATRIX INDEX ERROR";
         }
-        result = _storage_container.coeffRef(row, column);
-        value.push_back(std::to_string(result));
+        value.push_back(_storage_container.coeffRef(row, column));
     }
 }
 
-void SparseMatrix::scan_all(std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void SparseMatrix<VALUE_T>::scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
-    value.resize(3);
-
     for (int k = 0; k < _storage_container.outerSize(); ++k) {
 		for (Eigen::SparseMatrix<double>::InnerIterator it(_storage_container, k); it; ++it) {
-			value[2].push_back(std::to_string(it.value()));
-            value[0].push_back(std::to_string(it.row()));
-            value[1].push_back(std::to_string(it.col()));
+            value[std::to_string(it.row())][std::to_string(it.col())] = it.value();
    		}
 	}
 }
 
-void SparseMatrix::scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void SparseMatrix<VALUE_T>::timed_scan(int64_t time_stamp,
+        std::map<std::string, std::map<std::string, VALUE_T>>& value) {
+
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 
 }
 
-Eigen::SparseMatrix<double>* SparseMatrix::storage_ptr(){
+template<class VALUE_T>
+Eigen::SparseMatrix<VALUE_T>* SparseMatrix<VALUE_T>::storage_ptr(){
 
     return &_storage_container;
 }
@@ -148,4 +158,4 @@ Eigen::SparseMatrix<double>* SparseMatrix::storage_ptr(){
 }
 }
 
-
+#endif

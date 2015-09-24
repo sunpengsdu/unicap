@@ -12,27 +12,38 @@
  *See the License for the specific language governing permissions and
  *limitations under the License.
 */
-#include "image_key_value.h"
+
+#ifdef IMAGE_KEY_VALUE
+
+#include <unordered_map>
+#include <map>
+#include "../tools/include/opencv2/opencv.hpp"
+#include "./kv_base.h"
+
 namespace ntu {
 namespace cap {
 
 typedef unsigned char byte;
 
-InMemoryImage::InMemoryImage():KVStorage() {
+template<class VALUE_T>
+InMemoryImage<VALUE_T>::InMemoryImage():KVStorage() {
 }
 
-InMemoryImage::InMemoryImage(const std::string table_name,
+template<class VALUE_T>
+InMemoryImage<VALUE_T>::InMemoryImage(const std::string table_name,
                                 const int64_t shard_id,
                                 const std::string cf_name):
                                 KVStorage(table_name, shard_id, cf_name) {
 }
 
-InMemoryImage::~InMemoryImage() {
+template<class VALUE_T>
+InMemoryImage<VALUE_T>::~InMemoryImage() {
 }
 
-int64_t InMemoryImage::vector_put(std::vector<std::string> row_key,
+template<class VALUE_T>
+int64_t InMemoryImage<VALUE_T>::vector_put(std::vector<std::string> row_key,
                    std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+                   std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -54,9 +65,10 @@ int64_t InMemoryImage::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-int64_t InMemoryImage::vector_merge(std::vector<std::string> row_key,
+template<class VALUE_T>
+int64_t InMemoryImage<VALUE_T>::vector_merge(std::vector<std::string> row_key,
                    std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+                   std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -64,10 +76,11 @@ int64_t InMemoryImage::vector_merge(std::vector<std::string> row_key,
     return 1;
 }
 
-int64_t InMemoryImage::timely_vector_put(std::vector<std::string> row_key,
+template<class VALUE_T>
+int64_t InMemoryImage<VALUE_T>::timed_vector_put(std::vector<std::string> row_key,
                           std::vector<std::string> column_key,
                           int64_t time_stamp,
-                          std::vector<std::string> value) {
+                          std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -75,25 +88,24 @@ int64_t InMemoryImage::timely_vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-void InMemoryImage::vector_get(std::vector<std::string> row_key,
+template<class VALUE_T>
+void InMemoryImage<VALUE_T>::vector_get(std::vector<std::string> row_key,
                                 std::vector<std::string> column_key,
-                                std::vector<std::string>& value) {
+                                std::vector<VALUE_T>& value) {
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
-
     std::string single_key;
     std::string single_value;
-
     read_lock _lock(KVStorage::_rwmutex);
-
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 
 }
 
-void InMemoryImage::scan_all(std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void InMemoryImage<VALUE_T>::scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
-    value.resize(3);
+
     std::vector<std::string> tokens;
     std::string single_key;
     std::string single_value;
@@ -101,14 +113,17 @@ void InMemoryImage::scan_all(std::vector<std::vector<std::string>>& value) {
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 }
 
-void InMemoryImage::scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void InMemoryImage<VALUE_T>::timed_scan(int64_t time_stamp,
+        std::map<std::string, std::map<std::string, VALUE_T>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 
 }
 
-std::map<std::string, cv::Mat>* InMemoryImage::storage_ptr(){
+template<class VALUE_T>
+std::map<std::string, cv::Mat>* InMemoryImage<VALUE_T>::storage_ptr(){
 
     return &_storage_container;
 }
@@ -116,5 +131,5 @@ std::map<std::string, cv::Mat>* InMemoryImage::storage_ptr(){
 }
 }
 
-
+#endif
 

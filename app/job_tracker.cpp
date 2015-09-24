@@ -25,34 +25,30 @@ int main(int argc, char **argv) {
     DAG::create_cf("test_dense_matrix",
                 "test_dense_matrix",
                 StorageType::SparseMatrix,
+                ValueType::type::Double,
                 std::make_pair(100, 100));
 
-    std::vector<std::vector<std::string>> dense_result;
+    std::map<std::string, std::map<std::string, double>> dense_result;
 
 
 
     std::vector<std::string> row;
     std::vector<std::string> column;
-    std::vector<std::string> value;
+    std::vector<double> value;
     row.push_back("0");
     row.push_back("1");
     column.push_back("0");
     column.push_back("1");
-    value.push_back(std::to_string(1.11));
-    value.push_back(std::to_string(2.22));
-    Storage::vector_put("test_dense_matrix", "test_dense_matrix", 0, row, column, value);
+    value.push_back(1.22);
+    value.push_back(7.55);
+    Storage::vector_put_double("test_dense_matrix", "test_dense_matrix", 0, row, column, value);
 
+    Storage::scan_double("test_dense_matrix", "test_dense_matrix", 0, dense_result);
 
-
-    Storage::scan_all("test_dense_matrix", "test_dense_matrix", 0, dense_result);
-
-    for (int i = 0; i < dense_result[0].size(); ++i) {
-        std::cout << dense_result[0][i] 
-                  << "-"
-                  << dense_result[1][i]
-                  << "->"
-                  << dense_result[2][i]
-                  << "\n";
+    for (auto& dense_record : dense_result) {
+        for (auto& col_result : dense_record.second) {
+            std::cout << col_result.second << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
+        }
     }
 
     DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt", 16*1024*1024);
@@ -61,7 +57,7 @@ int main(int argc, char **argv) {
 
     rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
     DAG::create_table("a", 10, rrr);
-    DAG::create_cf("a", "a", StorageType::InMemoryKeyValue);
+    DAG::create_cf("a", "a", StorageType::InMemoryKeyValue, ValueType::String);
 
     IntermediateResult<int, int, std::string> inter_store("a");
     inter_store.push_back(1, 2, "sd");
@@ -78,17 +74,6 @@ int main(int argc, char **argv) {
         }
         ++ccc;
     }
-
-
-
-    std::vector<std::string> return_value1;
-
-    Storage::vector_get("test_dense_matrix","test_dense_matrix", 0, row, column, return_value1);
-
-    for (uint64_t j=0; j<return_value1.size(); ++j) {
-        std::cout << return_value1[j] << "\n";
-    }
-    std::vector<std::vector<std::string> > return_value2;
 
     jobtracker.join();
     return 0;

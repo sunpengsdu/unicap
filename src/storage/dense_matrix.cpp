@@ -13,70 +13,80 @@
  *limitations under the License.
 */
 
-#include "dense_matrix.h"
+#ifdef DENSE_MATRIX
+
+#include <unordered_map>
+#include <map>
+#include "./kv_base.h"
+#include "../tools/include/Eigen/Dense"
 
 namespace ntu {
 namespace cap {
 
-DenseMatrix::DenseMatrix():KVStorage() {
+template <class VALUE_T>
+DenseMatrix<VALUE_T>::DenseMatrix():KVStorage() {
 }
 
-DenseMatrix::DenseMatrix(const std::string table_name,
-                        const int64_t shard_id,
-                        const std::string cf_name,
-                        std::pair<int64_t, int64_t> size):
-                        KVStorage(table_name, shard_id, cf_name) {
+template <class VALUE_T>
+DenseMatrix<VALUE_T>::DenseMatrix(const std::string table_name,
+        const int64_t shard_id,
+        const std::string cf_name,
+        std::pair<int64_t, int64_t> size):
+        KVStorage(table_name, shard_id, cf_name) {
+
     _storage_container.resize(size.first, size.second);
     _storage_container.setRandom();
     //_storage_container.setZero();
 }
 
-DenseMatrix::~DenseMatrix() {
+template <class VALUE_T>
+DenseMatrix<VALUE_T>::~DenseMatrix() {
 }
 
-int64_t DenseMatrix::vector_put(std::vector<std::string> row_key,
-                   std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
-    CHECK_EQ(row_key.size(), column_key.size());
-    CHECK_EQ(row_key.size(), value.size());
-    write_lock _lock(KVStorage::_rwmutex);
-    int64_t row = 0;
-    int64_t column = 0;
-    double matrix_value = 0.0;
-
-    for (uint64_t i = 0; i < row_key.size(); ++i) {
-        row = std::stol(row_key[i]);
-        column = std::stol(column_key[i]);
-        matrix_value = std::stod(value[i]);
-        _storage_container(row, column) = matrix_value;
-    }
-    return 1;
-}
-
-int64_t DenseMatrix::vector_merge(std::vector<std::string> row_key,
-                       std::vector<std::string> column_key,
-                       std::vector<std::string> value) {
+template <class VALUE_T>
+int64_t DenseMatrix<VALUE_T>::vector_put(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T> value) {
 
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
     int64_t row = 0;
     int64_t column = 0;
-    double matrix_value = 0.0;
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         row = std::stol(row_key[i]);
         column = std::stol(column_key[i]);
-        matrix_value = std::stod(value[i]);
-        _storage_container(row, column) += matrix_value;
+        _storage_container(row, column) = value[i];
     }
     return 1;
 }
 
-int64_t DenseMatrix::timely_vector_put(std::vector<std::string> row_key,
-                          std::vector<std::string> column_key,
-                          int64_t time_stamp,
-                          std::vector<std::string> value) {
+template <class VALUE_T>
+int64_t DenseMatrix<VALUE_T>::vector_merge(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T> value) {
+
+    CHECK_EQ(row_key.size(), column_key.size());
+    CHECK_EQ(row_key.size(), value.size());
+    write_lock _lock(KVStorage::_rwmutex);
+    int64_t row = 0;
+    int64_t column = 0;
+
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        row = std::stol(row_key[i]);
+        column = std::stol(column_key[i]);
+        _storage_container(row, column) += value[i];
+    }
+    return 1;
+}
+
+template <class VALUE_T>
+int64_t DenseMatrix<VALUE_T>::timed_vector_put(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        int64_t time_stamp,
+        std::vector<VALUE_T> value) {
+
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -84,15 +94,17 @@ int64_t DenseMatrix::timely_vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-void DenseMatrix::vector_get(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                std::vector<std::string>& value) {
+template <class VALUE_T>
+void DenseMatrix<VALUE_T>::vector_get(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T>& value) {
+
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
 
     int64_t row = 0;
     int64_t column = 0;
-    double result;
+
     read_lock _lock(KVStorage::_rwmutex);
     value.reserve(row_key.size());
 
@@ -104,38 +116,37 @@ void DenseMatrix::vector_get(std::vector<std::string> row_key,
                 column >= _storage_container.cols()) {
             LOG(ERROR) << "DENSE MATRIX INDEX ERROR";
         }
-        result = _storage_container(row, column);
-        value.push_back(std::to_string(result));
+        value.push_back(_storage_container(row, column));
     }
 }
 
-void DenseMatrix::scan_all(std::vector<std::vector<std::string>>& value) {
+template <class VALUE_T>
+void DenseMatrix<VALUE_T>::scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value) {
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
-    value.resize(1);
 
     int64_t row = _storage_container.rows();
     int64_t column = _storage_container.cols();
-    double result;
-
-    value[0].reserve(row * column);
 
     for (int64_t i = 0; i < row; ++i) {
         for (int64_t j = 0; j < column; ++j) {
-            result = _storage_container(i, j);
-            value[0].push_back(std::to_string(result));
+            value[std::to_string(i)][std::to_string(j)] = _storage_container(i, j);
         }
     }
 }
 
-void DenseMatrix::scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
+template <class VALUE_T>
+void DenseMatrix<VALUE_T>::timed_scan(int64_t time_stamp,
+        std::map<std::string, std::map<std::string, VALUE_T>>& value) {
+
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 
 }
 
-Eigen::MatrixXd* DenseMatrix::storage_ptr(){
+template <class VALUE_T>
+Eigen::Matrix<VALUE_T, Eigen::Dynamic, Eigen::Dynamic>* DenseMatrix<VALUE_T>::storage_ptr(){
 
     return &_storage_container;
 }
@@ -143,3 +154,5 @@ Eigen::MatrixXd* DenseMatrix::storage_ptr(){
 
 }
 }
+
+#endif

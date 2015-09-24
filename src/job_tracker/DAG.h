@@ -44,51 +44,52 @@ public:
     static std::thread start_job_tracker(int64_t thread_num = 10);
 
     static int64_t create_table(const std::string& table_name,
-                                const int64_t shard_num);
+                const int64_t shard_num);
 
     static int64_t create_table(const std::string& table_name,
-                             const int64_t shard_num,
-                             const KeyPartition& partition);
+                const int64_t shard_num,
+                const KeyPartition& partition);
 
     static int64_t create_table(const std::string& table_name,
-                             const Table& base_table);
+                const Table& base_table);
 
     static int64_t create_cf(const std::string& table_name,
-                          const std::string& cf_name,
-                          const StorageType::type cf_type,
-                          const std::pair<int64_t, int64_t> size = std::make_pair(1, 1));
+                const std::string& cf_name,
+                const StorageType::type cf_type,
+                const ValueType::type value_type,
+                const std::pair<int64_t, int64_t> size = std::make_pair(1, 1));
 
     static int64_t create_distributed_cache(const std::string& table_name,
-                                    const std::string& cf_name,
-                                    const std::string& cached_table_name,
-                                    const std::string& cached_cf_name,
-                                    StorageType::type cf_type = StorageType::type::InMemoryKeyValue);
+                const std::string& cf_name,
+                const std::string& cached_table_name,
+                const std::string& cached_cf_name,
+                StorageType::type cf_type = StorageType::type::InMemoryKeyValue);
 
     static int64_t load_local_file(const std::string& path,
-                                const std::string& table_name,
-                                const std::string& cf_name,
-                                const int64_t block_size = 1024*1024*64,
-                                StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
+                const std::string& table_name,
+                const std::string& cf_name,
+                const int64_t block_size = 1024*1024*64,
+                StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
 
     static int64_t load_local_img(const std::string& path,
-                        const std::string& table_name,
-                        const std::string& cf_name,
-                        const int64_t block_size = 1024*1024*64);
+                const std::string& table_name,
+                const std::string& cf_name,
+                const int64_t block_size = 1024*1024*64);
 
 
     static int64_t load_hdfs_file(const std::string& path,
-                                const std::string& table_name,
-                                const std::string& cf_name,
-                                const int64_t block_size = 1024*1024*64,
-                                StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
+                const std::string& table_name,
+                const std::string& cf_name,
+                const int64_t block_size = 1024*1024*64,
+                StorageType::type storage_type = StorageType::type::InMemoryKeyValue);
 
     static int64_t load_hdfs_img(const std::string& path,
-                            const std::string& table_name,
-                            const std::string& cf_name,
-                            const int64_t block_size = 1024*1024*64);
+                const std::string& table_name,
+                const std::string& cf_name,
+                const int64_t block_size = 1024*1024*64);
 
     static int64_t save_to_hdfs(const std::string& table_name,
-                                const std::string& cf_name);
+                const std::string& cf_name);
 
 };
 }

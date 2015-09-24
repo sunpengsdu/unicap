@@ -23,6 +23,7 @@
 namespace ntu {
 namespace cap {
 
+template <class VALUE_T>
 class HdfsKeyValue : public KVStorage {
 
 public:
@@ -30,37 +31,38 @@ public:
     HdfsKeyValue();
 
     HdfsKeyValue(const std::string table_name,
-                const int64_t shard_id,
-                const std::string cf_name);
+            const int64_t shard_id,
+            const std::string cf_name);
 
     ~HdfsKeyValue();
 
     int64_t vector_put(std::vector<std::string> row_key,
-                       std::vector<std::string> column_key,
-                       std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
     int64_t vector_merge(std::vector<std::string> row_key,
-                           std::vector<std::string> column_key,
-                           std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
-    int64_t timely_vector_put(std::vector<std::string> row_key,
-                              std::vector<std::string> column_key,
-                              int64_t time_stamp,
-                              std::vector<std::string> value);
+
+    int64_t timed_vector_put(std::vector<std::string> row_key,
+            std::vector<std::string> column_key,
+            int64_t time_stamp,
+            std::vector<VALUE_T> value);
 
     void vector_get(std::vector<std::string> row_key,
-                    std::vector<std::string> column_key,
-                    std::vector<std::string>& value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T>& value);
 
-    void scan_all(std::vector<std::vector<std::string>>& value);
+    void scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+    void timed_scan(int64_t time_stamp, std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
     struct hdfsBuilder* storage_ptr();
 
     hdfsFS _fs;
     struct hdfsBuilder *_builder;
-    std::vector<std::vector<std::string>> _property;
+    std::map<std::string, std::map<std::string, std::string>> _property;
 
     //std::map<int64_t, std::string> _history_data;
 };
@@ -68,7 +70,8 @@ public:
 }
 }
 
-
+#define HDFS_KEY_VALUE
+#include "hdfs_key_value.cpp"
 
 
 #endif /* NTU_CAP_UNICAP_STORAGE_HDFS_KEY_VALUE_H_ */

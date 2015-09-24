@@ -27,44 +27,112 @@ namespace cap {
 
 class Storage {
 public:
-    static int64_t vector_put(const std::string table,
-                            const std::string cf,
-                            int64_t shard_id,
-                            std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            std::vector<std::string> value);
+    static int64_t vector_put_int(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const std::vector<int64_t>& value);
 
-    static int64_t timely_vector_put(const std::string table,
-                            const std::string cf,
-                            int64_t shard_id,
-                            std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            int64_t time_stamp,
-                            std::vector<std::string> value);
+    static int64_t vector_put_double(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const std::vector<double>& value);
 
-    static int64_t vector_get(const std::string table,
-                            const std::string cf,
-                            int64_t shard_id,
-                            std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            std::vector<std::string>& value);
+    static int64_t vector_put_string(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const std::vector<std::string>& value);
 
-    static void scan_all(const std::string table,
-                        const std::string cf,
-                        int64_t shard_id,
-                        std::vector<std::vector<std::string>>& value);
+    static int64_t timed_vector_put_int(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const int64_t time_stamp,
+            const std::vector<int64_t>& value);
 
-    static void scan_by_time(const std::string table,
-                        const std::string cf,
-                        int64_t shard_id,
-                        int64_t time_stamp,
-                        std::vector<std::vector<std::string>>& value);
+    static int64_t timed_vector_put_double(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const int64_t time_stamp,
+            const std::vector<double>& value);
 
-    static int64_t get_shard_num(const std::string table);
+    static int64_t timed_vector_put_string(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            const int64_t time_stamp,
+            const std::vector<std::string>& value);
 
-    static KeyPartition get_table_partition(const std::string table);
+    static int64_t vector_get_int(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            std::vector<int64_t>& value);
 
-    static std::shared_ptr<KVStorage> storage(std::string table, std::string cf, int64_t shard_id);
+    static int64_t vector_get_double(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            std::vector<double>& value);
+
+    static int64_t vector_get_string(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const std::vector<std::string>& row_key,
+            const std::vector<std::string>& column_key,
+            std::vector<std::string>& value);
+
+    static void scan_int(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            std::map<std::string, std::map<std::string, int64_t>>& value);
+
+    static void scan_double(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            std::map<std::string, std::map<std::string, double>>& value);
+
+    static void scan_string(const std::string& table,
+            const std::string& cf,
+            const  int64_t shard_id,
+            std::map<std::string, std::map<std::string, std::string>>& value);
+
+    static void timed_scan_int(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const int64_t time_stamp,
+            std::map<std::string, std::map<std::string, int64_t>>& value);
+
+    static void timed_scan_double(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const int64_t time_stamp,
+            std::map<std::string, std::map<std::string, double>>& value);
+
+    static void timed_scan_string(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id,
+            const int64_t time_stamp,
+            std::map<std::string, std::map<std::string, std::string>>& value);
+
+    static int64_t get_shard_num(const std::string& table);
+
+    static KeyPartition get_table_partition(const std::string& table);
+
+    static std::shared_ptr<KVStorage> storage(const std::string& table,
+            const std::string& cf,
+            const int64_t shard_id);
 };
 
 

@@ -12,25 +12,36 @@
  *See the License for the specific language governing permissions and
  *limitations under the License.
 */
-#include "in_memory_key_value.h"
+
+#ifdef IN_MEMORY_KEY_VALUE
+
+#include <unordered_map>
+#include <map>
+#include "./kv_base.h"
+
 namespace ntu {
 namespace cap {
 
-InMemoryKeyValue::InMemoryKeyValue():KVStorage() {
+template<class VALUE_T>
+InMemoryKeyValue<VALUE_T>::InMemoryKeyValue():KVStorage() {
 }
 
-InMemoryKeyValue::InMemoryKeyValue(const std::string table_name,
-                                const int64_t shard_id,
-                                const std::string cf_name):
-                                KVStorage(table_name, shard_id, cf_name) {
+template<class VALUE_T>
+InMemoryKeyValue<VALUE_T>::InMemoryKeyValue(const std::string table_name,
+        const int64_t shard_id,
+        const std::string cf_name):
+        KVStorage(table_name, shard_id, cf_name) {
 }
 
-InMemoryKeyValue::~InMemoryKeyValue() {
+template<class VALUE_T>
+InMemoryKeyValue<VALUE_T>::~InMemoryKeyValue() {
 }
 
-int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
-                   std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+template<class VALUE_T>
+int64_t InMemoryKeyValue<VALUE_T>::vector_put(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T> value) {
+
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -47,37 +58,35 @@ int64_t InMemoryKeyValue::vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-int64_t InMemoryKeyValue::vector_merge(std::vector<std::string> row_key,
-                   std::vector<std::string> column_key,
-                   std::vector<std::string> value) {
+template<class VALUE_T>
+int64_t InMemoryKeyValue<VALUE_T>::vector_merge(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T> value) {
+
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
 
     std::string single_key;
-    std::string merged_value;
     std::vector<std::string> tokens;
 
     for (uint64_t i = 0; i < row_key.size(); ++i) {
         tokens.clear();
-        merged_value.clear();
         boost::split(tokens, column_key[i], boost::algorithm::is_any_of("@"));
-
         single_key.clear();
         single_key.append(row_key[i]);
         single_key.append("!");
         single_key.append(tokens[0]);
-        merged_value.append("\n");
-        merged_value.append(value[i]);
-        _storage_container[single_key].append(merged_value);
+        _storage_container[single_key] += value[i];
     }
     return 1;
 }
 
-int64_t InMemoryKeyValue::timely_vector_put(std::vector<std::string> row_key,
-                          std::vector<std::string> column_key,
-                          int64_t time_stamp,
-                          std::vector<std::string> value) {
+template<class VALUE_T>
+int64_t InMemoryKeyValue<VALUE_T>::timed_vector_put(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        int64_t time_stamp,
+        std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
     write_lock _lock(KVStorage::_rwmutex);
@@ -85,9 +94,10 @@ int64_t InMemoryKeyValue::timely_vector_put(std::vector<std::string> row_key,
     return 1;
 }
 
-void InMemoryKeyValue::vector_get(std::vector<std::string> row_key,
-                                std::vector<std::string> column_key,
-                                std::vector<std::string>& value) {
+template<class VALUE_T>
+void InMemoryKeyValue<VALUE_T>::vector_get(std::vector<std::string> row_key,
+        std::vector<std::string> column_key,
+        std::vector<VALUE_T>& value) {
     CHECK_EQ(row_key.size(), column_key.size());
     value.clear();
     value.reserve(row_key.size());
@@ -106,46 +116,42 @@ void InMemoryKeyValue::vector_get(std::vector<std::string> row_key,
 
         auto result = _storage_container.find(single_key);
         if ( result == _storage_container.end()) {
-            value.push_back("NULL");
+            VALUE_T zero_result;
+            KVStorage::set_zero(&zero_result);
+            value.push_back(zero_result);
         } else {
             value.push_back(result->second);
         }
     }
 }
 
-void InMemoryKeyValue::scan_all(std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void InMemoryKeyValue<VALUE_T>::scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& _return) {
     read_lock _lock(KVStorage::_rwmutex);
-    value.clear();
-    value.resize(3);
+    _return.clear();
     std::vector<std::string> tokens;
     std::string single_key;
-    std::string single_value;
-
-    value[0].reserve(_storage_container.size());
-    value[1].reserve(_storage_container.size());
-    value[2].reserve(_storage_container.size());
 
     for (auto& key : _storage_container) {
         tokens.clear();
         single_key = key.first;
-        single_value = key.second;
-
         boost::split(tokens, single_key, boost::algorithm::is_any_of("!"));
-
-        value[0].push_back(tokens[0]);
-        value[1].push_back(tokens[1]);
-        value[2].push_back(single_value);
+        _return[tokens[0]][tokens[1]] = key.second;
     }
 }
 
-void InMemoryKeyValue::scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) {
+template<class VALUE_T>
+void InMemoryKeyValue<VALUE_T>::timed_scan(int64_t time_stamp,
+        std::map<std::string, std::map<std::string, VALUE_T>>& value) {
+
     read_lock _lock(KVStorage::_rwmutex);
     value.clear();
     LOG(FATAL) << "NOT IMPLEMENTED \n";
 
 }
 
-std::map<std::string, std::string>* InMemoryKeyValue::storage_ptr(){
+template<class VALUE_T>
+std::map<std::string, VALUE_T>* InMemoryKeyValue<VALUE_T>::storage_ptr(){
 
     return &_storage_container;
 }
@@ -153,5 +159,5 @@ std::map<std::string, std::string>* InMemoryKeyValue::storage_ptr(){
 }
 }
 
-
+#endif
 

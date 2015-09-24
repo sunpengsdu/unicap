@@ -23,6 +23,7 @@
 namespace ntu {
 namespace cap {
 
+template <class VALUE_T>
 class InMemoryKeyValue : public KVStorage {
 
 public:
@@ -30,39 +31,44 @@ public:
     InMemoryKeyValue();
 
     InMemoryKeyValue(const std::string table_name,
-                    const int64_t shard_id,
-                    const std::string cf_name);
+            const int64_t shard_id,
+            const std::string cf_name);
 
     ~InMemoryKeyValue();
 
     int64_t vector_put(std::vector<std::string> row_key,
-                       std::vector<std::string> column_key,
-                       std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
     int64_t vector_merge(std::vector<std::string> row_key,
-                           std::vector<std::string> column_key,
-                           std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
-    int64_t timely_vector_put(std::vector<std::string> row_key,
-                              std::vector<std::string> column_key,
-                              int64_t time_stamp,
-                              std::vector<std::string> value);
+
+    int64_t timed_vector_put(std::vector<std::string> row_key,
+            std::vector<std::string> column_key,
+            int64_t time_stamp,
+            std::vector<VALUE_T> value);
 
     void vector_get(std::vector<std::string> row_key,
-                    std::vector<std::string> column_key,
-                    std::vector<std::string>& value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T>& value);
 
-    void scan_all(std::vector<std::vector<std::string>>& value);
+    void scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+    void timed_scan(int64_t time_stamp,
+            std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    std::map<std::string, std::string>* storage_ptr();
+    std::map<std::string, VALUE_T>* storage_ptr();
 
-    std::map<std::string, std::string> _storage_container;
+    std::map<std::string, VALUE_T> _storage_container;
     //std::map<int64_t, std::string> _history_data;
 };
 
 }
 }
+
+#define IN_MEMORY_KEY_VALUE
+#include "in_memory_key_value.cpp"
 
 #endif /* UNICAP_STORAGE_COMMON_KEY_VALUE_H_ */

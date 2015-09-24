@@ -85,8 +85,16 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<InMemoryKeyValue>(table_name, i, cf_property.cf_name);
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<InMemoryKeyValue<int64_t>>(table_name, i, cf_property.cf_name);
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<InMemoryKeyValue<double>>(table_name, i, cf_property.cf_name);
+                } else if (cf_property.value_type == ValueType::type::String) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<InMemoryKeyValue<std::string>>(table_name, i, cf_property.cf_name);
+                }
             }
         }
         break;
@@ -100,8 +108,16 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<LSMKeyValue>(table_name, i, cf_property.cf_name);
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<LSMKeyValue<int64_t>>(table_name, i, cf_property.cf_name);
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<LSMKeyValue<double>>(table_name, i, cf_property.cf_name);
+                } else if (cf_property.value_type == ValueType::type::String) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                        = std::make_shared<LSMKeyValue<std::string>>(table_name, i, cf_property.cf_name);
+                }
             }
         }
         break;
@@ -114,8 +130,14 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<HdfsKeyValue>(table_name, i, cf_property.cf_name);
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    LOG(ERROR) << "HDFS ONLY SUPPORT STRING VALUE";
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    LOG(ERROR) << "HDFS ONLY SUPPORT STRING VALUE";
+                } else if (cf_property.value_type == ValueType::type::String) {
+                   StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                       = std::make_shared<HdfsKeyValue<std::string>>(table_name, i, cf_property.cf_name);
+                }
             }
         }
         break;
@@ -129,8 +151,14 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<InMemoryImage>(table_name, i, cf_property.cf_name);
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    LOG(ERROR) << "IMAGE STORE ONLY SUPPORT STRING VALUE";
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    LOG(ERROR) << "IMAGE STORE ONLY SUPPORT STRING VALUE";
+                } else if (cf_property.value_type == ValueType::type::String) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                      = std::make_shared<InMemoryImage<std::string>>(table_name, i, cf_property.cf_name);
+                }
             }
         }
         break;
@@ -144,10 +172,17 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<DenseMatrix>(table_name, i, cf_property.cf_name,
-                                                    std::make_pair(cf_property.block_size[0],
-                                                    cf_property.block_size[1]));
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                      = std::make_shared<DenseMatrix<int64_t>>(table_name, i, cf_property.cf_name,
+                              std::make_pair(cf_property.block_size[0], cf_property.block_size[1]));
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                      = std::make_shared<DenseMatrix<double>>(table_name, i, cf_property.cf_name,
+                              std::make_pair(cf_property.block_size[0], cf_property.block_size[1]));
+                } else if (cf_property.value_type == ValueType::type::String) {
+                    LOG(ERROR) << "MATRIX ONLY SUPPORT INT AND DOUBLE";
+                }
             }
         }
         break;
@@ -161,10 +196,15 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
                             _table_property.node_info.end()) {
             for (int64_t i : StorageInfo::singleton()._table_info[table_name].
                     _table_property.node_info[node_id]) {
-                StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
-                    = std::make_shared<SparseMatrix>(table_name, i, cf_property.cf_name,
-                                                    std::make_pair(cf_property.block_size[0],
-                                                    cf_property.block_size[1]));
+                if (cf_property.value_type == ValueType::type::Int64) {
+                    LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+                } else if (cf_property.value_type == ValueType::type::Double) {
+                    StorageInfo::singleton()._cf_ptr[table_name][i][cf_property.cf_name]
+                      = std::make_shared<SparseMatrix<double>>(table_name, i, cf_property.cf_name,
+                              std::make_pair(cf_property.block_size[0], cf_property.block_size[1]));
+                } else if (cf_property.value_type == ValueType::type::String) {
+                    LOG(ERROR) << "MATRIX ONLY SUPPORT INT AND DOUBLE";
+                }
             }
         }
         break;
@@ -187,70 +227,1006 @@ int64_t TaskTrackerHandler::create_cf(const std::string& table_name,
     return 1;
 }
 
-int64_t TaskTrackerHandler::vector_put_string(const std::string& table_name,
-                                       const int64_t shard_id,
-                                       const std::string& cf_name,
-                                       const std::vector<std::string> & row_key,
-                                       const std::vector<std::string> & column_key,
-                                       const std::vector<std::string> & value) {
-    // Your implementation goes here
+int64_t TaskTrackerHandler::vector_put_int(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<int64_t> & value) {
 
     check_table(table_name, shard_id, cf_name);
-    StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name] ->
-            vector_put(row_key, column_key, value);
 
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+    //auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
     return 1;
 }
 
-int64_t TaskTrackerHandler::timely_vector_put_string(const std::string& table_name,
+int64_t TaskTrackerHandler::vector_put_double(const std::string& table_name,
+        const int64_t shard_id, const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<double> & value){
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+   // auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HdfsKeyValue ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::vector_put_string(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<std::string> & value) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+   // auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<HdfsKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryImage<std::string>>(storage_ptr);
+        caster_ptr->vector_put(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::vector_merge_int(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<int64_t> & value) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+  //  auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::vector_merge_double(const std::string& table_name,
+        const int64_t shard_id, const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<double> & value) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+   // auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_merge(row_key, column_key, value);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::TaskTrackerHandler::vector_merge_string(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const std::vector<std::string> & value) {
+
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+   // auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        LOG(ERROR) << "STRING CANNOT BE MERGED";
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        LOG(ERROR) << "STRING CANNOT BE MERGED";
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "STRING CANNOT BE MERGED";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "STRING CANNOT BE MERGED";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::timed_vector_put_int(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const int64_t time_stampe,
+        const std::vector<int64_t> & value) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+  //  auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::timed_vector_put_double(const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key,
+        const int64_t time_stampe,
+        const std::vector<double> & value) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+  //  auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+    return 1;
+}
+
+int64_t TaskTrackerHandler::timed_vector_put_string(const std::string& table_name,
         const int64_t shard_id,
         const std::string& cf_name,
         const std::vector<std::string> & row_key,
         const std::vector<std::string> & column_key,
         const int64_t time_stampe,
         const std::vector<std::string> & value) {
-    // Your implementation goes here
+
     check_table(table_name, shard_id, cf_name);
-    StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name] ->
-            timely_vector_put(row_key, column_key, time_stampe, value);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+ //   auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<HdfsKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryImage<std::string>>(storage_ptr);
+        caster_ptr->timed_vector_put(row_key, column_key, time_stampe, value);
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
     return 1;
 }
 
+void TaskTrackerHandler::vector_get_int(std::vector<int64_t> & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+   // auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";;
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
+void TaskTrackerHandler::vector_get_double(std::vector<double> & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+ //   auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
 void TaskTrackerHandler::vector_get_string(std::vector<std::string> & _return,
-                                    const std::string& table_name,
-                                    const int64_t shard_id,
-                                    const std::string& cf_name,
-                                    const std::vector<std::string> & row_key,
-                                    const std::vector<std::string> & column_key) {
-    // Your implementation goes here
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const std::vector<std::string> & row_key,
+        const std::vector<std::string> & column_key) {
+
     check_table(table_name, shard_id, cf_name);
-    _return.clear();
-    StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name] ->
-            vector_get(row_key, column_key, _return);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+    //auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<HdfsKeyValue<std::string>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryImage<std::string>>(storage_ptr);
+        caster_ptr->vector_get(row_key, column_key, _return);
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
 }
 
-void TaskTrackerHandler::scan_all(std::vector<std::vector<std::string> > & _return,
-                                  const std::string& table_name,
-                                  const int64_t shard_id,
-                                  const std::string& cf_name) {
-    // Your implementation goes here
+void TaskTrackerHandler::scan_all_int(std::map<std::string, std::map<std::string, int64_t> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name) {
+
     check_table(table_name, shard_id, cf_name);
-    _return.clear();
-    StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name] ->
-            scan_all(_return);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+ //   auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
 }
 
-void TaskTrackerHandler::scan_by_time(std::vector<std::vector<std::string> > & _return,
-                                      const std::string& table_name,
-                                      const int64_t shard_id,
-                                      const std::string& cf_name,
-                                      const int64_t time_stamp) {
-    // Your implementation goes here
+void TaskTrackerHandler::scan_all_double(std::map<std::string, std::map<std::string, double> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name) {
+
     check_table(table_name, shard_id, cf_name);
-    _return.clear();
-    StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name] ->
-            scan_by_time(time_stamp, _return);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+//    auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
 }
+
+void TaskTrackerHandler::scan_all_string(std::map<std::string, std::map<std::string, std::string> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+//    auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<std::string>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<HdfsKeyValue<std::string>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryImage<std::string>>(storage_ptr);
+        caster_ptr->scan_all(_return);
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
+void TaskTrackerHandler::timed_scan_int(std::map<std::string, std::map<std::string, int64_t> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const int64_t time_stamp) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+ //   auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<int64_t>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<int64_t>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<int64_t>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "SPARSE MATRIX ONLY SUPPORT DOUBLE";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
+void TaskTrackerHandler::timed_scan_double(std::map<std::string, std::map<std::string, double> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const int64_t time_stamp) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+ //   auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<double>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<double>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        LOG(ERROR) << "HDFS ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        LOG(ERROR) << "InMemoryImage ONLY SUPPORT STRING";
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<DenseMatrix<double>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        auto caster_ptr = std::static_pointer_cast<SparseMatrix<double>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
+void TaskTrackerHandler::timed_scan_string(std::map<std::string, std::map<std::string, std::string> > & _return,
+        const std::string& table_name,
+        const int64_t shard_id,
+        const std::string& cf_name,
+        const int64_t time_stamp) {
+
+    check_table(table_name, shard_id, cf_name);
+
+    auto storage_ptr = StorageInfo::singleton()._cf_ptr[table_name][shard_id][cf_name];
+    auto storage_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.storage_type;
+//    auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+
+    switch (storage_type) {
+
+    case StorageType::type::InMemoryKeyValue:{
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::LSMKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<LSMKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::HdfsKeyValue: {
+
+        auto caster_ptr = std::static_pointer_cast<HdfsKeyValue<std::string>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::InMemoryImage: {
+
+        auto caster_ptr = std::static_pointer_cast<InMemoryImage<std::string>>(storage_ptr);
+        caster_ptr->timed_scan(time_stamp, _return);
+        break;
+    }
+    case StorageType::type::DenseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+    case StorageType::type::SparseMatrix: {
+
+        LOG(ERROR) << "MATRIX ONLY SUPPORT NUM";
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+}
+
 
 }
 }

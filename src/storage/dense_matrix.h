@@ -24,6 +24,7 @@
 namespace ntu {
 namespace cap {
 
+template <class VALUE_T>
 class DenseMatrix : public KVStorage {
 
 public:
@@ -31,41 +32,44 @@ public:
     DenseMatrix();
 
     DenseMatrix(const std::string table_name,
-                    const int64_t shard_id,
-                    const std::string cf_name,
-                    std::pair<int64_t, int64_t> size);
+            const int64_t shard_id,
+            const std::string cf_name,
+            std::pair<int64_t, int64_t> size);
 
     ~DenseMatrix();
 
     int64_t vector_put(std::vector<std::string> row_key,
-                       std::vector<std::string> column_key,
-                       std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
     int64_t vector_merge(std::vector<std::string> row_key,
-                           std::vector<std::string> column_key,
-                           std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
 
-    int64_t timely_vector_put(std::vector<std::string> row_key,
-                              std::vector<std::string> column_key,
-                              int64_t time_stamp,
-                              std::vector<std::string> value);
+    int64_t timed_vector_put(std::vector<std::string> row_key,
+            std::vector<std::string> column_key,
+            int64_t time_stamp,
+            std::vector<VALUE_T> value);
 
     void vector_get(std::vector<std::string> row_key,
-                    std::vector<std::string> column_key,
-                    std::vector<std::string>& value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T>& value);
 
-    void scan_all(std::vector<std::vector<std::string>>& value);
+    void scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+    void timed_scan(int64_t time_stamp, std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    Eigen::MatrixXd* storage_ptr();
+    Eigen::Matrix<VALUE_T, Eigen::Dynamic, Eigen::Dynamic>* storage_ptr();
 
-    Eigen::MatrixXd _storage_container;
+    Eigen::Matrix<VALUE_T, Eigen::Dynamic, Eigen::Dynamic> _storage_container;
 };
 
 
 }
 }
+
+#define DENSE_MATRIX
+#include "./dense_matrix.cpp"
 
 #endif /* UNICAP_SRC_STORAGE_DENSE_MATRIX_H_ */

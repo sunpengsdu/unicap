@@ -22,6 +22,7 @@
 namespace ntu {
 namespace cap {
 
+template<class VALUE_T>
 class LSMKeyValue: public KVStorage {
 
 public:
@@ -35,25 +36,27 @@ public:
     ~LSMKeyValue();
 
     int64_t vector_put(std::vector<std::string> row_key,
-                       std::vector<std::string> column_key,
-                       std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
     int64_t vector_merge(std::vector<std::string> row_key,
-                           std::vector<std::string> column_key,
-                           std::vector<std::string> value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T> value);
 
-    int64_t timely_vector_put(std::vector<std::string> row_key,
-                              std::vector<std::string> column_key,
-                              int64_t time_stamp,
-                              std::vector<std::string> value);
+
+    int64_t timed_vector_put(std::vector<std::string> row_key,
+            std::vector<std::string> column_key,
+            int64_t time_stamp,
+            std::vector<VALUE_T> value);
 
     void vector_get(std::vector<std::string> row_key,
-                    std::vector<std::string> column_key,
-                    std::vector<std::string>& value);
+            std::vector<std::string> column_key,
+            std::vector<VALUE_T>& value);
 
-    void scan_all(std::vector<std::vector<std::string>>& value);
+    void scan_all(std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
-    void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value);
+    void timed_scan(int64_t time_stamp,
+            std::map<std::string, std::map<std::string, VALUE_T>>& value);
 
     leveldb::DB* storage_ptr();
 
@@ -64,5 +67,8 @@ public:
 
 }
 }
+
+#define LSM_KEY_VALUE
+#include "./lsm_key_value.cpp"
 
 #endif /* UNICAP_STORAGE_LSM_KEY_VALUE_H_ */

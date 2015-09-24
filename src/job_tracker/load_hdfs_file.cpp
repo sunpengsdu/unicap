@@ -129,7 +129,7 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
     cf_property.append(cf_name);
     cf_property.append("_hdfs_property");
 
-    DAG::create_cf(table_name, cf_property, StorageType::type::InMemoryKeyValue);
+    DAG::create_cf(table_name, cf_property, StorageType::type::InMemoryKeyValue, ValueType::type::String);
 
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -144,10 +144,10 @@ int64_t load_hdfs_file_regular(const std::vector<std::string>& path,
             column.push_back(std::to_string(i.second));
             value.push_back(std::to_string(block_size));
         }
-        Storage::vector_put(table_name, cf_property, shard_id, row, column, value);
+        Storage::vector_put_string(table_name, cf_property, shard_id, row, column, value);
     }
 
-    DAG::create_cf(table_name, cf_name, storage_type);
+    DAG::create_cf(table_name, cf_name, storage_type, ValueType::type::String);
 
     if (storage_type == StorageType::type::HdfsKeyValue) {
         return 1;

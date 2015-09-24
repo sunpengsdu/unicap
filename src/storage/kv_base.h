@@ -46,8 +46,7 @@ public:
 
     KVStorage(const std::string table_name,
             const int64_t shard_id,
-            const std::string cf_name,
-            std::pair<int64_t, int64_t> size = std::make_pair(1, 1)) {
+            const std::string cf_name) {
         _table_name = table_name;
         _cf_name = cf_name;
         _shard_id = shard_id;
@@ -56,26 +55,41 @@ public:
     virtual ~KVStorage() {
     }
 
-    virtual int64_t vector_put(std::vector<std::string> row_key,
-                               std::vector<std::string> column_key,
-                               std::vector<std::string> value) = 0;
+    void set_zero(int64_t *value) {
+        *value = 0;
+    }
 
-    virtual int64_t vector_merge(std::vector<std::string> row_key,
-                               std::vector<std::string> column_key,
-                               std::vector<std::string> value) = 0;
+    void set_zero(double *value) {
+        *value = 0;
+    }
 
-    virtual int64_t timely_vector_put(std::vector<std::string> row_key,
-                                      std::vector<std::string> column_key,
-                                      int64_t time_stamp,
-                                      std::vector<std::string> value) = 0;
+    void set_zero(std::string *value) {
+        value->clear();
+    }
 
-    virtual void vector_get(std::vector<std::string> row_key,
-                            std::vector<std::string> column_key,
-                            std::vector<std::string>& value) = 0;
+    std::string to_string(int64_t src) {
+        return (std::to_string(src));
+    }
 
-    virtual void scan_all(std::vector<std::vector<std::string>>& value) = 0;
+    std::string to_string(double src) {
+        return (std::to_string(src));
+    }
 
-    virtual void scan_by_time(int64_t time_stamp, std::vector<std::vector<std::string>>& value) = 0;
+    std::string to_string(std::string& src) {
+        return src;
+    }
+
+    void to_value_t(std::string& src, int64_t *dst) {
+        *dst = std::stol(src);
+    }
+
+    void to_value_t(std::string& src, double *dst) {
+        *dst = std::stod(src);
+    }
+
+    void to_value_t(std::string& src, std::string *dst) {
+        *dst = src;
+    }
 
     // std::mutex _lock;
     rwmutex _rwmutex;

@@ -105,7 +105,7 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
     KeyPartition local_file_partition;
     local_file_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
     DAG::create_table(table_name, chuncks.size(), local_file_partition);
-    DAG::create_cf(table_name, cf_name, storage_type);
+    DAG::create_cf(table_name, cf_name, storage_type, ValueType::type::String);
     std::vector<std::string> row;
     std::vector<std::string> column;
     int64_t buffer_size = 1024;
@@ -156,7 +156,7 @@ int64_t load_local_file_regular(const std::vector<std::string>& path,
             data.close();
         }
 
-        Storage::vector_put(table_name, cf_name, shard_id, row, column, value);
+        Storage::vector_put_string(table_name, cf_name, shard_id, row, column, value);
     }
 
     return 1;

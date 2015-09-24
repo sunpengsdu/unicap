@@ -84,7 +84,7 @@ int64_t load_local_img_regular(std::vector<std::string>& path,
     KeyPartition local_file_partition;
     local_file_partition.__set_partition_algo(KeyPartitionAlgo::NoneAlgo);
     DAG::create_table(table_name, chuncks.size(), local_file_partition);
-    DAG::create_cf(table_name, cf_name, StorageType::InMemoryImage);
+    DAG::create_cf(table_name, cf_name, StorageType::InMemoryImage, ValueType::type::String);
     std::vector<std::string> row;
     std::vector<std::string> column;
     int64_t buffer_size = 1024;
@@ -110,7 +110,7 @@ int64_t load_local_img_regular(std::vector<std::string>& path,
             value.push_back(single_value);
             data.close();
         }
-        Storage::vector_put(table_name, cf_name, shard_id, row, column, value);
+        Storage::vector_put_string(table_name, cf_name, shard_id, row, column, value);
     }
 
     return 1;
@@ -282,7 +282,7 @@ int64_t load_hdfs_img_regular(std::vector<std::string>& path,
     cf_property.append(cf_name);
     cf_property.append("_hdfs_property");
 
-    DAG::create_cf(table_name, cf_property, StorageType::type::InMemoryKeyValue);
+    DAG::create_cf(table_name, cf_property, StorageType::type::InMemoryKeyValue, ValueType::type::String);
 
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -299,10 +299,10 @@ int64_t load_hdfs_img_regular(std::vector<std::string>& path,
             column.push_back("");
             value.push_back("");
         }
-        Storage::vector_put(table_name, cf_property, shard_id, row, column, value);
+        Storage::vector_put_string(table_name, cf_property, shard_id, row, column, value);
     }
 
-    DAG::create_cf(table_name, cf_name, StorageType::type::InMemoryImage);
+    DAG::create_cf(table_name, cf_name, StorageType::type::InMemoryImage, ValueType::type::String);
 
     std::shared_ptr<Stage>stage_load_hdfs = std::shared_ptr<Stage>(new Stage());
     stage_load_hdfs->set_function_name("load_hdfs_image");

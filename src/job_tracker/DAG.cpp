@@ -120,13 +120,14 @@ int64_t DAG::create_table(const std::string& table_name,
 int64_t DAG::create_cf(const std::string& table_name,
                   const std::string& cf_name,
                   const StorageType::type cf_type,
+                  const ValueType::type value_type,
                   const std::pair<int64_t, int64_t> size) {
 
     ColumnFamily new_cf(cf_name, cf_type);
     new_cf._cf_property.block_size.resize(2);
     new_cf._cf_property.block_size[0] = size.first;
     new_cf._cf_property.block_size[1] = size.second;
-    new_cf._cf_property.value_type = ValueType::type::String;
+    new_cf._cf_property.value_type = value_type;
 
     for (auto& exist_cf : StorageInfo::singleton()._cf_info[table_name]) {
         if (exist_cf.first == cf_name) {
@@ -174,7 +175,8 @@ int64_t DAG::create_distributed_cache(const std::string& table_name,
 
     DLOG(INFO) << "CREATE TABLE " << table_name;
 
-    create_cf(table_name, cf_name, cf_type);
+    auto value_type = StorageInfo::singleton()._cf_info[table_name][cf_name]._cf_property.value_type;
+    create_cf(table_name, cf_name, cf_type, value_type);
 
     std::shared_ptr<Stage>load_distributed_cache = std::shared_ptr<Stage>(new Stage());
     load_distributed_cache->set_function_name("load_distributed_cache");
