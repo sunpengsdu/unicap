@@ -63,6 +63,9 @@ public:
     Eigen::Matrix<VALUE_T, Eigen::Dynamic, Eigen::Dynamic>* storage_ptr();
 
     Eigen::Matrix<VALUE_T, Eigen::Dynamic, Eigen::Dynamic> _storage_container;
+
+    typedef std::map<std::string, std::map<std::string, VALUE_T>> TIMED_DATA;
+    std::map<int64_t, TIMED_DATA> _timed_storage;
 };
 
 

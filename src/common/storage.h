@@ -21,6 +21,7 @@
 #include "storage_info.h"
 #include "../gen/JobTracker.h"
 #include "../gen/TaskTracker.h"
+#include "../task_tracker/cpu_networks.h"
 
 namespace ntu {
 namespace cap {

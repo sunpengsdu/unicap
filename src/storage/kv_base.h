@@ -93,6 +93,7 @@ public:
 
     // std::mutex _lock;
     rwmutex _rwmutex;
+    rwmutex _timed_rwmutex;
     std::string _table_name;
     int64_t _shard_id;
     std::string _cf_name;

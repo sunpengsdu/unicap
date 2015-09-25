@@ -63,6 +63,9 @@ public:
     std::string _path;
     leveldb::DB* _db;
     leveldb::Options _options;
+
+    typedef std::map<std::string, std::map<std::string, VALUE_T>> TIMED_DATA;
+    std::map<int64_t, TIMED_DATA> _timed_storage;
 };
 
 }

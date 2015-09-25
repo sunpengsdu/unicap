@@ -65,6 +65,9 @@ public:
     Eigen::SparseMatrix<VALUE_T>* storage_ptr();
 
     Eigen::SparseMatrix<VALUE_T> _storage_container;
+
+    typedef std::map<std::string, std::map<std::string, VALUE_T>> TIMED_DATA;
+    std::map<int64_t, TIMED_DATA> _timed_storage;
 };
 
 }

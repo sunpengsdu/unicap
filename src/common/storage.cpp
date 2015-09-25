@@ -29,10 +29,18 @@ int64_t Storage::vector_put_int(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_put_int(table,shard_id, cf, row_key, column_key, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_put_int(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_put_int(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -48,10 +56,18 @@ int64_t Storage::vector_put_double(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_put_double(table,shard_id, cf, row_key, column_key, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_put_double(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_put_double(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -67,10 +83,18 @@ int64_t Storage::vector_put_string(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_put_string(table,shard_id, cf, row_key, column_key, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_put_string(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_put_string(table,shard_id, cf, row_key, column_key, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -88,10 +112,18 @@ int64_t Storage::timed_vector_put_int(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_vector_put_int(table, shard_id, cf, row_key, column_key, time_stamp, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_int(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_int(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -108,10 +140,18 @@ int64_t Storage::timed_vector_put_double(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_vector_put_double(table, shard_id, cf, row_key, column_key, time_stamp, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_double(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_double(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -128,10 +168,18 @@ int64_t Storage::timed_vector_put_string(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_vector_put_string(table, shard_id, cf, row_key, column_key, time_stamp, value);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_string(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_vector_put_string(table,shard_id, cf, row_key, column_key, time_stamp, value);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -148,10 +196,18 @@ int64_t Storage::vector_get_int(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_get_int(value, table, shard_id, cf, row_key, column_key);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_get_int(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_get_int(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -168,10 +224,18 @@ int64_t Storage::vector_get_double(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_get_double(value, table, shard_id, cf, row_key, column_key);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_get_double(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_get_double(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -188,10 +252,18 @@ int64_t Storage::vector_get_string(const std::string& table,
             _table_property.
             shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->vector_get_string(value, table, shard_id, cf, row_key, column_key);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->vector_get_string(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->vector_get_string(value, table, shard_id, cf, row_key, column_key);
+        i->close_transport();
+    }
     return 1;
 }
 
@@ -205,10 +277,18 @@ void Storage::scan_int(const std::string& table,
            _table_property.
            shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->scan_all_int(value, table, shard_id, cf);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->scan_all_int(value, table, shard_id, cf);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->scan_all_int(value, table, shard_id, cf);
+        i->close_transport();
+    }
 }
 
 
@@ -222,10 +302,19 @@ void Storage::scan_double(const std::string& table,
            _table_info[table].
            _table_property.
            shard_location[shard_id];
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->scan_all_double(value, table, shard_id, cf);
-    i->close_transport();
+
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->scan_all_double(value, table, shard_id, cf);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->scan_all_double(value, table, shard_id, cf);
+        i->close_transport();
+    }
 }
 
 void Storage::scan_string(const std::string& table,
@@ -239,10 +328,18 @@ void Storage::scan_string(const std::string& table,
         _table_property.
         shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->scan_all_string(value, table, shard_id, cf);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->scan_all_string(value, table, shard_id, cf);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->scan_all_string(value, table, shard_id, cf);
+        i->close_transport();
+    }
 }
 
 void Storage::timed_scan_int(const std::string& table,
@@ -257,10 +354,18 @@ void Storage::timed_scan_int(const std::string& table,
         _table_property.
         shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_scan_int(value, table, shard_id, cf, time_stamp);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_scan_int(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_scan_int(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    }
 }
 
 void Storage::timed_scan_double(const std::string& table,
@@ -275,10 +380,18 @@ void Storage::timed_scan_double(const std::string& table,
         _table_property.
         shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_scan_double(value, table, shard_id, cf, time_stamp);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_scan_double(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_scan_double(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    }
 }
 
 void Storage::timed_scan_string(const std::string& table,
@@ -293,10 +406,18 @@ void Storage::timed_scan_string(const std::string& table,
         _table_property.
         shard_location[shard_id];
 
-    auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
-    i->open_transport();
-    i->method()->timed_scan_string(value, table, shard_id, cf, time_stamp);
-    i->close_transport();
+    if(CPUNetworks::singleton()._cpu_networks.find(std::this_thread::get_id())
+            != CPUNetworks::singleton()._cpu_networks.end()) {
+        auto i = CPUNetworks::singleton()._cpu_networks[std::this_thread::get_id()][node_id];
+        i->open_transport();
+        i->method()->timed_scan_string(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    } else {
+        auto i =  NodeInfo::singleton()._client_task_tracker[node_id];
+        i->open_transport();
+        i->method()->timed_scan_string(value, table, shard_id, cf, time_stamp);
+        i->close_transport();
+    }
 }
 
 

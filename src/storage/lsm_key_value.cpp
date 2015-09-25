@@ -110,8 +110,15 @@ int64_t LSMKeyValue<VALUE_T>::timed_vector_put(std::vector<std::string> row_key,
                                     std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
+    write_lock _lock(KVStorage::_timed_rwmutex);
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        _timed_storage[time_stamp][row_key[i]][column_key[i]] = value[i];
+    }
 
-    LOG(FATAL) << "NOT IMPLEMENTED \n";
+    if (_timed_storage.size() >= 3) {
+        _timed_storage.erase(_timed_storage.begin());
+    }
+    vector_put(row_key, column_key, value);
     return 1;
 }
 
@@ -173,7 +180,8 @@ void LSMKeyValue<VALUE_T>::scan_all(std::map<std::string, std::map<std::string, 
 template<class VALUE_T>
 void LSMKeyValue<VALUE_T>::timed_scan(int64_t time_stamp,
         std::map<std::string, std::map<std::string, VALUE_T>>& value) {
-    LOG(FATAL) << "NOT IMPLEMENTED \n";
+    read_lock _lock(KVStorage::_timed_rwmutex);
+    value.insert(_timed_storage[time_stamp].begin(), _timed_storage[time_stamp].end());
 }
 
 template<class VALUE_T>

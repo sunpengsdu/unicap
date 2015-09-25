@@ -63,6 +63,8 @@ public:
 
     std::map<std::string, VALUE_T> _storage_container;
     //std::map<int64_t, std::string> _history_data;
+    typedef std::map<std::string, std::map<std::string, VALUE_T>> TIMED_DATA;
+    std::map<int64_t, TIMED_DATA> _timed_storage;
 };
 
 }

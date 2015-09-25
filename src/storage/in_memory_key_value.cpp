@@ -89,8 +89,14 @@ int64_t InMemoryKeyValue<VALUE_T>::timed_vector_put(std::vector<std::string> row
         std::vector<VALUE_T> value) {
     CHECK_EQ(row_key.size(), column_key.size());
     CHECK_EQ(row_key.size(), value.size());
-    write_lock _lock(KVStorage::_rwmutex);
-    LOG(FATAL) << "NOT IMPLEMENTED \n";
+    write_lock _lock(KVStorage::_timed_rwmutex);
+    for (uint64_t i = 0; i < row_key.size(); ++i) {
+        _timed_storage[time_stamp][row_key[i]][column_key[i]] = value[i];
+    }
+    if (_timed_storage.size() >= 3) {
+        _timed_storage.erase(_timed_storage.begin());
+    }
+    vector_put(row_key, column_key, value);
     return 1;
 }
 
@@ -144,10 +150,9 @@ template<class VALUE_T>
 void InMemoryKeyValue<VALUE_T>::timed_scan(int64_t time_stamp,
         std::map<std::string, std::map<std::string, VALUE_T>>& value) {
 
-    read_lock _lock(KVStorage::_rwmutex);
+    read_lock _lock(KVStorage::_timed_rwmutex);
     value.clear();
-    LOG(FATAL) << "NOT IMPLEMENTED \n";
-
+    value.insert(_timed_storage[time_stamp].begin(), _timed_storage[time_stamp].end());
 }
 
 template<class VALUE_T>

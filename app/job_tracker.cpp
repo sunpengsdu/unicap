@@ -24,13 +24,11 @@ int main(int argc, char **argv) {
     DAG::create_table("test_dense_matrix", 10);
     DAG::create_cf("test_dense_matrix",
                 "test_dense_matrix",
-                StorageType::SparseMatrix,
+                StorageType::InMemoryKeyValue,
                 ValueType::type::Double,
                 std::make_pair(100, 100));
 
     std::map<std::string, std::map<std::string, double>> dense_result;
-
-
 
     std::vector<std::string> row;
     std::vector<std::string> column;
@@ -41,14 +39,16 @@ int main(int argc, char **argv) {
     column.push_back("1");
     value.push_back(1.22);
     value.push_back(7.55);
-    Storage::vector_put_double("test_dense_matrix", "test_dense_matrix", 0, row, column, value);
+
+    Storage::timed_vector_put_double("test_dense_matrix", "test_dense_matrix", 0, row, column, 1, value);
 
     Storage::scan_double("test_dense_matrix", "test_dense_matrix", 0, dense_result);
 
     for (auto& dense_record : dense_result) {
         for (auto& col_result : dense_record.second) {
-            std::cout << col_result.second << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
+            std::cout << col_result.second;
         }
+        std::cout << "\n";
     }
 
     DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt", 16*1024*1024);
