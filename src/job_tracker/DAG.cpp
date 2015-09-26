@@ -54,7 +54,7 @@ std::thread DAG::start_job_tracker(int64_t thread_num) {
     while(NodeInfo::singleton()._ready_task_tracker_number
             != NodeInfo::singleton()._task_tracker_number
             || NodeInfo::singleton()._ready_task_tracker_number == 0) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     JobTrackerServer::singleton().create_task_tracker_client();
     JobTrackerServer::singleton().check_client_task_tracker();
@@ -139,7 +139,7 @@ int64_t DAG::create_cf(const std::string& table_name,
 
     for (auto i : NodeInfo::singleton()._client_task_tracker) {
         i.second->open_transport();
-        i.second->method()->create_cf(table_name, new_cf._cf_property);
+        CHECK_EQ (i.second->method()->create_cf(table_name, new_cf._cf_property), 1);
         i.second->close_transport();
     }
 
@@ -188,7 +188,7 @@ int64_t DAG::create_distributed_cache(const std::string& table_name,
     int64_t stage_id = Scheduler::singleton().push_back(load_distributed_cache);
 
     while(!Scheduler::singleton().check_status(stage_id)) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     return 1;
