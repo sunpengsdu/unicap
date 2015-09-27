@@ -102,9 +102,18 @@ public:
             result[tokens[0]] += i.second;
         }
 
+        std::vector<std::string> pushed_row_key;
+        std::vector<std::string> pushed_col_key;
+        std::vector<int64_t>     pushed_value;
+
         for (auto & i : result) {
-            std::cout << i.first << "->" << i.second << "\n";
+            pushed_row_key.push_back(i.first);
+            pushed_col_key.push_back("");
+            pushed_value.push_back(i.second);
         }
+        Storage::vector_put_int(new_task.dst_table_name, new_task.dst_cf_name, new_task.src_shard_id,
+                           pushed_row_key, pushed_col_key, pushed_value);
+
         return 1;
     }
 

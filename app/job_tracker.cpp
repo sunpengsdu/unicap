@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     }
 */
 
-    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file10001",
+    DAG::load_hdfs_file("/dataset/wikipedia_300GB",
             "word_count",
             "data_set",
             8*1024*1024);
@@ -83,6 +83,8 @@ int main(int argc, char **argv) {
     stage_reduce->set_src("word_count_result", dst_cf);
     stage_reduce->set_dst("word_count_result", "final_result");
     Scheduler::singleton().push_back(stage_reduce);
+
+    DAG::save_to_hdfs("word_count_result", "final_result");
 
     /*
     IntermediateResult<int, int, std::string> inter_store("a");
