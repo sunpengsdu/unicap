@@ -343,6 +343,8 @@ int64_t DAG::load_hdfs_img(const std::string& path,
     hdfsBuilderSetNameNodePort(builder, NodeInfo::singleton()._hdfs_namenode_port);
     hdfsFS fs = hdfsBuilderConnect(builder);
 
+    LOG(INFO) << "CONNECTING HDFS";
+
     if (hdfsExists(fs, path.c_str()) == -1) {
         LOG(FATAL) << "CANNOT FIND HDFS PATH " << path;
     }
@@ -350,7 +352,9 @@ int64_t DAG::load_hdfs_img(const std::string& path,
     hdfsFileInfo *check_path;
     check_path = hdfsGetPathInfo(fs, path.c_str());
 
-    if (check_path->mKind == tObjectKind::kObjectKindFile) {
+    LOG(INFO) << "COMPLETE CONNECT HDFS";
+
+if (check_path->mKind == tObjectKind::kObjectKindFile) {
         std::vector<std::string> regular_path;
         std::vector<int64_t> regular_size;
          regular_path.push_back(path);
