@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::LogToStderr();
     std::thread jobtracker = DAG::initial();
-
+/*
     DAG::create_table("test_dense_matrix", 10);
     DAG::create_cf("test_dense_matrix",
                 "test_dense_matrix",
@@ -50,15 +50,41 @@ int main(int argc, char **argv) {
         }
         std::cout << "\n";
     }
+*/
 
-    DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt", 16*1024*1024);
+    DAG::load_hdfs_file("/dataset/wikipedia_300GB/file10001",
+            "word_count",
+            "data_set",
+            8*1024*1024);
 
-    KeyPartition rrr;
+//    DAG::load_hdfs_img("/imagenet/ILSVRC2014_DET_train/n07747607", "im", "ttt", 16*1024*1024);
 
-    rrr.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
-    DAG::create_table("a", 10, rrr);
-    DAG::create_cf("a", "a", StorageType::InMemoryKeyValue, ValueType::String);
+    KeyPartition word_count_inter;
+    word_count_inter.__set_partition_algo(KeyPartitionAlgo::HashingPartition);
+    DAG::create_table("word_count_result", 50, word_count_inter);
+    DAG::create_cf("word_count_result", "inner_result", StorageType::InMemoryKeyValue, ValueType::Int64);
+    DAG::create_cf("word_count_result", "final_result", StorageType::InMemoryKeyValue, ValueType::Int64);
 
+
+
+    std::shared_ptr<Stage>stage_map = std::shared_ptr<Stage>(new Stage());
+    stage_map->set_function_name("word_count_map");
+    std::vector<std::string> src_cf;
+    src_cf.push_back("data_set");
+    stage_map->set_src("word_count", src_cf);
+    stage_map->set_dst("word_count_result", "inner_result");
+    Scheduler::singleton().push_back(stage_map);
+
+
+    std::shared_ptr<Stage>stage_reduce = std::shared_ptr<Stage>(new Stage());
+    stage_reduce->set_function_name("word_count_reduce");
+    std::vector<std::string> dst_cf;
+    dst_cf.push_back("inner_result");
+    stage_reduce->set_src("word_count_result", dst_cf);
+    stage_reduce->set_dst("word_count_result", "final_result");
+    Scheduler::singleton().push_back(stage_reduce);
+
+    /*
     IntermediateResult<int, int, std::string> inter_store("a");
     inter_store.push_back(1, 2, "sd");
     inter_store.push_back(1, 2, "a");
@@ -74,6 +100,7 @@ int main(int argc, char **argv) {
         }
         ++ccc;
     }
+*/
 
     jobtracker.join();
     return 0;

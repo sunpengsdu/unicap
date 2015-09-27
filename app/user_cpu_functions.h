@@ -18,6 +18,9 @@
 
 #include "../src/computing/cpu_functions.h"
 
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 namespace ntu {
 namespace cap {
 
@@ -30,6 +33,8 @@ public:
 
     UCPUFunctions() : CPUFunctions() {
         CPUFunctions::_cpu_functions_p["hello_world"] = hello_world;
+        CPUFunctions::_cpu_functions_p["word_count_map"] = word_count_map;
+        CPUFunctions::_cpu_functions_p["word_count_reduce"] = word_count_reduce;
     }
 
     static int64_t hello_world (TaskNode new_task) {
@@ -37,6 +42,72 @@ public:
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         return 1;
     }
+
+    static int64_t word_count_map(TaskNode new_task) {
+
+        auto target_storage_ptr = StorageInfo::singleton()._cf_ptr[new_task.src_table_name]
+                                                                     [new_task.src_shard_id]
+                                                                     [new_task.src_cf_name];
+
+        IntermediateResult<std::string, std::string, int64_t> inter_store("word_count_result");
+
+        auto casted_ptr = std::static_pointer_cast<InMemoryKeyValue<std::string>>(target_storage_ptr);
+
+        for (auto& i: casted_ptr->_storage_container) {
+            std::vector<std::string> tokens;
+            boost::split(tokens, i.second, boost::algorithm::is_any_of(" / \"\'.<>%&\n"));
+
+            for (auto &j : tokens) {
+                if (j.size() != 0)
+                    inter_store.push_back(j, "", 1);
+            }
+        }
+        inter_store.merge_data();
+        std::vector<std::string> pushed_row_key;
+        std::vector<std::string> pushed_col_key;
+        std::vector<int64_t>     pushed_value;
+
+        for (uint64_t i = 0; i < inter_store._sharded_result_container.size(); ++i) {
+            pushed_row_key.clear();
+            pushed_col_key.clear();
+            pushed_value.clear();
+            for (auto & row_data : inter_store._sharded_result_container[i]) {
+                for (auto & col_data : row_data.second) {
+                    pushed_row_key.push_back(row_data.first);
+                    pushed_col_key.push_back(col_data.first);
+                    pushed_value.push_back(col_data.second);
+                }
+            }
+
+            Storage::vector_put_int(new_task.dst_table_name, new_task.dst_cf_name, i,
+                    pushed_row_key, pushed_col_key, pushed_value);
+        }
+        return 1;
+    }
+
+    static int64_t word_count_reduce(TaskNode new_task) {
+
+        auto target_storage_ptr = StorageInfo::singleton()._cf_ptr[new_task.src_table_name]
+                                                                     [new_task.src_shard_id]
+                                                                     [new_task.src_cf_name];
+
+        auto casted_ptr = std::static_pointer_cast<InMemoryKeyValue<int64_t>>(target_storage_ptr);
+
+        std::vector<std::string> tokens;
+        std::unordered_map<std::string, int64_t> result;
+
+        for (auto & i : casted_ptr->_storage_container) {
+            tokens.clear();
+            boost::split(tokens, i.first, boost::algorithm::is_any_of("!"));
+            result[tokens[0]] += i.second;
+        }
+
+        for (auto & i : result) {
+            std::cout << i.first << "->" << i.second << "\n";
+        }
+        return 1;
+    }
+
 
 };
 
